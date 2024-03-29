@@ -1,0 +1,29 @@
+<section class="card p-4 mb-4" style="background-color: #00000052 ;">
+  <div class="d-flex justify-content-center">
+    <h2 style="color:#F5DAAF ;">Editar perfil</h2>
+  </div>
+  <form [formGroup]="formPerfil!" class="mb-3 w-100 p-3" >
+    <div>
+      <label class="form-label" style="font-size: 20px; color: #fff5e6;">Nombre</label>
+      <input type="text" class="form-control" value="{{perfil!!.usuario.nombre}}" formControlName="nombre">
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label" style="font-size: 20px; color: #fff5e6;">Primer apellido</label>
+      <input type="text" class="form-control" formControlName="apellidoUno">
+    </div>
+
+    <div class="mt-3">
+      <label class="form-label" style="font-size: 20px; color: #fff5e6;">Segundo apellido</label>
+      <input type="text" class="form-control" formControlName="apellidoDos">
+    </div>
+
+    <div class="form-group mt-3">
+      <label style="font-size: 20px; color: #fff5e6;">Foto de perfil</label>
+      <input type="file" class="form-control-file" (change)="manejarFoto($event)">
+    </div>
+
+    <button class="btn btn-warning mt-3" (click)="editarPerfil()">Guardar cambios</button>
+    <p-messages [(value)]="mensajes" [enableService]="true" [closable]="true"></p-messages>
+  </form>
+</section>

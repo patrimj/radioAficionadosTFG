@@ -1,0 +1,11 @@
+div.p-card-body {
+    background: none !important;
+    background-color: #0c030264 !important;
+}
+
+.imagen-perfil {
+    width: 150px;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: block;
+}

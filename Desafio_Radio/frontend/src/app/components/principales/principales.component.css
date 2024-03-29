@@ -1,0 +1,34 @@
+img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+}
+
+.btn-nuevo {
+    aspect-ratio: 1;
+    width: 100%;
+    height: 50%;
+    margin-top: 5%;
+}
+
+.btn.btn-nuevo i {
+    font-size: 10cqw;
+}
+
+.btn-flotante {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    border-radius: 100%;
+    width: 5rem;
+    aspect-ratio: 1;
+    font-size: 2rem;
+    z-index: 1000;
+}
+
+.messages-top-right {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999; 
+}

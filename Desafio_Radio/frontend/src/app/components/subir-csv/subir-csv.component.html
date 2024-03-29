@@ -1,0 +1,29 @@
+ <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadCsvModalLabel">Subir archivo CSV</h5>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+            class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form [formGroup]="formularioCsv">
+        <div class="modal-body">
+          <div class="custom-file form-row form-group">
+            <input (change)="seleccionarArchivo($event)" type="file"
+            class="custom-file-input" id="validatedCustomFile" required>
+            <label class="custom-file-label" for="validatedCustomFile">
+              @if (formularioCsv.get('nombre')?.value != '') {
+                {{formularioCsv.get('nombre')?.value}}
+              } @else {
+                Selecciona un archivo CSV
+              }
+            </label>
+            <div class="invalid-feedback">Example invalid custom file feedback</div>
+          </div>
+          <p-messages [value]="mensaje" [enableService]="false" [closable]="false"></p-messages>
+        </div>
+        <div class="modal-footer">
+          <button (click)="subirArchivo()" type="submit" class="btn btn-primary">Subir</button>
+        </div>
+      </form>
+    </div>
+ </div>

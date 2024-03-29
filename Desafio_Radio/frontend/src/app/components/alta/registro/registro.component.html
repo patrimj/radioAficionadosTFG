@@ -1,0 +1,73 @@
+<!--JuanNavarrete-->
+<br><br>
+<h1 class="text-center mb-4 mt-4" >REGISTRATE</h1>
+<p-card class="d-flex justify-content-center align-items-center mt-5">
+  <form class="d-flex justify-content-center flex-column align-items-center" [formGroup]="registroForm">
+    <div class="row">
+      <div class="col d-flex mt-2 flex-column gap-2">
+        <label>Correo electronico *</label>
+        <input pInputText aria-describedby="email"  type="email" formControlName="email"/>
+      </div>
+
+      <div class="col d-flex mt-2 flex-column gap-2">
+        <label>Contraseña *</label>
+        <input pInputText aria-describedby="contraseña" type="password" formControlName="password"/>
+      </div>
+
+      <div class="col d-flex mt-2 flex-column gap-2">
+        <label>Confirmar contraseña *</label>
+        <input pInputText aria-describedby="confirmar contraseña" type="password" formControlName="confPassword"/>
+      </div>
+
+      <div class="col d-flex mt-2 flex-column gap-2">
+        <label>Indicativo *</label>
+        <input pInputText aria-describedby="indicativo" formControlName="indicativo"/>
+      </div>
+
+    </div>
+    <div class="row">
+
+      <div class="col d-flex mt-2 flex-column gap-2">
+        <label>Nombre *</label>
+        <input pInputText aria-describedby="nombre" formControlName="nombre"/>
+      </div>
+
+      <div class="col d-flex mt-2 flex-column gap-2">
+        <label>Primer apellido *</label>
+        <input pInputText aria-describedby="primer apellido" formControlName="apellidoUno"/>
+      </div>
+
+      <div class="col d-flex mt-2 flex-column gap-2">
+        <label>Segundo apellido *</label>
+        <input pInputText aria-describedby="segundo apellido" formControlName="apellidoDos"/>
+      </div>
+
+      <p-button class="col mt-5" data-toggle="modal" data-target="#exampleModal">Registrarse</p-button>
+    </div>
+    <p-messages [enableService]="true" [closable]="true"></p-messages>
+  </form>
+</p-card>
+
+<!--Modal-->
+@if (registroForm.valid) {
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Elegir foto de perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h2>¿Quieres elegir una foto de perfil?</h2>
+          <span>De lo contrario, se te asignará una por defecto.</span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="registrarUsuario()" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="registrarConFoto(inputFoto)">Si</button>
+          <input accept="image" type="file" #inputFoto hidden>
+
+        </div>
+      </div>
+    </div>
+  </div>
+}

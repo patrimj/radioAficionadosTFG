@@ -1,0 +1,128 @@
+/* You can add global styles to this file, and also import other style files */
+/*@import 'primeng/resources/themes/bootstrap4-light-blue/theme.css';
+@import "primeng/resources/primeng.css";
+/*@import "primeicons/primeicons.css";
+/*@import "./assets/soft-ui-dashboard.min.css";*/
+
+body {
+    min-height: 100vh;
+    position: relative;
+}
+
+body>app-root {
+    display: flex;
+    flex-direction: column;
+}
+
+router-outlet {
+    display: none;
+}
+
+app-root> :not(:is(header, footer)) {
+    overflow: auto;
+    flex-grow: 1;
+    margin-bottom: 12rem;
+}
+
+
+app-root > footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    * {
+        background-color: #181a1dc2;
+        border-color: #212529;
+        color: #fff2d4;
+    }
+
+    a {
+        color: #c62d42;
+
+        &:hover {
+            text-decoration: none;
+            color: #ffb062;
+        }
+    }
+
+
+}
+
+.p-tabmenu-nav {
+    border-bottom: none;
+    background-color: #181a1dc2;
+    overflow: hidden;
+    justify-content: center;
+
+    li {
+        margin-top: 2rem;
+        margin-right: 1rem;
+        background-color: #181a1dc2;
+
+        &:hover {
+            background-color: #c62d42;
+
+            a {
+                text-decoration: none;
+
+            }
+        }
+    }
+
+    * {
+        color: #fff2d4;
+        border-bottom: none;
+    }
+}
+
+.p-highlight {
+    background-color: #c62d42 !important;
+}
+
+body {
+    position: relative;
+    background-image: url('/assets/fondo.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.p-card {
+    background: none !important;
+
+    background-color: #0c030264 !important;
+
+
+    color: #212529;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+ .p-tabmenu-nav {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+
+     li {
+        width: 100%;
+        margin: 0 !important;
+     }
+     * {
+        text-align: center;
+        border: none !important;
+     }
+    }
+ }
+
+.card-blog {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card-blog:hover {
+    transform: scale(1.05);
+}

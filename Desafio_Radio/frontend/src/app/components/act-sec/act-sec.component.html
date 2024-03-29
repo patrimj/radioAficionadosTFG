@@ -1,0 +1,49 @@
+<div class="card card-blog card-plain d-flex align-items-center justify-content-center">
+    <div class="position-relative w-100">
+        <a class="d-inline shadow-xl border-radius-xl">
+            <img src="{{actividad!.url_foto}}" alt="Fotografía de {{actividad!.nombre}}"
+                class="img-fluid shadow border-radius-xl {{cambiarImagen(actividad!.completada)}}">
+        </a>
+        @if (actividad!.modalidad.id != 1) {
+            <span class="badge-esquina badge-pill bg-primary text-white">
+                {{actividad!.modalidad.descripcion | titlecase}}
+            </span>
+            <button class="btn-esquina btn btn-primary btn-sm position-absolute top-0 end-0 m-2" title="Ver concurso">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+        }
+    </div>
+    <div class="card-body px-1 pb-0 w-100" style="background-color: #21201fc0;">
+        <div class="text-gradient text-dark mb-2 text-sm text-muted">
+            <span>{{actividad!.fecha | date:'dd/MM/yyyy'}}</span>
+            <em class="mb-4 text-sm">
+            {{actividad!.localizacion}}
+            </em>
+        </div>
+        <h5 class="text-primary" title="{{actividad!.nombre}}">
+            {{actividad!.nombre}}
+        </h5>
+        <p class="mb-4 text-sm">
+            <strong>Banda:</strong> {{actividad!.banda}} <br>
+            <strong>Frecuencia:</strong> {{actividad!.frecuencia}}
+        </p>
+        <div class="d-flex align-items-center justify-content-around mb-2">
+            <button type="button" class="btn btn-outline-primary btn-lg" data-bs-toggle="modal" data-bs-target="#contactosModal" (click)="verContactos(actividad!)" title="Ver contactos">
+                <i class="fas fa-eye"></i>
+            </button>
+            @if (!actividad!.completada) {
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modalModificar" (click)="modificarActividad(actividad!)"
+                    class="btn btn-outline-success btn-lg mr-3" title="Editar actividad">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modalSubirCsv" (click)="guardarId(actividad!.id)"
+                    class="btn btn-outline-success btn-lg mr-3" title="Subir contactos en formato CSV">
+                    <i class="fa-solid fa-upload"></i>
+                </button>
+            }        
+            <button type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar" class="btn btn-outline-danger btn-lg" title="Eliminar actividad">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </div>
+</div>

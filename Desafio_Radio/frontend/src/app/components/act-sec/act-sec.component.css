@@ -1,0 +1,53 @@
+h5.text-primary {
+    text-wrap: balance;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+}
+
+img.img-completada {
+    filter: grayscale();
+}
+
+.btn-esquina {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.5rem;
+}
+
+.badge-esquina {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.card{
+    background: none !important;
+}
+p{
+    margin-left: 20px;
+    color: #fff5e6;
+}
+
+h5{
+    margin-left: 20px;
+
+}
+
+span{
+    margin-left: 20px;
+    color: #fff5e6;
+}
+em{
+    margin-left: 20px;
+    color: #ff263c;
+}
