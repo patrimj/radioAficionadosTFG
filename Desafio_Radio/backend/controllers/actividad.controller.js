@@ -1,33 +1,39 @@
 const { response, request } = require('express');
 const ConexionActividades = require('../database/actividades.conexion');
-const { generarJWT } = require('../helpers/generate_jwt');
-const UsuarioConexion = require("../database/usuarios.conexion");
-const ConexionUsuario = require("../database/usuarios.conexion");
 const { subirArchivo } = require("../helpers/subir-archivo");
-// ---------------------------- RUTAS CUALQUIER USUARIO ----------------------------
 
-// VER ACTIVIDADES PROPIAS 
+/*************************************************************** RUTAS AFICIONADO ***************************************************************/
 
-const getActividadesPrincipalesAficionado = async (req = request, res = response) => {
+/************************************************************************************************************************************
+* Nombre función: getConcursosAficionado                                                                                            *
+* Descripción: Esta función obtiene los concursos (actividades de varios contactos) de un usuario aficionado de la base de datos    *
+************************************************************************************************************************************/
+
+const getConcursosAficionado = async (req = request, res = response) => {
 
     const conx = new ConexionActividades();
 
     id_usuario = req.usuario.id;
     console.log(id_usuario);
 
-    conx.getActividadesPrincipalesAficionado(id_usuario)
+    conx.getConcursosAficionado(id_usuario)
 
         .then(msg => {
-            console.log('Actividades  mostradas');
-            res.status(200).json({ message: 'Actividades mostradas correctamente!', data: msg });
+            console.log('Concursos del aficionado mostrados');
+            res.status(200).json({ message: 'Concursos del aficionado mostrados correctamente!', data: msg });
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({ msg: "Error al mostrar las actividades." })
+            res.status(500).json({ msg: "Error al mostrar los concursos del aficionado." })
         });
 }
 
-const getActividadesSecundariasAficionado = async (req = request, res = response) => {
+/***************************************************************************************************
+ * Nombre función: getActividadesSecundariasAficionado                                             *
+ * Descripción: Esta función obtiene las actividades de un usuario aficionado de la base de datos  *
+ **************************************************************************************************/
+
+const getActividadesUnicoContacto = async (req = request, res = response) => {
 
     const conx = new ConexionActividades();
 
@@ -37,7 +43,7 @@ const getActividadesSecundariasAficionado = async (req = request, res = response
     conx.getActividadesSecundariasAficionado(id_usuario)
 
         .then(msg => {
-            console.log('Actividades  mostradas');
+            console.log('Actividades del aficionado mostradas');
             res.status(200).json({ message: 'Actividades mostradas correctamente!', data: msg });
         })
         .catch(err => {
@@ -46,13 +52,12 @@ const getActividadesSecundariasAficionado = async (req = request, res = response
         });
 }
 
-// PEDIR DIPLOMA DE ACTIVIDAD 
-//(igual que el de listar usuarios con diploma pero mostrando las actividades sin diplo y con y despues con un boton qye se modifique a con boton)
-//el boton pedir diploma consulta del usuario y de su actividad individual para sacar su nombre de la actividad, id_examen
+/*************************************************************** RUTAS ADMINISTRADOR ***************************************************************/
 
-// ---------------------------- RUTAS ADMINISTRADOR ----------------------------
-
-// VER TODAS LAS ACTIVIDADES
+/***********************************************************************************************
+ * Nombre función: mostrarActividadesPrincipales                                               *
+ * Descripción: Esta función obtiene todos los concursos de la base de datos                   *
+ **********************************************************************************************/
 
 const mostrarActividadesPrincipales = async (req = request, res = response) => {
 
@@ -60,67 +65,19 @@ const mostrarActividadesPrincipales = async (req = request, res = response) => {
 
     conx.mostrarActividadesPrincipales()
         .then(msg => {
-            console.log('Actividades principales mostradas');
-            res.status(200).json({ message: 'Actividades principales mostradas correctamente!', data: msg });
+            console.log('Concursos mostrados');
+            res.status(200).json({ message: 'Concursos mostrados correctamente!', data: msg });
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las actividades principales' });
+            res.status(500).json({ msg: 'Error al mostrar los concursos' });
         });
 }
 
-// VER TODAS LAS ACTIVIDADES SECUNDARIAS
-
-const mostrarActividadesSecundarias = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    conx.mostrarActividadesSecundarias()
-        .then(msg => {
-            console.log('Actividades secundarias mostradas');
-            res.status(200).json({ message: 'Actividades secundarias mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las actividades secundarias' });
-        });
-}
-
-// VER TODAS LAS ACTIVIDADES SECUNDARIAS TERMINADAS
-
-const mostrarActividadesSecundariasTerminadas = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    conx.mostrarActividadesSecundariasTerminadas()
-        .then(msg => {
-            console.log('Actividades secundarias terminadas mostradas');
-            res.status(200).json({ message: 'Actividades secundarias terminadas mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las actividades secundarias terminadas' });
-        });
-}
-
-// VER TODAS LAS ACTIVIDADES SECUNDARIAS NO TERMINADAS
-
-const mostrarActividadesSecundariasPendientes = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    conx.mostrarActividadesSecundariasPendientes()
-        .then(msg => {
-            console.log('Actividades secundarias pendientes mostradas');
-            res.status(200).json({ message: 'Actividades secundarias pendientes mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las actividades secundarias pendientes' });
-        });
-}
-
-// VER TODAS LAS ACTIVIDADES TERMINADAS 
+/***********************************************************************************************
+ * Nombre función: mostrarActividadesPrincipalTerminadas                                       *
+ * Descripción: Esta función obtiene todas los concursos terminados de la base de datoss       *                  
+ **********************************************************************************************/
 
 const mostrarActividadesPrincipalTerminadas = async (req = request, res = response) => {
 
@@ -137,7 +94,10 @@ const mostrarActividadesPrincipalTerminadas = async (req = request, res = respon
         });
 }
 
-// VER TODAS LAS ACTIVIDADES NO TERMINADAS
+/***********************************************************************************************
+ * Nombre función: mostrarActividadesPrincipalPendientes                                       *
+ * Descripción: Esta función obtiene todas los concursos pendientes de la base de datoss       *                  
+ **********************************************************************************************/
 
 const mostrarActividadesPrincipalPendientes = async (req = request, res = response) => {
 
@@ -154,8 +114,70 @@ const mostrarActividadesPrincipalPendientes = async (req = request, res = respon
         });
 }
 
+/***********************************************************************************************
+ * Nombre función: mostrarActividadesSecundarias                                               *
+ * Descripción: Esta función obtiene todas las actividades de la base de datos                 *
+ **********************************************************************************************/
 
-// ALTA ACTIVIDAD
+const mostrarActividadesSecundarias = async (req = request, res = response) => {
+
+    const conx = new ConexionActividades();
+
+    conx.mostrarActividadesSecundarias()
+        .then(msg => {
+            console.log('Actividades secundarias mostradas');
+            res.status(200).json({ message: 'Actividades secundarias mostradas correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar las actividades secundarias' });
+        });
+}
+
+/***************************************************************************************************
+ * Nombre función: mostrarActividadesSecundariasTerminadas                                         *
+ * Descripción: Esta función obtiene todas las actividades terminadas de la base de datos          *
+ **************************************************************************************************/
+
+const mostrarActividadesSecundariasTerminadas = async (req = request, res = response) => {
+
+    const conx = new ConexionActividades();
+
+    conx.mostrarActividadesSecundariasTerminadas()
+        .then(msg => {
+            console.log('Actividades secundarias terminadas mostradas');
+            res.status(200).json({ message: 'Actividades secundarias terminadas mostradas correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar las actividades secundarias terminadas' });
+        });
+}
+
+/***************************************************************************************************
+ * Nombre función: mostrarActividadesSecundariasPendientes                                         *
+ * Descripción: Esta función obtiene todas las actividades pendientes de la base de datos          *
+ **************************************************************************************************/
+
+const mostrarActividadesSecundariasPendientes = async (req = request, res = response) => {
+
+    const conx = new ConexionActividades();
+
+    conx.mostrarActividadesSecundariasPendientes()
+        .then(msg => {
+            console.log('Actividades secundarias pendientes mostradas');
+            res.status(200).json({ message: 'Actividades secundarias pendientes mostradas correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar las actividades secundarias pendientes' });
+        });
+}
+
+/***************************************************************************************************
+ * Nombre función: altaActividadPrincipal                                                          *
+ * Descripción: Esta función permite crear un concurso                                             *
+ **************************************************************************************************/
 
 const altaActividadPrincipal = async (req, res = response) => {
     const conx = new ConexionActividades();
@@ -187,7 +209,10 @@ const altaActividadPrincipal = async (req, res = response) => {
     }
 }
 
-// MODIFICAR ACTIVIDAD
+/***************************************************************************************************
+ * Nombre función: modificarActividadPrincipal                                                     *
+ * Descripción: Esta función permite modificar un concurso                                         *
+ **************************************************************************************************/
 
 const modificarActividadPrincipal = async (req, res = response) => {
     const conx = new ConexionActividades();
@@ -221,7 +246,10 @@ const modificarActividadPrincipal = async (req, res = response) => {
     }
 }
 
-// BAJA ACTIVIDAD
+/***************************************************************************************************
+ * Nombre función: bajaActividadPrincipal                                                          *
+ * Descripción: Esta función permite borrar un concurso                                            *
+ **************************************************************************************************/
 
 const bajaActividadPrincipal = (req, res = response) => {
     const conx = new ConexionActividades();
@@ -319,14 +347,14 @@ const crearContactoLetra = async (req, res) => {
         );
 
         if (contacto) return res.status(200).json(
-            {msg: "El contacto ya existe", data: false}
+            { msg: "El contacto ya existe", data: false }
         );
 
         const progreso = await conx.verContactos(req.body.idUsuario, req.body.idActividad);
         const principal = await conx.verPrincipalSecundaria(req.body.idActividad);
 
         if (principal.completada) return res.status(200).json(
-            {msg: "El concurso de la actividad indicada ya no está en curso", data: false}
+            { msg: "El concurso de la actividad indicada ya no está en curso", data: false }
         );
 
         const solucion = principal.solucion;
@@ -346,9 +374,9 @@ const crearContactoLetra = async (req, res) => {
         });
 
         if (insertado)
-            return res.status(200).json( { msg: `Se ha insertado el contacto correctamente'`, data: insertado });
+            return res.status(200).json({ msg: `Se ha insertado el contacto correctamente'`, data: insertado });
         else
-            return res.status(400).json( { msg: `No se ha insertado el contacto.`, data: insertado });
+            return res.status(400).json({ msg: `No se ha insertado el contacto.`, data: insertado });
     } catch (e) {
         return res.status(500).json({ error: e.message });
     }
@@ -366,18 +394,18 @@ const crearContactoPuntos = async (req, res) => {
         const secundaria = await conx.mostrarSecundariaModalidad(req.body.idActividad);
 
         if (secundaria.modalidad.descripcion !== 'puntos')
-            return res.status(200).json({msg: "Modalidad de la actividad no valida.",  data: false});
+            return res.status(200).json({ msg: "Modalidad de la actividad no valida.", data: false });
 
         const progreso = await conx.verContactos(req.body.idUsuario, req.body.idActividad);
         const principal = await conx.verPrincipalSecundaria(req.body.idActividad);
         const solucion = Number(principal.solucion);
 
         if (!solucion) return res.status(200).json(
-            {msg: "El concurso de la actividad introducida no es valido.", data: false}
+            { msg: "El concurso de la actividad introducida no es valido.", data: false }
         );
 
         if (principal.completada) return res.status(200).json(
-            {msg: "El concurso de la actividad indicada ya no está en curso.", data: false}
+            { msg: "El concurso de la actividad indicada ya no está en curso.", data: false }
         );
 
         let suma = 0;
@@ -387,7 +415,7 @@ const crearContactoPuntos = async (req, res) => {
         }
 
         if (suma + req.body.premio > solucion || req.body.premio > solucion) return res.status(200).json(
-            {msg: "Premio no valido. Se debe introducir un numero mas bajo", data: false}
+            { msg: "Premio no valido. Se debe introducir un numero mas bajo", data: false }
         );
 
         const insertado = await conx.crearContacto({
@@ -397,9 +425,9 @@ const crearContactoPuntos = async (req, res) => {
         });
 
         if (insertado)
-            return res.status(200).json( { msg: `Se ha insertado el contacto correctamente'`, data: insertado });
+            return res.status(200).json({ msg: `Se ha insertado el contacto correctamente'`, data: insertado });
         else
-            return res.status(400).json( { msg: `No se ha insertado el contacto.`, data: insertado });
+            return res.status(400).json({ msg: `No se ha insertado el contacto.`, data: insertado });
     } catch (e) {
         return res.status(500).json({ error: e.message });
     }
@@ -416,7 +444,7 @@ const crearContactoGenerico = async (req, res) => {
         const secundaria = await conx.mostrarSecundariaModalidad(req.body.idActividad);
 
         if (secundaria.modalidad.descripcion !== 'genérica')
-            return res.status(200).json({msg: "Modalidad de la actividad no valida.",  data: false});
+            return res.status(200).json({ msg: "Modalidad de la actividad no valida.", data: false });
 
         const contacto = await conx.verContactos(req.body.idUsuario, req.body.idActividad)
 
@@ -435,9 +463,9 @@ const crearContactoGenerico = async (req, res) => {
         });
 
         if (insertado)
-            return res.status(200).json( { msg: `Se ha insertado el contacto correctamente'`, data: insertado });
+            return res.status(200).json({ msg: `Se ha insertado el contacto correctamente'`, data: insertado });
         else
-            return res.status(400).json( { msg: `No se ha insertado el contacto.`, data: insertado });
+            return res.status(400).json({ msg: `No se ha insertado el contacto.`, data: insertado });
     } catch (e) {
         return res.status(500).json({ error: e.message });
     }
@@ -611,7 +639,7 @@ const mostrarModalidades = async (req, res) => {
     try {
         const modalidades = await conx.verModalidades();
 
-        return res.status(200).json({modalidades: modalidades});
+        return res.status(200).json({ modalidades: modalidades });
     } catch (e) {
         return res.status(400).json({ error: e.message });
     }
@@ -628,14 +656,14 @@ const mostrarLetrasRestantes = async (req, res) => {
         const secundaria = await conx.mostrarSecundariaModalidad(req.body.idActividad);
 
         if (secundaria.modalidad.descripcion === 'letras')
-            return res.status(200).json({msg: "Modalidad de la actividad no valida.",  data: false});
+            return res.status(200).json({ msg: "Modalidad de la actividad no valida.", data: false });
 
         if (secundaria.completada)
-            return res.status(200).json({msg: "La actividad indicada ya no está en curso",  data: false});
+            return res.status(200).json({ msg: "La actividad indicada ya no está en curso", data: false });
 
         const principal = await conx.verPrincipalSecundaria(req.body.idActividad);
 
-        if (principal.completada) return res.status(200).json({msg: "El concurso de la actividad indicada ya no está en curso", data: false});
+        if (principal.completada) return res.status(200).json({ msg: "El concurso de la actividad indicada ya no está en curso", data: false });
 
         const letras = await conx.verContactos(req.body.idUsuario, req.body.idActividad);
         const solucion = principal.solucion;
@@ -658,14 +686,14 @@ const verPuntosRestantes = async (req, res) => {
         const secundaria = await conx.mostrarSecundariaModalidad(req.body.idActividad);
 
         if (secundaria.modalidad.descripcion !== 'puntos')
-            return res.status(200).json({msg: "Modalidad de la actividad no valida.",  data: false});
+            return res.status(200).json({ msg: "Modalidad de la actividad no valida.", data: false });
 
         if (secundaria.completada)
-            return res.status(200).json({msg: "La actividad indicada ya no está en curso",  data: false});
+            return res.status(200).json({ msg: "La actividad indicada ya no está en curso", data: false });
 
         const principal = await conx.verPrincipalSecundaria(req.body.idActividad);
 
-        if (principal.completada) return res.status(200).json({msg: "El concurso de la actividad indicada ya no está en curso", data: false});
+        if (principal.completada) return res.status(200).json({ msg: "El concurso de la actividad indicada ya no está en curso", data: false });
 
         const puntuaciones = await conx.verContactos(req.body.idUsuario, req.body.idActividad);
         const solucion = Number(principal.solucion);
@@ -679,7 +707,7 @@ const verPuntosRestantes = async (req, res) => {
         console.log(solucion, suma)
 
         return res.status(200).json(
-            {msg: "Se ha obtenido correctamente la puntuacion restante.", data: solucion - suma}
+            { msg: "Se ha obtenido correctamente la puntuacion restante.", data: solucion - suma }
         );
     } catch (e) {
         console.error(e);
@@ -739,7 +767,7 @@ const buscarContacto = async (req, res) => {
         const conx = new ConexionActividades();
         const contacto = await conx.buscarContactoLetra(req.body.idUsuario, req.body.idActividad, req.body.premio);
 
-        if (!contacto)   return res.status(404).json({
+        if (!contacto) return res.status(404).json({
             msg: "No se ha encontrado ningun contacto.",
             data: false
         });
@@ -795,13 +823,13 @@ const comprobarSiContactosCompleto = async (req, res) => {
         const progreso = await conx.verContactos(req.body.idUsuario, req.body.idActividad);
 
         if (principal.completada) return res.status(200).json(
-            {msg: "El concurso de la actividad indicada ya no está en curso", data: false}
+            { msg: "El concurso de la actividad indicada ya no está en curso", data: false }
         );
 
         const solucion = principal.solucion;
 
         if (secundaria.modalidad.descripcion === 'letras' && progreso.join("") === solucion) return res.status(200).json(
-            {msg: 'Ya estan todas las letras insertadas.', data: true}
+            { msg: 'Ya estan todas las letras insertadas.', data: true }
         );
         else if (secundaria.modalidad.descripcion === 'puntos') {
             const solucionNum = Number(solucion);
@@ -813,7 +841,7 @@ const comprobarSiContactosCompleto = async (req, res) => {
             }
 
             if (suma + req.body.premio > solucion || req.body.premio > solucion) return res.status(200).json(
-                {msg: "Premio no valido. Se debe introducir un numero mas bajo.", data: false}
+                { msg: "Premio no valido. Se debe introducir un numero mas bajo.", data: false }
             );
             else if (suma >= solucionNum) return res.status(200).json({
                 msg: "El usuario ya ha completado este concurso.",
@@ -840,7 +868,7 @@ const comprobarSiContactosCompleto = async (req, res) => {
 }
 
 module.exports = {
-    mostrarActividadesPrincipales,
+    getConcursosAficionado,
     mostrarActividadesPrincipalTerminadas,
     mostrarActividadesPrincipalPendientes,
     altaActividadPrincipal,
