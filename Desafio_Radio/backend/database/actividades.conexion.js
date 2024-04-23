@@ -1009,62 +1009,93 @@ class ActividadConexion {
         }
     }
 
-    // DAR DE BAJA UNA ACTIVIDAD SECUNDARIA
+    /************************************************************************************************************************************
+     * Nombre consulta: eliminarActividad                                                                                               *
+     * Descripción: Esta consulta permite eliminar una actividad de la base de datos                                                    *
+     * Pantalla: Actividades                                                                                                            *
+     * Rol: Operador                                                                                                                    *
+     ***********************************************************************************************************************************/
 
-    eliminarActSecundaria = async (id) => {
-        this.conectar();
-
-        let actividad = await models.ActividadSecundaria.findByPk(id);
-        actividad.destroy();
-    }
-
-    // MODIFICAR ACTIVIDAD SECUNDARIA
-
-    modificarActSecundaria = async (id, body) => {
-        this.conectar();
-
-        let actividad = await models.ActividadSecundaria.findByPk(id);
-        if (actividad) {
-            await actividad.update(body);
-            return actividad;
-        } else {
+    eliminarActividad = async (id) => {
+        try {
+            this.conectar();
+            let actividad = await models.ActividadSecundaria.findByPk(id);
+            if (actividad) {
+                await actividad.destroy();
+                return actividad;
+            } else {
+                this.desconectar();
+                throw error;
+            }
+        } catch (error) {
             this.desconectar();
+            console.error('Error al eliminar la actividad', error);
+            throw error;
+        }
+    }
+        
+    /************************************************************************************************************************************
+     * Nombre consulta: modificarActividad                                                                                              *
+     * Descripción: Esta consulta permite modificar una actividad de la base de datos                                                   *
+     * Pantalla: Actividades                                                                                                            *
+     * Rol: Operador                                                                                                                    *
+     ***********************************************************************************************************************************/
+
+    modificarActividad = async (id, body) => {
+        try {
+            this.conectar();
+            let actividad = await models.ActividadSecundaria.findByPk(id);
+            if (actividad) {
+                await actividad.update(body);
+                return actividad;
+            } else {
+                this.desconectar();
+                throw error;
+            }
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al modificar la actividad', error);
             throw error;
         }
     }
 
-    // ALTA ACTIVIDAD SECUNDARIA
+    /************************************************************************************************************************************
+     * Nombre consulta: altaActividad                                                                                                   *
+     * Descripción: Esta consulta permite crear una actividad de la base de datos                                                       *
+     * Pantalla: Actividades                                                                                                            *
+     * Rol: Operador                                                                                                                    *
+     ***********************************************************************************************************************************/
 
-    altaActSecundaria = async (body) => {
+    altaActividad = async (body) => {
         try {
             this.conectar();
             let actividad = await models.ActividadSecundaria.create(body);
-            return actividad
+            return actividad;
         } catch (error) {
-            throw (error);
-        } finally {
             this.desconectar();
+            console.error('Error al dar de alta una actividad', error);
+            throw error;
         }
     }
 
-    // VER MODALIDADES
 
-    /**
-     *
-     * @author JuanNavarrete
-     */
-    verModalidades = async () => {
+    /************************************************************************************************************************************
+     * Nombre consulta: getModalidades                                                                                                   *
+     * Descripción: Esta consulta permite crear una actividad de la base de datos                                                       *
+     * Pantalla: Actividades                                                                                                            *
+     * Rol: Operador                                                                                                                    *
+     ***********************************************************************************************************************************/
+
+
+    getModalidades = async () => {
         try {
             this.conectar();
-
             const modalidades = await models.Modalidad.findAll();
-
-            this.desconectar();
-
             return modalidades;
-        } catch (e) {
-            console.log(e.message)
-            return false;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al mostrar las modalidades', error);
+            throw error;
         }
     }
 
