@@ -684,6 +684,7 @@ class ActividadConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: mostrarConcursoPorActividad                                                                                    *
     * Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
+    * Nota: Mostrará los datos del concurso y de la actividad                                                                         *
     * Pantalla: Actividades                                                                                                           *
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
@@ -713,6 +714,35 @@ class ActividadConexion {
             return actividadSecundaria;
         } catch (error) {
             this.desconectar();
+            console.error('Error al mostrar el concurso de la actividad', error);
+            throw error;
+        }
+    }
+
+    /**********************************************************************************************************************************
+    * Nombre consulta: getConcursoActividad                                                                                           *
+    * Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
+    * Nota: Mostrará los datos del concurso solo                                                                                      *
+    * Pantalla: Actividades                                                                                                           *
+    * Rol: Aficionado                                                                                                                 *
+    **********************************************************************************************************************************/
+
+    getConcursoActividad = async (id) => {
+        try {
+            const concurso = await models.PrincipalesSecundarias.findOne({
+                where: { id_secundaria: id },
+                attributes: [],
+                include: {
+                    model: models.ActividadPrincipal,
+                    as: 'principal'
+                }
+            });
+            if (concurso) {
+                return concurso;
+            } else {
+                throw new Error('Concurso no encontrado');
+            }
+        }catch(error){
             console.error('Error al mostrar el concurso de la actividad', error);
             throw error;
         }
@@ -914,7 +944,7 @@ class ActividadConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: verContactoConPremios                                                                                          *
     * Descripción: Esta consulta permite ver un contacto específico y sus premios en una actividad determinada de la base de datos    *
-    * Nota Para asignarle premios que no tiene
+    * Nota Para asignarle premios que no tiene                                                                                        *  
     * Pantalla: Registrar contacto                                                                                                    *
     * Rol: Operador                                                                                                                   *
     **********************************************************************************************************************************/
@@ -923,7 +953,7 @@ class ActividadConexion {
         try {
             this.conectar();
 
-            const contacto = await models.Usuario_secundarias.findOne({
+            const contacto = await models.Usuario_secundarias.findAll({
                 where: {
                     id_usuario: id_usuario,
                     id_secundaria: id_secundaria,
@@ -1078,14 +1108,12 @@ class ActividadConexion {
         }
     }
 
-
     /************************************************************************************************************************************
-     * Nombre consulta: getModalidades                                                                                                   *
+     * Nombre consulta: getModalidades                                                                                                  *
      * Descripción: Esta consulta permite crear una actividad de la base de datos                                                       *
-     * Pantalla: Actividades                                                                                                            *
+     * Pantalla: Registrar contacto                                                                                                     *
      * Rol: Operador                                                                                                                    *
      ***********************************************************************************************************************************/
-
 
     getModalidades = async () => {
         try {
@@ -1099,200 +1127,15 @@ class ActividadConexion {
         }
     }
 
-    // PROGRESO USUARIO SECUNDARIA
+    /**********************************************************************************************************************************************
+     * Nombre consulta: getConcursosActividadesIncompletasUsuario                                                                             *
+     * Descripción: Esta consulta permite obtener los concursos (pendientes) y sus respectivas actividades (pendientes) de un usuario en concreto *                                       
+     * Pantalla: Registrar contacto                                                                                                               *
+     * Rol: Operador                                                                                                                              *
+     *********************************************************************************************************************************************/
 
-    /**
-     *
-     * @author JuanNavarrete
-     */
-    verContactos = async (idUsuario, idSecundaria) => {
+    getConcursosActividadesIncompletasUsuario = async (idUsuario) => {
         try {
-            this.conectar();
-
-            const progreso = await models.Usuario_secundarias.findAll({
-                where: {
-                    [Op.and]: [
-                        { id_usuario: idUsuario }, { id_secundaria: idSecundaria }]
-                },
-
-                attributes: ['premio']
-            },);
-
-            this.desconectar();
-
-            return progreso.map(item => item.premio);
-        } catch (e) {
-            console.error(e.message);
-            return false;
-        }
-    }
-
-    /**
-     * @author JuanNavarrete
-     */
-    verUsuariosSecundaria = async (idActividad) => {
-        try {
-            const usuarios = await this.conexionSql.query('SELECT DISTINCT id_usuario FROM usuario_secundarias WHERE id_secundaria = ?', [idActividad]);
-
-            return usuarios.map(item => item.id_usuario);
-        } catch (e) {
-            console.log(e.message)
-            return false
-        }
-    }
-
-    /**
-     * @author JuanNavarrete
-     */
-    verPrincipalesUsuario = async (idUsuario) => {
-        try {
-            const principales = await models.ActividadPrincipal.findAll({
-                where: { id_usuario: idUsuario }
-            })
-
-            return principales;
-        } catch (e) {
-            console.error(e.message)
-            return false
-        }
-    }
-
-    verUsuariosSecundaria = async (idActividad) => {
-        try {
-            try {
-                const usuarios = await conxSql.query('SELECT DISTINCT id_usuario FROM usuario_secundarias WHERE id_secundaria = ?', [idActividad]);
-
-                return usuarios.map(item => item.id_usuario);
-            } catch (error) {
-                throw error;
-            }
-        } catch (e) {
-            console.log(e.message)
-            return false;
-        }
-    }
-
-    /**
-     * @author JuanNavarrete
-     */
-    verPrincipalSecundaria = async (id) => {
-        try {
-            const datos = await models.PrincipalesSecundarias.findOne(
-                {
-                    where: { id_secundaria: id },
-                    attributes: [],
-                    include: {
-                        model: models.ActividadPrincipal,
-                        as: 'principal'
-                    }
-                },
-            );
-
-            return datos.principal
-        } catch (error) {
-            console.log(error.message);
-            return false;
-        }
-    }
-
-    /**
-     * @author JuanNavarrete
-     */
-    buscarContactosSecundaria = async (idSecundaria) => {
-        try {
-            const datos = await models.Usuario_secundarias.findAll(
-                {
-                    where: { id_secundaria: idSecundaria },
-                    include: {
-                        model: models.Usuario,
-                        as: 'usuario_secundarias_secundarias',
-                        attributes: ['id', 'id_examen']
-                    }
-                },
-            );
-
-            console.log(datos)
-
-            return datos
-        } catch (error) {
-            console.log(error.message);
-            return false;
-        }
-    }
-
-    /**
-     * @author JuanNavarrete
-     */
-    buscarContactosPrincipal = async (idPrincipal) => {
-        try {
-            const secundaria = await models.PrincipalesSecundarias.findOne(
-                {
-                    where: { id_principal: idPrincipal },
-                    attributes: [],
-                    include: {
-                        model: models.ActividadSecundaria,
-                        as: 'secundaria'
-                    }
-                },
-            );
-
-            console.log(secundaria)
-
-            const datos = await models.Usuario_secundarias.findAll(
-                {
-                    where: { id_secundaria: secundaria.id },
-                    attributes: []
-                },
-            );
-
-            return datos.principal
-        } catch (error) {
-            console.log(error.message);
-            return false;
-        }
-    }
-
-    /**
-     * @author JuanNavarrete
-     */
-    buscarContactoLetra = async (idUsuario, idSecundaria, premio) => {
-        try {
-            const datos = await models.Usuario_secundarias.findOne(
-                {
-                    where: {
-                        [Op.and]: [
-                            { id_secundaria: idSecundaria },
-                            { id_usuario: idUsuario },
-                            { premio: premio },
-                        ]
-                    },
-                },
-            );
-
-            if (!datos) return false;
-
-            return datos.principal
-        } catch (error) {
-            console.log(error.message);
-            return false;
-        }
-    }
-
-    /**
-     * @author JuanNavarrete
-     */
-    verSecundariasUsuarioPrincipal = async (idUsuario) => {
-        try {
-
-            const usuarioSecundarias = await models.Usuario_secundarias.findAll({
-                where: { id_usuario: idUsuario },
-                attributes: ['id_secundaria']
-            });
-
-            // No es lo eficiente hacerlo de esta forma, ya que consulto dos veces los contactos,
-            // pero es la más sencilla. Probando con una asociación más grande no ha sido posible.
-            const secundariasIds = usuarioSecundarias.map(usuarioSec => usuarioSec.id_secundaria);
-
             const principales = await models.ActividadPrincipal.findAll({
                 where: { completada: false },
                 include: [
@@ -1302,7 +1145,6 @@ class ActividadConexion {
                         attributes: ['id', 'nombre', 'url_foto', 'localizacion', 'fecha'],
                         through: { attributes: [] },
                         where: {
-                            id: secundariasIds,
                             completada: false
                         },
                         include: [
@@ -1319,21 +1161,7 @@ class ActividadConexion {
                     },
                 ]
             });
-
-            // principales.forEach(principal => {
-            //     const solucion = principal.solucion;
-            //     if (!isNaN(solucion)) {
-            //         const solucionNum = Number(solucion);
-            //
-            //         let suma = 0;
-            //         let secundarias = principal.act_secundarias;
-            //
-            //         for (let i = 0; i < secundarias; i++) {
-            //             suma += Number(secundarias[i].premio);
-            //         }
-            //     }
-            // })
-
+    
             return principales;
         } catch (e) {
             console.error(e.message)
@@ -1341,22 +1169,65 @@ class ActividadConexion {
         }
     }
 
-    /**
-     * @author JuanNavarrete
-     */
-    mostrarSecundariaModalidad = async (idActividad) => {
-        const datos = await models.ActividadSecundaria.findOne(
-            {
+    /**********************************************************************************************************************************************
+     * Nombre consulta: getConcursosActividadesCompletasUsuario                                                                                   *
+     * Descripción: Esta consulta permite buscar todas las actividades no completadas asociadas a un usuario y devuelve sus respectivos premios   *
+     * Pantalla: Registrar contacto                                                                                                               *
+     * Rol: Operador                                                                                                                              *
+     *********************************************************************************************************************************************/
+
+    getPremiosPendientes = async (idUsuario) => {
+        try {
+            const actividades = await models.ActividadSecundaria.findAll({
+                attributes: ['id', 'nombre', 'premio'],
+                through: { attributes: [] },
+                where: {
+                    completada: false
+                },
+                include: [
+                    {
+                        model: models.Usuario_secundarias,
+                        as: 'act_secundarias_usuario',
+                        where: { id_usuario: idUsuario }
+                    }
+                ]
+            });
+    
+            const premiosPendientes = actividades.map(actividad => actividad.premio);
+    
+            return premiosPendientes;
+        } catch (e) {
+            console.error(e.message)
+            return false
+        }
+    }
+
+    /**********************************************************************************************************************************************
+     * Nombre consulta: getModalidadActividad                                                                                                     *
+     * Descripción: Esta consulta permite obtener la modalidad de una actividad en concreto                                                       *
+     * Pantalla:  Actividades                                                                                                                     *
+     * Rol: Aficionado                                                                                                                            *
+     *********************************************************************************************************************************************/
+
+    getModalidadActividad = async (idActividad) => {
+        try {
+            this.conectar();
+            const modalidad = await models.ActividadSecundaria.findOne({
                 where: { id: idActividad },
                 include: {
                     model: models.Modalidad,
                     as: 'modalidad'
                 }
-            },
-        );
-
-        return datos;
+            });
+            this.desconectar();
+            return modalidad;
+        }catch(error){
+            this.desconectar();
+            console.error('Error al obtener la modalidad de la actividad', error);
+            throw error;
+        }
     }
+
 }
 
 module.exports = ActividadConexion;
