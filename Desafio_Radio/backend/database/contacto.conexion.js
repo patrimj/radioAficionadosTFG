@@ -51,13 +51,61 @@ class ContactoConexion {
         }
     }
 
+    /**********************************************************************************************************************************
+     * Nombre consulta: contactoNombre                                                                                                *
+     * Descripción: Esta consulta permite buscar un contacto por su nombre en la base de datos                                        *
+     * Parametros: nombre                                                                                                              *
+     * Pantalla: Registrar contacto                                                                                                    *
+     * Rol: Operador                                                                                                                   *
+     **********************************************************************************************************************************/
+
+    contactoNombre = async (nombre) => {
+        try {
+            this.conectar();
+
+            const contacto = await models.Usuario_secundarias.findAll({
+                where: {
+                    deleted_at: null
+                },
+                include: [
+                    {
+                        model: models.Usuario,
+                        as: 'usuario_secundarias_secundarias',
+                        where: {
+                            nombre: {
+                                [Op.like]: `%${nombre}%`
+                            }
+                        },
+                        attributes: ['nombre', 'email', 'apellido_uno', 'apellido_dos', 'url_foto', 'id_examen'],
+                    },
+                    {
+                        model: models.ActividadSecundaria,
+                        as: 'act_secundaria',
+                        where: {
+                            deleted_at: null
+                        },
+                        attributes: ['nombre'],
+                    }
+                ],
+                attributes: []
+            });
+
+            this.desconectar();
+            return contacto;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al buscar el contacto por nombre', error);
+            throw error;
+        }
+    }
+
     /***********************************************************************************************************************************
      * Nombre consulta: buscarContacto                                                                                                 *
      * Descripción: Esta consulta permite buscar un contacto en la base de datos                                                       *
      * Parametros: id_usuario, id_secundaria, premio                                                                                   *
      * Pantalla: Registrar contacto                                                                                                    *
      * Rol: Operador                                                                                                                   *
-     **********************************************************************************************************************************/ 
+     **********************************************************************************************************************************/
 
     buscarContacto = async (id_usuario, id_secundaria, premio) => {
         try {
@@ -80,8 +128,6 @@ class ContactoConexion {
             throw error;
         }
     }
-
-
 
     /**********************************************************************************************************************************
     * Nombre consulta: verContactos                                                                                                   *
@@ -128,24 +174,24 @@ class ContactoConexion {
 
     /**********************************************************************************************************************************
     * Nombre consulta: verContactoConPremios                                                                                          *
-    * Descripción: Esta consulta permite ver un contacto específico y sus premios en una actividad determinada de la base de datos    *
-    * Parametros: id_usuario, id_secundaria                                                                                           *
+    * Descripción: Esta consulta permite ver un contacto específico y sus premios en un concurso  de la base de datos                 *
+    * Parametros: id_usuario, id_principal                                                                                            *
     * Nota Para asignarle premios que no tiene                                                                                        *  
     * Pantalla: Registrar contacto                                                                                                    *
     * Rol: Operador                                                                                                                   *
     **********************************************************************************************************************************/
 
-    verContactoConPremio = async (id_usuario, id_secundaria) => {
+    verContactoConPremio = async (id_usuario, id_principal) => {
         try {
             this.conectar();
 
             const contacto = await models.Usuario_secundarias.findAll({
                 where: {
                     id_usuario: id_usuario,
-                    id_secundaria: id_secundaria,
+                    id_principal: id_principal,
                     deleted_at: null
                 },
-                attributes: ['id', 'id_usuario', 'id_secundaria', 'premio']
+                attributes: ['id', 'id_usuario', 'id_principal', 'premio']
             });
 
             this.desconectar();
@@ -159,14 +205,14 @@ class ContactoConexion {
     }
 
     /**********************************************************************************************************************************
-    * Nombre consulta: verPremios                                                                                                     *
+    * Nombre consulta: verPremioConcurso                                                                                                     *
     * Descripción: Esta consulta permite ver todos los premios para un concurso específico                                            *
-    * Parametros: id_secundaria                                                                                                       *
+    * Parametros: id_principal                                                                                                        *
     * Pantalla: Registrar contacto                                                                                                    *
     * Rol: Operador                                                                                                                   *
     **********************************************************************************************************************************/
 
-    verPremios = async (id_principal) => {
+    verPremioConcurso = async (id_principal) => {
         try {
             this.conectar();
 
@@ -213,7 +259,10 @@ class ContactoConexion {
             }
 
             await models.Usuario_secundarias.update(
-                { premio: nuevoPremio },
+                {
+                    premio: nuevoPremio,
+                    completada: true
+                },
                 { where: { id: contacto.id } }
             );
 
@@ -230,15 +279,18 @@ class ContactoConexion {
     /**********************************************************************************************************************************************
      * Nombre consulta: getConcursosActividadesIncompletasUsuario                                                                                 *
      * Descripción: Esta consulta permite obtener los concursos (pendientes) y sus respectivas actividades (pendientes) de un usuario en concreto *                                       
-     * Parametros: id_usuario                                                                                                                     *
+     * Parametros: id_usuario, id_principal                                                                                                       *
      * Pantalla: Registrar contacto                                                                                                               *
      * Rol: Operador                                                                                                                              *
      *********************************************************************************************************************************************/
 
-    getConcursosActividadesIncompletasUsuario = async (id_usuario) => {
+    getConcursosActividadesIncompletasUsuario = async (id_usuario, id_principal) => {
         try {
             const principales = await models.ActividadPrincipal.findAll({
-                where: { completada: false },
+                where: {
+                    completada: false,
+                    id: id_principal
+                },
                 include: [
                     {
                         model: models.ActividadSecundaria,
@@ -277,7 +329,7 @@ class ContactoConexion {
      * Pantalla: Registrar contacto                                                                                                                          *
      * Rol: Operador                                                                                                                                         *
      ********************************************************************************************************************************************************/
-
+//TODO: ACTIVIDADESsECUNDARI ANO TIENE PREMIO EN SU TABLA
     getPremiosPendientes = async (id_usuario, id_principal) => {
         try {
             const actividades = await models.ActividadSecundaria.findAll({
@@ -290,7 +342,7 @@ class ContactoConexion {
                     {
                         model: models.Usuario_secundarias,
                         as: 'act_secundarias_usuario',
-                        where: { 
+                        where: {
                             id_usuario: id_usuario,
                             deleted_at: null
                         }
@@ -304,9 +356,9 @@ class ContactoConexion {
                     }
                 ]
             });
-    
+
             const premiosPendientes = actividades.map(actividad => actividad.premio);
-    
+
             return premiosPendientes;
         } catch (e) {
             console.error(e.message)

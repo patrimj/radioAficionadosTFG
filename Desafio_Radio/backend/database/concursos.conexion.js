@@ -70,6 +70,7 @@ class ConcursosConexion {
             this.conectar();
             const actividades = await models.ActividadPrincipal.findAll({
                 where: {
+                    completada: false,
                     deleted_at: null
                 }
             });

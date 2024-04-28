@@ -3,7 +3,7 @@ const ConexionContacto = require('../database/contacto.conexion');
 const { subirArchivo } = require("../helpers/subir-archivo");
 
 /**********************************************************************************************************************************
-* Nombre consulta: registrarContacto                                                                                                  *
+* Nombre consulta: registrarContacto                                                                                              *
 * Descripción: Esta consulta permite registrar a un contacto en la base de datos                                                  *
 * Parametros: id_usuario, id_secundaria                                                                                           *
 * Pantalla: Registrar contacto                                                                                                    *
@@ -24,6 +24,31 @@ const registrarContacto = async (req = request, res = response) => {
         .catch(err => {
             console.log(err);
             res.status(500).json({ msg: "Error al registrar el contacto." })
+        });
+}
+
+/**********************************************************************************************************************************
+ * Nombre consulta: contactoNombre                                                                                                *
+ * Descripción: Esta consulta permite buscar un contacto por su nombre en la base de datos                                        *
+ * Parametros: nombre                                                                                                             *
+ * Pantalla: Registrar contacto                                                                                                   *
+ * Rol: Operador                                                                                                                  *
+ *********************************************************************************************************************************/
+
+const contactoNombre = async (req = request, res = response) => {
+
+    const conx = new ConexionContacto();
+
+    const { nombre } = req.body;
+
+    conx.contactoNombre(nombre)
+        .then(msg => {
+            console.log('Contacto encontrado');
+            res.status(200).json({ message: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: "Error al buscar el contacto." })
         });
 }
 
@@ -76,8 +101,8 @@ const verContactos = async (req = request, res = response) => {
 
 /**********************************************************************************************************************************
 * Nombre consulta: verContactoConPremios                                                                                          *
-* Descripción: Esta consulta permite ver un contacto específico y sus premios en una actividad determinada de la base de datos    *
-* Parametros: id_usuario, id_secundaria                                                                                           *
+* Descripción: Esta consulta permite ver un contacto específico y sus premios en un concurso  de la base de datos                 *
+* Parametros: id_usuario, id_principal                                                                                            *
 * Nota Para asignarle premios que no tiene                                                                                        *  
 * Pantalla: Registrar contacto                                                                                                    *
 * Rol: Operador                                                                                                                   *
@@ -87,9 +112,9 @@ const verContactoConPremios = async (req = request, res = response) => {
 
     const conx = new ConexionContacto();
 
-    const { id_usuario, id_secundaria } = req.body;
+    const { id_usuario, id_principal } = req.body;
 
-    conx.verContactoConPremios(id_usuario, id_secundaria)
+    conx.verContactoConPremios(id_usuario, id_principal)
         .then(msg => {
             console.log('Contacto obtenido correctamente');
             res.status(200).json({ msg });
@@ -101,14 +126,14 @@ const verContactoConPremios = async (req = request, res = response) => {
 }
 
 /**********************************************************************************************************************************
-* Nombre consulta: verPremios                                                                                                     *
+* Nombre consulta: verPremioConcurso                                                                                                     *
 * Descripción: Esta consulta permite ver todos los premios para una actividad secundaria específica                               *
-* Parametros: id_secundaria                                                                                                       *
+* Parametros: id_principal                                                                                                        *
 * Pantalla: Registrar contacto                                                                                                    *
 * Rol: Operador                                                                                                                   *
 **********************************************************************************************************************************/
 
-const verPremios = async (req = request, res = response) => {
+const verPremioConcurso = async (req = request, res = response) => {
 
     const conx = new ConexionContacto();
 
@@ -151,20 +176,20 @@ const asignarPremio = async (req = request, res = response) => {
 }
 
 /**********************************************************************************************************************************************
-* Nombre consulta: getConcursosActividadesIncompletasUsuario                                                                                  *
-* Descripción: Esta consulta permite obtener los concursos (pendientes) y sus respectivas actividades (pendientes) de un usuario en concreto  *                                       
-* Parametros: id_usuario                                                                                                                      *
-* Pantalla: Registrar contacto                                                                                                                *
-* Rol: Operador                                                                                                                               *
-**********************************************************************************************************************************************/
+ * Nombre consulta: getConcursosActividadesIncompletasUsuario                                                                                 *
+ * Descripción: Esta consulta permite obtener los concursos (pendientes) y sus respectivas actividades (pendientes) de un usuario en concreto *                                       
+ * Parametros: id_usuario, id_principal                                                                                                       *
+ * Pantalla: Registrar contacto                                                                                                               *
+ * Rol: Operador                                                                                                                              *
+ *********************************************************************************************************************************************/
 
 const getConcursosActividadesIncompletasUsuario = async (req = request, res = response) => {
 
     const conx = new ConexionContacto();
 
-    const { id_usuario } = req.body;
+    const { id_usuario, id_principal } = req.body;
 
-    conx.getConcursosActividadesIncompletasUsuario(id_usuario)
+    conx.getConcursosActividadesIncompletasUsuario(id_usuario, id_principal)
         .then(msg => {
             console.log('Concursos y actividades obtenidos correctamente');
             res.status(200).json({ msg });
@@ -237,17 +262,16 @@ const registrarYAsignarPremio = async (req, res) => {
     const conx = new ContactoConexion();
 
     try {
-        const { id_usuario, id_secundaria, nuevoPremio } = req.body;
+        const { id_usuario, id_principal, id_secundaria, nuevoPremio } = req.body;
 
         const registrado = await conx.registrarContacto(id_usuario, id_secundaria);
-        const existeRegistro = await conx.verificarRegistro(id_usuario, id_secundaria);
 
-        if (!registrado || !existeRegistro) return res.status(400).json(
+        if (!registrado) return res.status(400).json(
             { msg: "Error al registrar el contacto o el contacto ya existe", data: false }
         );
 
         const contacto = await conx.verContactoConPremios(id_usuario, id_secundaria);
-        const premios = await conx.verPremios(id_secundaria);
+        const premios = await conx.verPremioConcurso(id_principal);
 
         if (!contacto || !premios) return res.status(400).json(
             { msg: "Error al obtener el contacto o los premios", data: false }
@@ -259,9 +283,7 @@ const registrarYAsignarPremio = async (req, res) => {
             { msg: "Error al asignar el premio", data: false }
         );
 
-        const modalidades = await conx. ();
-        const concursos = await conx.getConcursosActividadesIncompletasUsuario(id_usuario);
-        const premiosPendientes = await conx.getPremiosPendientes(id_usuario);
+        const premiosPendientes = await conx.getPremiosPendientes(id_usuario, id_principal);
         const modalidadActividad = await conx.getModalidadActividad(id_secundaria);
 
         return res.status(200).json({
@@ -270,8 +292,6 @@ const registrarYAsignarPremio = async (req, res) => {
                 contacto,
                 premios,
                 asignado,
-                modalidades,
-                concursos,
                 premiosPendientes,
                 modalidadActividad
             }
@@ -291,6 +311,7 @@ module.exports = {
     getPremiosPendientes,
     getModalidadActividad,
     buscarContacto,
-    registrarYAsignarPremio
+    registrarYAsignarPremio,
+    contactoNombre
 }
 
