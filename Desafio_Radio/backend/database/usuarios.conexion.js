@@ -1,12 +1,7 @@
 const Conexion = require('./ConexionSequelize');
-const { Sequelize, Op } = require('sequelize'); // Op es para los operadores de sequelize
-const models = require('../models/index.js'); //Esto tiene acceso a todos los modelos., lo genera solo el sequelize-cli
+const { Sequelize, Op } = require('sequelize');
+const models = require('../models/index.js'); 
 const bcrypt = require("bcrypt");
-const ConexionActividades = require("./actividades.conexion");
-
-const { subirArchivo} = require('../helpers/subir-archivo');
-
-const COD_INCORRECTO = 0;
 
 class UsuarioConexion {
 
@@ -22,17 +17,14 @@ class UsuarioConexion {
         this.conexion.desconectar();
     }
 
-    // ---------------------------- RUTAS CUALQUIER USUARIO ----------------------------
+    /************************************************************************************************************************************
+     * Nombre consulta: login                                                                                                           *                                                                                                  
+     * Descripción: Esta consulta permite iniciar sesión si el usuario está registrado en la base de datos                              *                                                      
+     * Parametros: email y password                                                                                                     *            
+     * Pantalla: Login                                                                                                                  *                                                                                                            
+     * Rol: aficionado, admin, operador                                                                                                 *                                                                                                                   
+     ***********************************************************************************************************************************/
 
-    //LOGIN
-
-    /**
-     *
-     * @param email
-     * @param password
-     * @returns
-     * @author JuanNavarrete
-     */
     login = async (email, password) => {
         try {
             this.conectar();
@@ -60,6 +52,38 @@ class UsuarioConexion {
             return false;
         }
     }
+
+    login = async (email, password) => {
+        try {
+            this.conectar();
+
+            const usuario = await models.Usuario.findOne({
+                where: { email: email },
+                include: {
+                    model: models.Rol,
+                    as: 'roles'
+                }
+            });
+            this.desconectar();
+            return usuario;
+
+        } catch (error) {
+            this
+            console.error('Error al iniciar sesión', error);
+            throw error;
+        }
+
+
+            if (!usuario) return 0;
+            const passwordCorrecta = await bcrypt.compare(password, usuario.password)
+
+            if (!passwordCorrecta) return COD_INCORRECTO
+
+            console.log('LOGIN', usuario);
+
+            return usuario;
+        }
+
 
     // REGISTRO
 

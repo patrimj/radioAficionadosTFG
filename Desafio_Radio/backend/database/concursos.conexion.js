@@ -1,13 +1,11 @@
 const Conexion = require('./ConexionSequelize');
 const { Sequelize, Op } = require('sequelize');
 const models = require('../models/index.js');
-const ConexionSql = require("./conexionSql");
 
 class ConcursosConexion {
 
     constructor() {
         this.conexion = new Conexion();
-        this.conexionSql = new ConexionSql()
     }
 
     conectar = () => {

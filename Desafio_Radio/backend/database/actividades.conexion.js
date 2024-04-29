@@ -1,13 +1,11 @@
 const Conexion = require('./ConexionSequelize');
 const { Sequelize, Op } = require('sequelize');
 const models = require('../models/index.js');
-const ConexionSql = require("./conexionSql");
 
 class ActividadConexion {
 
     constructor() {
         this.conexion = new Conexion();
-        this.conexionSql = new ConexionSql()
     }
 
     conectar = () => {
@@ -291,6 +289,7 @@ class ActividadConexion {
             return contacto;
         } else {
             this.desconectar();
+            console.error('Error al mostrar la actividad', error);
             throw error;
         }
     }

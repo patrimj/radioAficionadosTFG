@@ -1,7 +1,3 @@
-/**
- * @author ElenaRgC
- */
-
 const Conexion = require('./ConexionSequelize');
 const { PDFDocument, StandardFonts, PageSizes, rgb } = require('pdf-lib');
 const { Sequelize, Op } = require('sequelize');
@@ -101,9 +97,6 @@ class DiplomaConexion {
         return pathDiploma;
     }
 
-    /**
-    * @author Patricia
-    */
     enviarDiplomaPorCorreo = async (email, pathDiploma) => {
         let transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -138,9 +131,6 @@ class DiplomaConexion {
         });
     }
 
-    /**
-    * @author Patricia
-    */
     generarYEnviarDiploma = async (identificador, actividad, url, email) => {
         try {
             const pathDiploma = await this.generarDiploma(identificador, actividad, url);
@@ -152,9 +142,6 @@ class DiplomaConexion {
         }
     }
 
-    /**
-    * @author ElenaRgC
-    */
     ajustarDimensionesImagen(imagen, anchoPdf, altoPdf) {
 
         // Comprobamos la proporción de la imagen y la página

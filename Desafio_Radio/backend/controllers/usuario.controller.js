@@ -3,8 +3,6 @@ const ConexionUsuario = require('../database/usuarios.conexion');
 const {enviarCorreo} = require("./correo.controller");
 const {generarContrasena} = require("../helpers/comun");
 const {subirArchivo} = require("../helpers/subir-archivo");
-const ConexionSql = require("../database/conexionSql");
-const conxSql = new ConexionSql();
 
 // ---------------------------- RUTAS CUALQUIER USUARIO ----------------------------
 

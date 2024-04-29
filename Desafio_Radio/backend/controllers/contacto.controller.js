@@ -1,6 +1,5 @@
 const { response, request } = require('express');
 const ConexionContacto = require('../database/contacto.conexion');
-const { subirArchivo } = require("../helpers/subir-archivo");
 
 /**********************************************************************************************************************************
 * Nombre consulta: registrarContacto                                                                                              *
@@ -312,6 +311,7 @@ module.exports = {
     getModalidadActividad,
     buscarContacto,
     registrarYAsignarPremio,
-    contactoNombre
+    contactoNombre, 
+    verPremioConcurso
 }
 

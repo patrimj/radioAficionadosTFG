@@ -1,13 +1,11 @@
 const Conexion = require('./ConexionSequelize');
 const { Sequelize, Op } = require('sequelize');
 const models = require('../models/index.js');
-const ConexionSql = require("./conexionSql");
 
 class ContactoConexion {
 
     constructor() {
         this.conexion = new Conexion();
-        this.conexionSql = new ConexionSql()
     }
 
     conectar = () => {
@@ -329,11 +327,11 @@ class ContactoConexion {
      * Pantalla: Registrar contacto                                                                                                                          *
      * Rol: Operador                                                                                                                                         *
      ********************************************************************************************************************************************************/
-//TODO: ACTIVIDADESsECUNDARI ANO TIENE PREMIO EN SU TABLA
+
     getPremiosPendientes = async (id_usuario, id_principal) => {
         try {
             const actividades = await models.ActividadSecundaria.findAll({
-                attributes: ['id', 'nombre', 'premio'],
+                attributes: ['id', 'nombre'],
                 through: { attributes: [] },
                 where: {
                     completada: false
@@ -352,12 +350,13 @@ class ContactoConexion {
                         as: 'principal  ',
                         where: {
                             id_principal: id_principal
-                        }
+                        },
+                        attributes: ['premio']
                     }
                 ]
             });
 
-            const premiosPendientes = actividades.map(actividad => actividad.premio);
+            const premiosPendientes = actividades.map(actividad => actividad.principal.premio);
 
             return premiosPendientes;
         } catch (e) {

@@ -14,9 +14,3 @@ const db =  new Sequelize(process.env.DB_DEV, process.env.DB_USER, process.env.D
   });
 
 module.exports =  db;
-
-/*
-El pool de conexiones es una característica muy útil que permite reutilizar las conexiones existentes en lugar de abrir y 
-cerrar conexiones para cada consulta. Esto puede reducir significativamente la sobrecarga de tiempo y recursos tanto para 
-tu aplicación como para la base de datos
-*/
