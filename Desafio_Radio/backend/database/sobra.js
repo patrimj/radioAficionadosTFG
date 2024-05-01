@@ -298,3 +298,105 @@ const comprobarSiContactosCompleto = async (req, res) => {
         });
     }
 }
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+// VER NOTICIAS
+
+const mostrarNoticias = async (req = request, res = response) => {
+
+    const conx = new ConexionUsuario();
+
+    conx.mostrarNoticias()
+        .then(msg => {
+            console.log('Noticias mostradas');
+            res.status(200).json(msg);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar las noticias' });
+        });
+}
+
+// ---------------------------- RUTAS ADMINISTRADOR ----------------------------
+
+
+// ELIMINAR NOTICIAS
+
+const eliminarNoticia = (req = request, res = response) => {
+    const conx = new ConexionUsuario();
+    const id = req.params.id;
+
+    conx.eliminarNoticia(id)
+        .then(msg => {
+            console.log('Noticia eliminada correctamente!');
+            res.status(200).json({ message: 'Noticia eliminada correctamente!', data: msg })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(200).json({ msg: 'No se ha podido eliminar la noticia' });
+        });
+}
+
+// MODIFICAR NOTICIAS
+
+const modificarNoticia = (req = request, res = response) => {
+    const conx = new ConexionUsuario();
+    const id = req.params.id;
+
+    conx.modificarNoticia(id, req.body)
+        .then(msg => {
+            console.log('Noticia modificada correctamente!');
+            res.status(200).json({ message: 'Noticia modificada correctamente!', data: msg })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(200).json({ msg: 'No se ha podido modificar la noticia' });
+        });
+}
+
+// CREAR NOTICIAS
+
+const crearNoticia = (req = request, res = response) => {
+    const conx = new ConexionUsuario();
+
+    conx.crearNoticia(req.body)
+        .then(msg => {
+            console.log('Noticia creada correctamente!');
+            res.status(200).json({ message: 'Noticia insertada correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(200).json({ msg: 'No se ha podido crear la noticia' });
+        });
+}
+
+
+
+
+module.exports = {
+    mostrarNoticias,
+    eliminarNoticia,
+    modificarNoticia,
+    crearNoticia,
+    mostrarUsuarioPorId,
+    altaUsuario,
+    bajaUsuario,
+    modificarUsuario,
+    verUsuarios,
+    mostrarUsuarioPorEmail,
+    mostrarUsuarioConDiploma,
+    mostrarUsuariosConDiploma,
+    asignarRol,
+    altaUsuarioCompleto,
+    verPerfil,
+    cambiarContrasena,
+    modificarPerfil,
+    recuperarContrasena,
+    registro
+}
+

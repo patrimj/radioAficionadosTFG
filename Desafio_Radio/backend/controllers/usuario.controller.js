@@ -1,249 +1,258 @@
 const { response, request } = require('express');
 const ConexionUsuario = require('../database/usuarios.conexion');
-const {enviarCorreo} = require("./correo.controller");
-const {generarContrasena} = require("../helpers/comun");
-const {subirArchivo} = require("../helpers/subir-archivo");
+const { enviarCorreo } = require("./correo.controller");
+const { generarContrasena } = require("../helpers/comun");
+const { subirArchivo } = require("../helpers/subir-archivo");
 
-// ---------------------------- RUTAS CUALQUIER USUARIO ----------------------------
+/************************************************************************************************************************************
+ * Nombre consulta: login                                                                                                           *                                                                                                  
+ * Descripción: Esta consulta permite iniciar sesión si el usuario está registrado en la base de datos                              *                                                      
+ * Parametros: email y password                                                                                                     *            
+ * Pantalla: Login                                                                                                                  *                                                                                                            
+ * Rol: aficionado, admin, operador                                                                                                 *                                                                                                                   
+ ***********************************************************************************************************************************/
 
-// REGISTRO
-/**
- * @author - JuanNavarrete
- */
-const registro = async (req, res) => {
-    try {
-        const conx = new ConexionUsuario();
-        const rolAficionado = await conx.verRolNombre("aficionado");
-        const rolRegistrar = req.body.roles[0];
+const login = async (req = request, res = response) => {
 
-        if (rolRegistrar.id !== rolAficionado.id) {
-            return res.status(400).json({ msg: "Se ha intentado insertar un usuario no valido." });
-        }
-
-        const idRegistrado = await conx.registrarUsuario(req.body);
-
-        await conx.asignarRol(rolAficionado.id, idRegistrado);
-
-        if (idRegistrado !== null) return res.status(200).json({ msg: true });
-
-        else return res.status(403).json({ msg: false });
-    } catch (e) {
-        return res.status(500).json({ msg: e.message });
-    }
-}
-
-
-// CAMBIAR CONTRASEÑA
-
-/**
- * @author JuanNavarrete
- */
-const cambiarContrasena = async (req, res) => {
     const conx = new ConexionUsuario();
 
-    try {
-        const cambiada = await conx.cambiarContrasena(req);
-
-        if (!cambiada) {
-            return res.status(401).json({ error: 'No existe ningun usuario coincidente.' });
-        }
-
-        return res.status(200).json({ cambiada: cambiada });
-    } catch (e) {
-        return res.status(400).json({ error: e.message });
-    }
+    conx.login(req.body.email, req.body.password)
+        .then(msg => {
+            console.log('Inicio de sesión exitoso');
+            res.status(200).json({ message: 'Inicio de sesión exitoso', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al iniciar sesión ' });
+        });
 }
 
-// VER PERFIL
+/************************************************************************************************************************************
+ * Nombre consulta: registro                                                                                                        *
+ * Descripción: Esta consulta permite registrar un usuario en la base de datos                                                      *
+ * Parametros: email, password, nombre, apellido_uno, apellido_dos, url_foto, id_examen                                             *
+ * Pantalla: Registro                                                                                                               *
+ * Rol: aficionado, admin, operador                                                                                                 *
+ * Nota: El id_rol siempre será 3, ya que es el rol "aficionado"                                                                    *
+ ***********************************************************************************************************************************/
 
-/**
- * @author JuanNavarrete
- */
-const verPerfil = async (req, res) => {
+const registro = async (req = request, res = response) => {
+
     const conx = new ConexionUsuario();
 
-    try {
-        const usuario = await conx.verPerfil(req);
+    const usuario = {
+        email: req.body.email,
+        password: req.body.password,
+        nombre: req.body.nombre,
+        apellido_uno: req.body.apellido_uno,
+        apellido_dos: req.body.apellido_dos,
+        url_foto: req.body.url_foto,
+        id_examen: req.body.id_examen,
+        id_rol: 3
+    };
 
-        if (!usuario) return res.status(404).json({ error: 'No existe ningun usuario coincidente.' });
-
-        return res.status(200).json({ usuario: usuario });
-    } catch (e) {
-        return res.status(400).json({ error: e.message });
-    }
+    conx.registro(usuario)
+        .then(msg => {
+            console.log('Registro exitoso');
+            res.status(200).json({ message: 'Registro exitoso', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al registrar usuario ' });
+        });
 }
 
-// MODIFICAR PERFIL
+/************************************************************************************************************************************
+* Nombre consulta: cambiarPassword                                                                                                  *
+* Descripción: Esta consulta permite cambiar la contraseña de un usuario en la base de datos                                        *
+* Parametros: email, password                                                                                                       *
+* Pantalla: Perfil                                                                                                                  *
+* Rol: aficionado, admin, operador                                                                                                  *
+************************************************************************************************************************************/
 
-/**
- * @author JuanNavarrete
- */
+const cambiarPassword = async (req = request, res = response) => {
+
+    const conx = new ConexionUsuario();
+
+    conx.cambiarPassword(req.body.email, req.body.password)
+        .then(msg => {
+            console.log('Cambio de contraseña exitoso');
+            res.status(200).json({ message: 'Cambio de contraseña exitoso', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al cambiar contraseña ' });
+        });
+}
+
+/************************************************************************************************************************************
+ * Nombre consulta: mostrarPerfil                                                                                                   *
+ * Descripción: Esta consulta permite mostrar el perfil de un usuario en la base de datos                                           *
+ * Parametros: id_usuario                                                                                                           *
+ * Pantalla: Perfil                                                                                                                 *
+ * Rol: aficionado, admin, operador                                                                                                 *
+ ***********************************************************************************************************************************/
+
+const mostrarPerfil = async (req = request, res = response) => {
+
+    const conx = new ConexionUsuario();
+
+    conx.mostrarPerfil(req.body.id_usuario)
+        .then(msg => {
+            console.log('Perfil mostrado exitosamente');
+            res.status(200).json({ message: 'Perfil mostrado exitosamente', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar perfil ' });
+        });
+}
+
+/************************************************************************************************************************************
+* Nombre consulta: modificarPerfil                                                                                                  *  
+* Descripción: Esta consulta permite modificar el perfil de un usuario en la base de datos                                          *
+* Parametros: id_usuario, email, nombre, apellido_uno, apellido_dos, url_foto, id_examen, id_rol                                    *
+* Pantalla: Perfil                                                                                                                  *
+* Rol: aficionado, admin, operador                                                                                                  *
+************************************************************************************************************************************/
+
 const modificarPerfil = async (req, res = response) => {
+
     const conx = new ConexionUsuario();
 
+    if (!req.files || !req.files.archivo) {
+        return res.status(400).json({ msg: 'No se subió ninguna imagen' });
+    }
+
     try {
-        if (req.files.archivo) {
-            const resultado = await subirArchivo(req.files.archivo, undefined, 'imgs');
+        const resultadoSubida = await subirArchivo(req.files.archivo, undefined, 'usuario');
 
-            if (!(resultado && resultado.secure_url)) {
-                return res.status(500).json({msg: 'Ha ocurrido un error al subir la foto de perfil.'})
-            }
-
-            req.body.url_foto = resultado.secure_url
+        if (resultadoSubida && resultadoSubida.secure_url) {
+            req.body.url_foto = resultadoSubida.secure_url;
+        } else {
+            throw new Error('Error al subir el archivo');
         }
 
-        console.log(req.params.id)
-        const usuarioExiste = await conx.mostrarUsuario(req) !== null;
-
-        if (!usuarioExiste) return res.status(404).json({ error: 'No existe ningun usuario coincidente.' });
-
-        const usuario = await conx.modificarPerfil(req);
-
-        if (!usuario) return res.status(401).json({ error: 'No se ha actualizado el perfil.' });
-
-        return res.status(200).json({ usuario: usuario });
-    } catch (e) {
-        console.error(e)
-        return res.status(400).json({ error: e.message });
+        conx.modificarPerfil(req.params.id, req.body)
+            .then(msg => {
+                console.log('Perfil modificado correctamente !');
+                res.status(200).json({ message: 'Perfil modificado correctamente!', data: msg });
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(200).json({ msg: 'No se han encontrado registros' });
+            });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Error al subir la imagen o al modificar el perfil' });
     }
 }
 
-// VER NOTICIAS
+/************************************************************************************************************************************
+* Nombre consulta: buscarUsuario                                                                                                    *
+* Descripción: Esta consulta permite buscar un usuario en la base de datos por su nombre                                            *
+* Parametros: nombre                                                                                                                *
+* Pantalla: Gestion de Usuarios                                                                                                     *
+* Rol: administrador                                                                                                                *
+************************************************************************************************************************************/
 
-const mostrarNoticias = async (req = request, res = response) => {
+const buscarUsuario = async (req = request, res = response) => {
 
     const conx = new ConexionUsuario();
 
-    conx.mostrarNoticias()
+    conx.buscarUsuario(req.body.nombre)
         .then(msg => {
-            console.log('Noticias mostradas');
-            res.status(200).json(msg);
+            console.log('Usuario encontrado');
+            res.status(200).json({ message: 'Usuario encontrado', data: msg });
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las noticias' });
+            res.status(500).json({ msg: 'Error al buscar usuario ' });
         });
 }
 
-// ---------------------------- RUTAS ADMINISTRADOR ----------------------------
+/************************************************************************************************************************************
+* Nombre consulta: mostrarIdUsuarioPorIndicativo                                                                                    *
+* Descripción: Esta consulta permite buscar a un usuario por su indicativo en la base de datos                                      *
+* Parametros: id_examen                                                                                                             *
+* Pantalla: Gestion de Usuarios                                                                                                     *
+* Rol: administrador                                                                                                                *
+************************************************************************************************************************************/
 
+const mostrarIdUsuarioPorIndicativo = async (req = request, res = response) => {
 
-// ELIMINAR NOTICIAS
-
-const eliminarNoticia = (req = request, res = response) => {
     const conx = new ConexionUsuario();
-    const id = req.params.id;
 
-    conx.eliminarNoticia(id)
+    conx.mostrarIdUsuarioPorIndicativo(req.body.id_examen)
         .then(msg => {
-            console.log('Noticia eliminada correctamente!');
-            res.status(200).json({ message: 'Noticia eliminada correctamente!', data: msg })
+            console.log('Usuario encontrado');
+            res.status(200).json({ message: 'Usuario encontrado', data: msg });
         })
         .catch(err => {
             console.log(err);
-            res.status(200).json({ msg: 'No se ha podido eliminar la noticia' });
+            res.status(500).json({ msg: 'Error al buscar usuario ' });
         });
 }
 
-// MODIFICAR NOTICIAS
+/************************************************************************************************************************************
+* Nombre consulta: altaUsuarioCompleto                                                                                              *
+* Descripción: Esta consulta permite dar de alta a un usuario en la base de datos con roles asignados                               *
+* Parametros: email, password, nombre, apellido_uno, apellido_dos, url_foto, id_examen, id_rol                                      * 
+* Pantalla: Gestion de Usuarios                                                                                                     *
+* Rol: administrador                                                                                                                *
+* Nota: la contraseña se manda por correo                                                                                           *
+************************************************************************************************************************************/
 
-const modificarNoticia = (req = request, res = response) => {
+const altaUsuarioCompleto = async (req, res = response) => {
     const conx = new ConexionUsuario();
-    const id = req.params.id;
+    const id_rol = req.params.id_rol;
 
-    conx.modificarNoticia(id, req.body)
-        .then(msg => {
-            console.log('Noticia modificada correctamente!');
-            res.status(200).json({ message: 'Noticia modificada correctamente!', data: msg })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(200).json({ msg: 'No se ha podido modificar la noticia' });
-        });
+    if (!req.body.password) {
+        const contrasena = generarContrasena(16);
+        req.cuerpoCorreo = `
+            <h1>Bienvenido a Radioaficionado</h1>
+            <p>Se ha creado una cuenta para ti. Tu contraseña temporal es:</p>
+            <h3>${contrasena}</h3>
+            <p>Por favor, cambia tu contraseña en tu primer inicio de sesión.</p>
+        `;
+        const enviado = await enviarCorreo(req, res);
+        if (!enviado) {
+            return res.status(500).json({ msg: "No se pudo enviar el correo electrónico" });
+        }
+        req.body.password = await bcrypt.hash(contrasena, 10);
+    }
+
+    if (!req.files || !req.files.archivo) {
+        return res.status(400).json({ msg: 'No se subió ninguna imagen' });
+    }
+
+    try {
+        const resultadoSubida = await subirArchivo(req.files.archivo, undefined, 'usuario');
+        if (resultadoSubida && resultadoSubida.secure_url) {
+            req.body.url_foto = resultadoSubida.secure_url;
+        } else {
+            throw new Error('Error al subir el archivo');
+        }
+
+        const usuarioNuevo = await conx.altaUsuarioCompleto(req.body, id_rol);
+        if (usuarioNuevo) {
+            res.status(200).json({ message: 'Usuario dado de alta correctamente', data: usuarioNuevo, rol: usuarioNuevo.rol });
+        } else {
+            throw new Error('Error al crear el usuario');
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Error al subir la imagen o al crear el usuario' });
+    }
 }
 
-// CREAR NOTICIAS
-
-const crearNoticia = (req = request, res = response) => {
-    const conx = new ConexionUsuario();
-
-    conx.crearNoticia(req.body)
-        .then(msg => {
-            console.log('Noticia creada correctamente!');
-            res.status(200).json({ message: 'Noticia insertada correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(200).json({ msg: 'No se ha podido crear la noticia' });
-        });
-}
-
-// VER USUARIOS
-
-const verUsuarios = async (req = request, res = response) => {
-    const conx = new ConexionUsuario();
-
-    conx.mostrarUsuarios()
-        .then(msg => {
-            console.log('Usuarios mostrados');
-            res.status(200).json({ message: 'Usuarios mostrados correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(200).json({ msg: 'No se han encontrado registros' });
-        });
-}
-
-// VER UN USUARIO
-/**
- *
- * @author JuanNavarrete
- */
-const mostrarUsuarioPorId = async (req = request, res = response) => {
-    const conx = new ConexionUsuario();
-
-    const usuario = await conx.mostrarUsuario(req);
-
-    if (usuario === 0) return res.status(404).json({
-        msg: `No existe el usuario con id ${req.params.id}`
-    });
-
-    return res.status(200).json(usuario);
-}
-
-// VER UN USUARIO POR EMAIL
-
-const mostrarUsuarioPorEmail = async (req = request, res = response) => {
-    const conx = new ConexionUsuario();
-
-    conx.mostrarUsuarioPorEmail(req.params.email)
-        .then(msg => {
-            console.log('Usuario mostrado');
-            res.status(200).json({ message: 'Usuario mostrado correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(200).json({ msg: 'No se ha encontrado el usuario' });
-        });
-}
-
-//ALTA USUARIO
-
-const altaUsuario = (req, res = response) => {
-    const conx = new ConexionUsuario();
-
-    conx.altaUsuario(req.body)
-        .then(msg => {
-            console.log('usuario dado de alta correctamente!');
-            res.status(200).json({message: 'Usuario dado de alta correctamente!', data: msg});
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(200).json({ msg: 'No se han encontrado registros' });
-        });
-}
-
-//BAJA USUARIO
+/************************************************************************************************************************************
+* Nombre consulta: bajaUsuario                                                                                                      *
+* Descripción: Esta consulta permite dar de baja a un usuario en la base de datos                                                   *
+* Parametros: id                                                                                                                    * 
+* Pantalla: Gestion de Usuarios                                                                                                     *
+* Rol: administrador                                                                                                                *
+************************************************************************************************************************************/
 
 const bajaUsuario = (req, res = response) => {
     const conx = new ConexionUsuario();
@@ -259,9 +268,14 @@ const bajaUsuario = (req, res = response) => {
         });
 }
 
-//MODIFICAR USUARIO
+/************************************************************************************************************************************
+* Nombre consulta: modificarUsuario                                                                                                 *
+* Descripción: Esta consulta permite modificar a un usuario en la base de datos                                                     *
+* Parametros: id, email, nombre, apellido_uno, apellido_dos, url_foto, id_examen, id_rol                                            *
+* Pantalla: Gestion de Usuarios                                                                                                     *
+* Rol: administrador                                                                                                                *  
+************************************************************************************************************************************/
 
-//MODIFICAR USUARIO
 const modificarUsuario = async (req, res = response) => {
     const conx = new ConexionUsuario();
 
@@ -293,6 +307,14 @@ const modificarUsuario = async (req, res = response) => {
     }
 }
 
+/************************************************************************************************************************************
+* Nombre consulta: asignarRol                                                                                                       *
+* Descripción: Esta consulta permite asignar un rol a un usuario en la base de datos                                                *
+* Parametros: id_rol, id_usuario                                                                                                    *
+* Pantalla: Gestion de Usuarios                                                                                                     *
+* Rol: administrador                                                                                                                *
+************************************************************************************************************************************/
+
 const asignarRol = (req, res = response) => {
     const conx = new ConexionUsuario();
 
@@ -307,42 +329,13 @@ const asignarRol = (req, res = response) => {
         });
 }
 
-
-const altaUsuarioCompleto = async (req, res = response) => {
-    console.log('usuario', req.body);
-    const conx = new ConexionUsuario();
-    const id_rol = req.params.id_rol;
-
-    console.log('nombre', req.body.nombre);
-
-    if (!req.files || !req.files.archivo) {
-        return res.status(400).json({ msg: 'No se subió ninguna imagen' });
-    }
-
-    try {
-        const resultadoSubida = await subirArchivo(req.files.archivo, undefined, 'usuario');
-
-        if (resultadoSubida && resultadoSubida.secure_url) {
-            req.body.url_foto = resultadoSubida.secure_url;
-        } else {
-            throw new Error('Error al subir el archivo');
-        }
-
-        const usuarioNuevo = await conx.altaUsuarioCompleto(req.body, id_rol);
-        if (usuarioNuevo) {
-            console.log(usuarioNuevo)
-            console.log('Usuario dado de alta correctamente');
-            res.status(200).json({ message: 'Usuario dado de alta correctamente', data: usuarioNuevo, rol: usuarioNuevo.rol });
-        } else {
-            throw new Error('Error al crear el usuario');
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ msg: 'Error al subir la imagen o al crear el usuario' });
-    }
-}
-
-// VER USUARIO CON DIPLOMA
+/************************************************************************************************************************************
+ * Nombre consulta: mostrarUsuarioConDiploma                                                                                        *
+ * Descripción: Esta consulta permite mostrar un usuario con diploma en la base de datos                                            *
+ * Parametros: email                                                                                                                *
+ * Pantalla: Gestion de Usuarios                                                                                                    *
+ * Rol: administrador                                                                                                               *
+ ***********************************************************************************************************************************/
 
 const mostrarUsuarioConDiploma = async (req, res = response) => {
     const conx = new ConexionUsuario();
@@ -358,7 +351,13 @@ const mostrarUsuarioConDiploma = async (req, res = response) => {
         });
 }
 
-// VER USUARIOS CON DIPLOMA
+/************************************************************************************************************************************
+ * Nombre consulta: mostrarUsuariosConDiploma                                                                                       *
+ * Descripción: Esta consulta permite mostrar los usuarios con diplomas en la base de datos                                         *
+ * Parametros: email                                                                                                                *
+ * Pantalla: Gestion de Usuarios                                                                                                    *
+ * Rol: administrador                                                                                                               *
+ ***********************************************************************************************************************************/
 
 const mostrarUsuariosConDiploma = async (req = request, res = response) => {
     const conx = new ConexionUsuario();
@@ -374,10 +373,39 @@ const mostrarUsuariosConDiploma = async (req = request, res = response) => {
         });
 }
 
-/**
- *
- * @author JuanNavarrete
- */
+/************************************************************************************************************************************
+ * Nombre consulta: mostrarUsuarios                                                                                                 *
+ * Descripción: Esta consulta permite mostrar los usuarios en la base de datos                                                      *
+ * Parametros: ninguno                                                                                                              *
+ * Pantalla: Gestion de Usuarios                                                                                                    *
+ * Rol: administrador                                                                                                               *
+ * Nota: Se muestran los usuarios con su rol                                                                                        *
+ ************************************************************************************************************************************/
+
+
+const mostrarUsuarios = async (req = request, res = response) => {
+    const conx = new ConexionUsuario();
+
+    conx.mostrarUsuarios()
+        .then(msg => {
+            console.log('Usuarios mostrados');
+            res.status(200).json({ message: 'Usuarios mostrados correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(200).json({ msg: 'No se han encontrado registros' });
+        });
+}
+
+/************************************************************************************************************************************
+ * Nombre consulta: recuperarContrasena                                                                                             *
+ * Descripción: Esta consulta permite recuperar la contraseña de un usuario en la base de datos                                     *
+ * Parametros: email                                                                                                                *
+ * Pantalla: Recuperar contraseña                                                                                                   *
+ * Rol: aficionado, admin, operador                                                                                                 *
+ * Nota: Se envía la nueva contraseña por correo electrónico                                                                        *
+ ***********************************************************************************************************************************/
+
 const recuperarContrasena = async (req, res) => {
     const conx = new ConexionUsuario();
     const destinatario = req.body.email;
@@ -398,7 +426,7 @@ const recuperarContrasena = async (req, res) => {
         req.body.password = contrasena
 
         try {
-            const actualizada = await conx.cambiarContrasenaRec(req);
+            const actualizada = await conx.cambiarPassword(destinatario, contrasena);
             if (actualizada === true) return res.status(200).json({ msg: true });
 
             else return res.status(403).json({ msg: false });
@@ -408,43 +436,22 @@ const recuperarContrasena = async (req, res) => {
     }
 }
 
-/**
- * @author JuanNavarrete
- */
-const obtenerRolNombre = async (req, res = response) => {
-    const conx = new ConexionUsuario();
-
-    try {
-        const nombre = req.body.nombre;
-
-        const rol = await conx.mostrarRolNombre(nombre);
-
-        if (!rol) return res.status(404).json({ msg: `Se ha encontrado el rol ${nombre}` })
-
-        return res.status(200).json({ msg: `Se ha encontrado el rol ${nombre}` }, { data: rol })
-    } catch (e) {
-        return res.status(400).json({ msg: `Se ha encontrado el rol ${nombre}` }, { data: rol })
-    }
-}
-
 module.exports = {
-    mostrarNoticias,
-    eliminarNoticia,
-    modificarNoticia,
-    crearNoticia,
-    mostrarUsuarioPorId,
-    altaUsuario,
+    login,
+    registro,
+    cambiarPassword,
+    mostrarPerfil,
+    modificarPerfil,
+    buscarUsuario,
+    mostrarIdUsuarioPorIndicativo,
+    altaUsuarioCompleto,
     bajaUsuario,
     modificarUsuario,
-    verUsuarios,
-    mostrarUsuarioPorEmail,
+    asignarRol,
     mostrarUsuarioConDiploma,
     mostrarUsuariosConDiploma,
-    asignarRol,
-    altaUsuarioCompleto,
-    verPerfil,
-    cambiarContrasena,
-    modificarPerfil,
-    recuperarContrasena,
-    registro
+    mostrarUsuarios,
+    recuperarContrasena
 }
+
+

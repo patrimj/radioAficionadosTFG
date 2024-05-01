@@ -421,19 +421,19 @@ const altaActividad = async (req, res = response) => {
  ***********************************************************************************************************************************/
 
 const getModalidades = async (req = request, res = response) => {
-    
-        const conx = new ConexionActividades();
-    
-        conx.getModalidades()
-            .then(msg => {
-                console.log('Modalidades mostradas');
-                res.status(200).json({ message: 'Modalidades mostradas correctamente!', data: msg });
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({ msg: 'Error al mostrar las modalidades' });
-            });
-    }
+
+    const conx = new ConexionActividades();
+
+    conx.getModalidades()
+        .then(msg => {
+            console.log('Modalidades mostradas');
+            res.status(200).json({ message: 'Modalidades mostradas correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar las modalidades' });
+        });
+}
 
 module.exports = {
     getActividadesUnicoContactoAficionado,
