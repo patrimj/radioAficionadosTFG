@@ -64,7 +64,7 @@ const getActividadesPorConcurso = async (req = request, res = response) => {
 
     const conx = new ConexionActividades();
 
-    const id_concurso = req.params.id;
+    const id_concurso = req.params.id_concurso;
 
     conx.getActividadesPorConcurso(id_concurso)
         .then(msg => {
@@ -214,7 +214,7 @@ const mostrarActividadNombre = async (req = request, res = response) => {
             res.status(500).json({ msg: 'Error al mostrar la actividad' });
         });
 }
-
+//TODO: ELIMINAR
 /*************************************************************************************************************************************
  * Nombre consulta: mostrarActividadSinConcurso                                                                                      *
  * Descripción: Esta consulta permite mostrar las actividades que no pertenecen a un concurso de la base de datos                    *
@@ -237,7 +237,7 @@ const mostrarActividadSinConcurso = async (req = request, res = response) => {
             res.status(500).json({ msg: 'Error al mostrar las actividades sin concurso' });
         });
 }
-
+//TODO: ELIMINAR
 /***********************************************************************************************************************************
  * Nombre consulta: mostrarActividadPorIdConcurso                                                                                  *
  * Descripción: Esta consulta permite mostrar las actividades que pertenecen a un concurso en particular de la base de datos       *
@@ -260,7 +260,7 @@ const mostrarActividadPorIdConcurso = async (req = request, res = response) => {
             res.status(500).json({ msg: 'Error al mostrar las actividades por concurso' });
         });
 }
-
+//TODO: ELIMINAR
 /************************************************************************************************************************************
  * Nombre consulta: mostrarActividadConConcurso                                                                                     *
  * Descripción: Esta consulta permite mostrar las actividades que pertenecen a un concurso en particular                            *
@@ -372,14 +372,14 @@ const modificarActividad = async (req, res = response) => {
 }
 
 /************************************************************************************************************************************
- * Nombre consulta: altaActividad                                                                                                   *
- * Descripción: Esta consulta permite crear una actividad de la base de datos                                                       *
+ * Nombre consulta: altaActividadUnicoContacto                                                                                      *
+ * Descripción: Esta consulta permite crear una actividad de un unico contacto en la base de datos                                  *
  * Parametros: nombre, url_foto, localizacion, fecha, frecuencia, banda, id_modo, id_modalidad, completada, id_operador             *
  * Pantalla: Actividades                                                                                                            *
  * Rol: Operador                                                                                                                    *
  ***********************************************************************************************************************************/
 
-const altaActividad = async (req, res = response) => {
+const altaActividadUnicoContacto = async (req, res = response) => {
 
     const conx = new ConexionActividades();
 
@@ -396,22 +396,63 @@ const altaActividad = async (req, res = response) => {
             throw new Error('Error al subir el archivo');
         }
 
-        conx.altaActividad(req.body)
+        conx.altaActividadUnicoContacto(req.body)
             .then(msg => {
                 console.log('Actividad creada correctamente!');
-                res.status(200).json({ message: 'Actividad creada correctamente!', data: msg });
+                res.status(200).json({ message: 'Actividad unico contacto creada correctamente!', data: msg });
             })
             .catch(err => {
                 console.log(err);
-                res.status(500).json({ msg: 'Error al crear la actividad' });
+                res.status(500).json({ msg: 'Error al crear la actividad de unico contacto ' });
             });
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ msg: 'Error al subir la imagen o al crear la actividad' });
+        res.status(500).json({ msg: 'Error al subir la imagen o al crear la actividad unico contacto' });
     }
 }
 
+/*****************************************************************************************************************************************
+ * Nombre consulta: altaActividadVariosContactos                                                                                         *
+ * Descripción: Esta consulta permite crear una actividad de varios contactos en la base de datos                                        *
+ * Parametros: nombre, url_foto, localizacion, fecha, frecuencia, banda, id_modo, id_modalidad, completada, id_operador y id_principal   *
+ * Pantalla: Actividades                                                                                                                 *
+ * Rol: Operador                                                                                                                         *
+ * **************************************************************************************************************************************/
+
+const altaActividadVariosContactos = async (req, res = response) => {
+
+    const conx = new ConexionActividades();
+
+    if (!req.files || !req.files.archivo) {
+        return res.status(400).json({ msg: 'No se subió ninguna imagen' });
+    }
+
+    try {
+        const resultadoSubida = await subirArchivo(req.files.archivo, undefined, 'actividades');
+
+        if (resultadoSubida && resultadoSubida.secure_url) {
+            req.body.url_foto = resultadoSubida.secure_url;
+        }else {
+            throw new Error('Error al subir el archivo');
+        }
+
+        conx.altaActividadVariosContactos(req.body, req.params.id_principal)
+            .then(msg => {
+                console.log('Actividad creada correctamente!');
+                res.status(200).json({ message: 'Actividad varios contactos creada correctamente!', data: msg });
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ msg: 'Error al crear la actividad varios contactos' });
+            });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Error al subir la imagen o al crear la actividad varios contactos' });
+    }
+}
+//TODO: ELIMINAR
 /************************************************************************************************************************************
  * Nombre consulta: getModalidades                                                                                                  *
  * Descripción: Esta consulta permite ver todas las modalidades que existen en la base de datos                                     *
@@ -434,6 +475,54 @@ const getModalidades = async (req = request, res = response) => {
             res.status(500).json({ msg: 'Error al mostrar las modalidades' });
         });
 }
+//TODO: ELIMINAR
+/************************************************************************************************************************************
+ * Nombre consulta: getModalidadActividad                                                                                           *
+ * Descripción: Esta consulta permite obtener la modalidad de una actividad concreta de la base de datos                            *
+ * Parametros: id_actividad                                                                                                         *
+ * Pantalla: Actividades                                                                                                            *
+ * Rol: Aficionado                                                                                                                  *
+ * **********************************************************************************************************************************/
+
+const getModalidadActividad = async (req = request, res = response) => {
+
+    const conx = new ConexionActividades();
+
+    conx.getModalidadActividad(req.params.id)
+        .then(msg => {
+            console.log('Modalidad de actividad mostrada');
+            res.status(200).json({ message: 'Modalidad de actividad mostrada correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar la modalidad de la actividad' });
+        });
+}
+
+/************************************************************************************************************************************
+ * Nombre consulta: getTotalActividadesParticipado                                                                                           *
+ * Descripción: Esta consulta permite obtener el total de actividades en las que ha participado un usuario concreto de la base de datos    *
+ * Parametros: id_usuario                                                                                                         *
+ * Pantalla: Perfil                                                                                                            *
+ * Rol: Aficionado                                                                                                                  *
+ * **********************************************************************************************************************************/
+
+const getTotalActividadesParticipado = async (req = request, res = response) => {
+
+    const conx = new ConexionActividades();
+
+    const id_usuario = req.usuario.id
+
+    conx.getTotalActividadesParticipado(id_usuario)
+        .then(msg => {
+            console.log('Total de actividades en las que ha participado mostrado');
+            res.status(200).json({ message: 'Total de actividades en las que ha participado mostrado correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar el total de actividades en las que ha participado' });
+        });
+}
 
 module.exports = {
     getActividadesUnicoContactoAficionado,
@@ -451,6 +540,9 @@ module.exports = {
     verParticipantesActividad,
     eliminarActividad,
     modificarActividad,
-    altaActividad,
-    getModalidades
+    altaActividadUnicoContacto,
+    altaActividadVariosContactos,
+    getModalidades,
+    getModalidadActividad,
+    getTotalActividadesParticipado
 }

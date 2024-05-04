@@ -3,12 +3,14 @@ const ConexionUsuario = require('../database/usuarios.conexion');
 const { enviarCorreo } = require("./correo.controller");
 const { generarContrasena } = require("../helpers/comun");
 const { subirArchivo } = require("../helpers/subir-archivo");
+const { generarJWT } = require("../helpers/generate_jwt");
 
 /************************************************************************************************************************************
  * Nombre consulta: login                                                                                                           *                                                                                                  
  * Descripción: Esta consulta permite iniciar sesión si el usuario está registrado en la base de datos                              *                                                      
  * Parametros: email y password                                                                                                     *            
- * Pantalla: Login                                                                                                                  *                                                                                                            
+ * Pantalla: Login                                                                                                                  *    
+ * Nota: Se genera un token para el usuario que inicia sesión                                                                                                        
  * Rol: aficionado, admin, operador                                                                                                 *                                                                                                                   
  ***********************************************************************************************************************************/
 
@@ -17,9 +19,21 @@ const login = async (req = request, res = response) => {
     const conx = new ConexionUsuario();
 
     conx.login(req.body.email, req.body.password)
-        .then(msg => {
+        .then(usuario => {
+            if (!usuario) {
+                return res.status(401).json({
+                    error: 'No se encontró ningún usuario con ese correo electrónico y contraseña.'
+                });
+            }
+
+            const token = generarJWT(usuario);
+            const datos = {
+                token: token,
+                usuario: usuario
+            };
+
             console.log('Inicio de sesión exitoso');
-            res.status(200).json({ message: 'Inicio de sesión exitoso', data: msg });
+            res.status(200).json(datos);
         })
         .catch(err => {
             console.log(err);

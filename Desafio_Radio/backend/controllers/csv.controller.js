@@ -2,15 +2,20 @@ const fs = require("fs");
 const parse = require('fast-csv').parse;
 const path = require('path');
 const { response, request } = require('express');
-const ConexionActividades = require('../database/actividades.conexion');
 const ConexionUsuario = require('../database/usuarios.conexion');
-const actividadConexion = new ConexionActividades();
+const ConexionContacto = require('../database/contactos.conexion');
+const contactoConexion = new ConexionContacto();
 const { subirCSV } = require('../helpers/subir-archivo');
 const { fakerES } = require('@faker-js/faker');
 
-/**
- * @author ElenaRgC
- */
+/************************************************************************************************************************************
+* Nombre consulta: validarCSV                                                                                                       *
+* Descripción: Esta función se encarga de validar si el archivo subido en la solicitud es un archivo CSV. Si el archivo es válido,  *
+* se llama a la función 'subirCSV' para subir el archivo                                                                              * 
+* Pantalla: Registro de contactos                                                                                                     *
+* Rol: operador                                                                                                                       * 
+************************************************************************************************************************************/
+
 const validarCSV = async (req, res, next) => {
 
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -34,9 +39,14 @@ const validarCSV = async (req, res, next) => {
 
 }
 
-/**
- * @author ElenaRgC
- */
+/************************************************************************************************************************************
+ * Nombre consulta: procesarCSV                                                                                                     *
+ * Descripción: Esta función se encarga de procesar el archivo CSV subido en la solicitud. Se recorre el archivo y se insertan los  *
+ * contactos en la base de datos.                                                                                                   *
+ * Pantalla: Registro de contactos                                                                                                  *
+ * Rol: operador                                                                                                                    *
+ * *********************************************************************************************************************************/
+
 const procesarCSV = async (req, res) => {
 
     const idActividad = req.body.idActividad;
@@ -60,9 +70,13 @@ const procesarCSV = async (req, res) => {
         });
 }
 
-/**
- * @author ElenaRgC
- */
+/************************************************************************************************************************************
+ * Nombre consulta: insertarContactos                                                                                               *
+ * Descripción: Esta función se encarga de insertar los contactos del archivo CSV en la base de datos.                              *
+ * Pantalla: Registro de contactos                                                                                                  *
+ * Rol: operador                                                                                                                    *
+ * *********************************************************************************************************************************/
+
 const insertarContactos = async (idActividad, data, res) => {
 
     let mensajes = [];
@@ -71,10 +85,6 @@ const insertarContactos = async (idActividad, data, res) => {
 
         let indicativo = line.indicativo;
         let idUsuario = await recibirIdUsuario(indicativo);
-
-        if (idUsuario === null) {
-            idUsuario = await altaUsuarioTemporal(indicativo);
-        }
 
         if (idUsuario === 0) {
 
@@ -90,15 +100,7 @@ const insertarContactos = async (idActividad, data, res) => {
 
             try {
 
-                /*if (contacto.premio === '') {
-                    await actividadConexion.crearContactoGenerico(contacto);
-                } else if (isNaN(parseInt(contacto.premio))) {
-                    await actividadConexion.crearContactoLetra(contacto);
-                } else {
-                    await actividadConexion.crearContactoPuntos(contacto);
-                }*/
-
-                await actividadConexion.crearContacto(contacto);
+                await contactoConexion.registrarContacto(contacto);
 
                 if (contacto.premio === '') {
                     mensajes.push('Insertado correctamente el contacto de ' + indicativo);
@@ -116,41 +118,19 @@ const insertarContactos = async (idActividad, data, res) => {
     return res.status(200).json(mensajes);
 }
 
-/**
- * @author ElenaRgC
- */
+/************************************************************************************************************************************
+ * Nombre consulta: recibirIdUsuario                                                                                                *
+ * Descripción: Esta función se encarga de recibir el id del usuario a partir de su indicativo.                                     *
+ * Pantalla: Registro de contactos                                                                                                  *
+ * Rol: operador                                                                                                                    *
+ * *********************************************************************************************************************************/
+
 const recibirIdUsuario = async (indicativo) => {
     const conx = new ConexionUsuario();
 
     const id = await conx.mostrarIdUsuarioPorIndicativo(indicativo);
 
     return id;
-}
-
-/**
- * @author ElenaRgC
- */
-const altaUsuarioTemporal = async (indicativo) => {
-    
-    const usuarioTemporal = {
-        nombre: '',
-        email: fakerES.internet.password(),
-        apellido_uno: '',
-        apellido_dos: '',
-        password: fakerES.internet.password(),
-        url_foto: '',
-        id_examen: indicativo,
-    }
-    
-    const conx = new ConexionUsuario();
-
-    const usuario = conx.altaUsuario(usuarioTemporal);
-    
-    if (usuario.id == 0) {
-        return usuario;
-    } else {
-        return usuario.id;
-    }
 }
 
 module.exports = {

@@ -1,15 +1,25 @@
-const {debug} = require("nodemon/lib/utils");
-/**
- * @return {Number} Numero aleatorio entre `min` y `max`.
- * @author JuanNavarrete
- */
+/***********************************************************************
+ * Nombre: aleatorio                                                   * 
+ * Descripción: Función que genera un número aleatorio entre un rango  *
+ **********************************************************************/              
+
 const aleatorio = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+/***********************************************************************
+ * Nombre: generarCodigoExamen                                         *
+ * Descripción: Función que genera un código de examen aleatorio       *
+ **********************************************************************/
+
 const generarCodigoExamen = () => {
     return Math.random().toString(36).slice(8).replace(".", "");
 }
+
+/***********************************************************************
+ * Nombre: generarContrasena                                           *
+ * Descripción: Función que genera una contraseña aleatoria            *
+ **********************************************************************/
 
 function generarContrasena(caracteres) {
     let contrasena = '';

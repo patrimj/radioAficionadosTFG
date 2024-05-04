@@ -1,5 +1,9 @@
 const { response } = require("express")
 
+/***********************************************************************
+ * Nombre Middleware: validarArchivoSubir                              *
+ * Descripción: Middleware que valida si se subió un archivo           *
+ **********************************************************************/
 
 const validarArchivoSubir = (req, res = response, next ) => {
 

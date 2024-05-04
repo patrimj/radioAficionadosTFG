@@ -18,9 +18,16 @@ class DiplomaConexion {
         this.conexion.desconectar();
     }
 
+    /**************************************************************************************************************************************
+     * Nombre consulta: generarDiploma                                                                                                    *
+     * Descripción: Esta función se encarga de generar un diploma. Crea un nuevo documento PDF con la librería 'pdf-lib' y lo guarda en   *
+     * la carpeta 'temp' con el nombre del 'identificador'.pdf.                                                                           *
+     * Pantalla: Perfil                                                                                                                   *
+     * Rol: aficionado                                                                                                                    *
+     * ***********************************************************************************************************************************/
+
     generarDiploma = async (identificador, actividad, url) => {
         const pdfDoc = await PDFDocument.create();
-
 
         // Definimos las dimensiones de un A4 en puntos (no cm)
         const anchoPagina = 841.89;
@@ -31,7 +38,7 @@ class DiplomaConexion {
         const fotoImageBytes = await fetch(url).then(res => res.arrayBuffer())
         const fotoImage = await pdfDoc.embedJpg(fotoImageBytes);
         const dimImage = this.ajustarDimensionesImagen(fotoImage, anchoPagina, altoPagina);
-        
+
 
         // Dibujamos la fotografía de la actividad
         pagina.drawImage(fotoImage, {
@@ -85,7 +92,7 @@ class DiplomaConexion {
         });
 
         const pdfBytes = await pdfDoc.save();
-        
+
         const dir = './temp';
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -96,6 +103,13 @@ class DiplomaConexion {
 
         return pathDiploma;
     }
+
+    /************************************************************************************************************************************
+     * Nombre consulta: enviarDiplomaPorCorreo                                                                                          *
+     * Descripción: Esta función se encarga de enviar el diploma por correo electrónico.                                                *
+     * Pantalla: Perfil                                                                                                                *
+     * Rol: aficionado                                                                                                                  *
+     * *********************************************************************************************************************************/
 
     enviarDiplomaPorCorreo = async (email, pathDiploma) => {
         let transporter = nodemailer.createTransport({
@@ -131,6 +145,13 @@ class DiplomaConexion {
         });
     }
 
+    /************************************************************************************************************************************
+     * Nombre consulta: generarYEnviarDiploma                                                                                           *
+     * Descripción: Esta función se encarga de generar un diploma y enviarlo por correo electrónico.                                   *
+     * Pantalla: Perfil                                                                                                                  *
+     * Rol: aficionado                                                                                                                   *
+     * *********************************************************************************************************************************/
+
     generarYEnviarDiploma = async (identificador, actividad, url, email) => {
         try {
             const pathDiploma = await this.generarDiploma(identificador, actividad, url);
@@ -142,6 +163,13 @@ class DiplomaConexion {
         }
     }
 
+    /************************************************************************************************************************************
+     * Nombre consulta: ajustarDimensionesImagen                                                                                       *
+     * Descripción: Esta función se encarga de ajustar las dimensiones de la imagen al pdf.                                             *
+     * Pantalla: Perfil                                                                                                                  *
+     * Rol: aficionado                                                                                                                   *
+     * *********************************************************************************************************************************/
+
     ajustarDimensionesImagen(imagen, anchoPdf, altoPdf) {
 
         // Comprobamos la proporción de la imagen y la página
@@ -150,7 +178,7 @@ class DiplomaConexion {
 
         // Ajustamos las dimensaiones de la imagen al pdf
         // según si es "más vertical" o "más horizontal"
-        
+
         let nuevoAncho, nuevoAlto;
         if (proporcionImagen > porporcionPdf) {
             nuevoAncho = anchoPdf;
@@ -161,7 +189,7 @@ class DiplomaConexion {
         }
 
         return [nuevoAncho, nuevoAlto];
-    }   
+    }
 }
 
 module.exports = DiplomaConexion;

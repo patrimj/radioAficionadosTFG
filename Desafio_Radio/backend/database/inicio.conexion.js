@@ -16,8 +16,14 @@ class InicioConexion {
     desconectar = () => {
         this.conexion.desconectar();
     }
-    
-    // NOTICIAS
+
+    /************************************************************************************************************************************
+     * Nombre consulta: mostrarNoticias                                                                                                 *
+     * Descripción: Esta consulta permite mostrar las noticias de la base de datos                                                      *
+     * Parametros: ninguno                                                                                                              *
+     * Pantalla: Inicio                                                                                                                 *
+     * Rol: aficionado, admin, operador                                                                                                 *
+     ***********************************************************************************************************************************/
 
     mostrarNoticias = async () => {
         let resultados = [];
@@ -31,9 +37,13 @@ class InicioConexion {
         return resultados;
     }
 
-    // ---------------------------- RUTAS ADMINISTRADOR ----------------------------
-
-    // ELIMINAR NOTICIAS
+    /************************************************************************************************************************************
+     * Nombre consulta: eliminarNoticia                                                                                                 *
+     * Descripción: Esta consulta permite eliminar una noticia de la base de datos                                                      *
+     * Parametros: id                                                                                                                   *
+     * Pantalla: Inicio                                                                                                                 *
+     * Rol: admin                                                                                                                       *
+     ***********************************************************************************************************************************/
 
     eliminarNoticia = async (id) => {
         try {
@@ -53,7 +63,13 @@ class InicioConexion {
         }
     }
 
-    // MODIFICAR NOTICIAS
+    /************************************************************************************************************************************
+     * Nombre consulta: modificarNoticia                                                                                                *
+     * Descripción: Esta consulta permite modificar una noticia de la base de datos                                                     *
+     * Parametros: id, nombre, descripción, fecha                                                                                       *
+     * Pantalla: Inicio                                                                                                                 *
+     * Rol: admin                                                                                                                       *
+     ***********************************************************************************************************************************/
 
     modificarNoticia = async (id, body) => {
         try {
@@ -73,7 +89,13 @@ class InicioConexion {
         }
     }
 
-    // CREAR NOTICIAS
+    /************************************************************************************************************************************
+     * Nombre consulta: crearNoticia                                                                                                    *
+     * Descripción: Esta consulta permite crear una noticia en la base de datos                                                         *
+     * Parametros: nombre, descripción, fecha                                                                                           *
+     * Pantalla: Inicio                                                                                                                 *
+     * Rol: admin                                                                                                                       *
+     ***********************************************************************************************************************************/
 
     crearNoticia = async (body) => {
         try {
@@ -87,3 +109,63 @@ class InicioConexion {
             throw error;
         }
     }
+
+    /************************************************************************************************************************************
+     * Nombre consulta: mostrarAdmin                                                                                                    *
+     * Descripción: Esta consulta permite mostrar los administradores de la base de datos                                               *
+     * Parametros: ninguno                                                                                                              *
+     * Pantalla: Inicio                                                                                                                 *
+     * Rol: admin, operador, admin                                                                                                      *   
+     ***********************************************************************************************************************************/
+
+    mostrarAdmin = async () => {
+        try {
+            this.conectar();
+            const usuarios = await models.Usuario.findAll({
+                include: [{
+                    model: models.RolAsignado,
+                    where: {
+                        id_rol: 1
+                    }
+                }]
+            });
+
+            return usuarios;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al mostrar los administradores', error);
+            throw error;
+        }
+    }
+
+    /************************************************************************************************************************************
+     * Nombre consulta: mostrarOperadores                                                                                               *
+     * Descripción: Esta consulta permite mostrar los operadores de la base de datos                                                    *
+     * Parametros: ninguno                                                                                                              *
+     * Pantalla: Inicio                                                                                                                 *
+     * Rol: admin, operador, admin                                                                                                      *
+     * *********************************************************************************************************************************/
+
+    mostrarOperadores = async () => {
+        try {
+            this.conectar();
+            const usuarios = await models.Usuario.findAll({
+                include: [{
+                    model: models.RolAsignado,
+                    where: {
+                        id_rol: 2
+                    }
+                }]
+            });
+
+            return usuarios;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al mostrar los operadores:', error);
+            throw error;
+        }
+    }
+
+}
+
+module.exports = InicioConexion;    

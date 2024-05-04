@@ -1,9 +1,13 @@
-/**
- * @author ElenaRgC
- */
+const DiplomaConexion = require('../database/diploma.conexion');
+const { response, request } = require('express');
 
-const DiplomaConexion = require('../database/diploma.conexion'); 
-const {response, request} = require('express');
+/**************************************************************************************************************************************
+ * Nombre consulta: crearDiploma                                                                                                    *
+ * Descripción: Esta función se encarga de generar un diploma. Crea un nuevo documento PDF con la librería 'pdf-lib' y lo guarda en   *
+ * la carpeta 'temp' con el nombre del 'identificador'.pdf.                                                                           *
+ * Pantalla: Perfil                                                                                                                   *
+ * Rol: aficionado                                                                                                                    *
+ * ***********************************************************************************************************************************/
 
 const crearDiploma = async (req = request, res = response) => {
     const conx = new DiplomaConexion();
@@ -14,15 +18,22 @@ const crearDiploma = async (req = request, res = response) => {
     } catch (error) {
         res.send(error);
         console.log(error);
-    } 
+    }
 }
+
+/************************************************************************************************************************************
+ * Nombre consulta: generarYEnviarDiploma                                                                                           *
+ * Descripción: Esta función se encarga de generar un diploma y enviarlo por correo electrónico.                                   *
+ * Pantalla: Perfil                                                                                                                  *
+ * Rol: aficionado                                                                                                                   *
+ * *********************************************************************************************************************************/
 
 const generarYEnviarDiploma = async (req = request, res = response) => {
     const conx = new DiplomaConexion();
-    
+
     identificador = req.usuario.id_examen;
     email = req.usuario.email;
-    console.log(identificador); 
+    console.log(identificador);
     console.log(email);
 
     try {

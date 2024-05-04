@@ -311,7 +311,7 @@ module.exports = {
     getModalidadActividad,
     buscarContacto,
     registrarYAsignarPremio,
-    contactoNombre, 
+    contactoNombre,
     verPremioConcurso
 }
 

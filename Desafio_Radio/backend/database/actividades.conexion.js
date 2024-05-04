@@ -39,11 +39,17 @@ class ActividadConexion {
                     completada: true,
                     deleted_at: null
                 },
+                attributes: ['id', 'nombre', 'url_foto', 'fecha'],
                 include: [
                     {
                         model: models.Usuario_secundarias,
                         as: 'act_secundarias_usuario',
                         attributes: [],
+                    },
+                    {
+                        model:models.Modalidad,
+                        as: 'modalidad',
+                        attributes: ['descripcion']
                     }
                 ]
             });
@@ -80,11 +86,28 @@ class ActividadConexion {
                     completada: true,
                     deleted_at: null
                 },
+                attributes: ['id', 'nombre', 'url_foto', 'fecha'],
                 include: [
                     {
                         model: models.Usuario_secundarias,
                         as: 'act_secundarias_usuario',
                         attributes: [],
+                    },
+                    {
+                        model:models.Modalidad,
+                        as: 'modalidad',
+                    },
+                    {
+                        model: models.PrincipalesSecundarias,
+                        as: 'act_primarias', //o 'secundaria'
+                        attributes: [],
+                        include: [
+                            {
+                                model: models.ActividadPrincipal,
+                                as: 'principal',
+                                attributes: ['nombre'],
+                            }
+                        ]
                     }
                 ]
             });
@@ -111,6 +134,7 @@ class ActividadConexion {
             this.conectar();
 
             const actividadesSecundarias = await models.ActividadSecundaria.findAll({
+                attributes: ['id', 'nombre', 'url_foto', 'localizacion', 'fecha', 'frecuencia', 'banda'],
                 include: [
                     {
                         model: models.PrincipalesSecundarias,
@@ -120,6 +144,11 @@ class ActividadConexion {
                             deleted_at: null
                         },
                         attributes: [],
+                    },
+                    {
+                        model: models.Modalidad,
+                        as: 'modalidad',
+                        attributes: ['descripcion']
                     }
                 ]
             });
@@ -151,11 +180,18 @@ class ActividadConexion {
                 },
                 include: [
                     {
+                        model: ActividadSecundaria,
+                        as: 'secundaria'
+                    },
+                    {
+                        model: ActividadPrincipal,
+                        as: 'principal'
+                    },
+                    {
                         model: models.Modalidad,
-                        as: 'modalidad',
-                        attributes: ['descripcion']
+                        as: 'modalidad'
                     }
-                ]
+                ],
             });
             this.desconectar();
             return actividades;
@@ -281,7 +317,8 @@ class ActividadConexion {
             include: [
                 {
                     model: models.Modalidad,
-                    as: 'modalidad'
+                    as: 'modalidad',
+                    attributes: ['descripcion']
                 }
             ]
         });
@@ -311,7 +348,16 @@ class ActividadConexion {
                         [models.Sequelize.Op.like]: '%' + nombre + '%'
                     },
                     deleted_at: null
-                }
+                }, 
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
+                },
+                include: [
+                    {
+                        model: models.Modalidad,
+                        as: 'modalidad'
+                    }
+                ]
             });
             this.desconectar();
             return actividades;
@@ -321,7 +367,7 @@ class ActividadConexion {
             throw error;
         }
     }
-
+    //TODO: QUITAR FUNCION PQ YA LO HACE MOSTRARACTIVIDADES
     /*************************************************************************************************************************************
      * Nombre consulta: mostrarActividadSinConcurso                                                                                      *
      * Descripción: Esta consulta permite mostrar las actividades que no pertenecen a un concurso de la base de datos                    *
@@ -353,7 +399,7 @@ class ActividadConexion {
             throw error;
         }
     }
-
+//TODO: QUITAR FUNCION
     /***********************************************************************************************************************************
      * Nombre consulta: mostrarActividadPorIdConcurso                                                                                  *
      * Descripción: Esta consulta permite mostrar las actividades que pertenecen a un concurso en particular de la base de datos       *
@@ -394,6 +440,7 @@ class ActividadConexion {
         }
     }
 
+    //TODO: QUITAR FUNCION PQ YA LO HACE MOSTRARACTIVIDADES
     /************************************************************************************************************************************
      * Nombre consulta: mostrarActividadConConcurso                                                                                     *
      * Descripción: Esta consulta permite mostrar las actividades que pertenecen a un concurso en particular                            *
@@ -531,25 +578,50 @@ class ActividadConexion {
     }
 
     /************************************************************************************************************************************
-     * Nombre consulta: altaActividad                                                                                                   *
-     * Descripción: Esta consulta permite crear una actividad de la base de datos                                                       *
+     * Nombre consulta: altaActividadUnicoContacto                                                                                      *
+     * Descripción: Esta consulta permite crear una actividad de un unico contacto en la base de datos                                  *
      * Parametros: nombre, url_foto, localizacion, fecha, frecuencia, banda, id_modo, id_modalidad, completada, id_operador             *
      * Pantalla: Actividades                                                                                                            *
      * Rol: Operador                                                                                                                    *
      ***********************************************************************************************************************************/
 
-    altaActividad = async (body) => {
+    altaActividadUnicoContacto = async (body) => {
         try {
             this.conectar();
             let actividad = await models.ActividadSecundaria.create(body);
             return actividad;
         } catch (error) {
             this.desconectar();
-            console.error('Error al dar de alta una actividad', error);
+            console.error('Error al dar de alta una actividad de un unico contacto', error);
             throw error;
         }
     }
 
+    /*****************************************************************************************************************************************
+     * Nombre consulta: altaActividadVariosContactos                                                                                         *
+     * Descripción: Esta consulta permite crear una actividad de varios contactos en la base de datos                                        *
+     * Parametros: nombre, url_foto, localizacion, fecha, frecuencia, banda, id_modo, id_modalidad, completada, id_operador y id_principal   *
+     * Pantalla: Actividades                                                                                                                 *
+     * Rol: Operador                                                                                                                         *
+     * **************************************************************************************************************************************/
+
+    altaActividadVariosContactos= async (body, id_principal) => {
+        try {
+            this.conectar();
+            let actividad = await models.ActividadSecundaria.create(body);
+            let principal_secundaria = await models.PrincipalesSecundarias.create({
+                id_principal: id_principal,
+                id_secundaria: actividad.id
+            });
+            return { actividad, principal_secundaria };
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al dar de alta una actividad de varios contactos', error);
+            throw error;
+        }
+    }
+
+    //TODO: QUITAR FUNCION
     /************************************************************************************************************************************
      * Nombre consulta: getModalidades                                                                                                  *
      * Descripción: Esta consulta permite ver todas las modalidades que existen en la base de datos                                     *
@@ -569,6 +641,56 @@ class ActividadConexion {
             throw error;
         }
     }
+    //TODO: QUITAR FUNCION
+    /************************************************************************************************************************************
+     * Nombre consulta: getModalidadActividad                                                                                           *
+     * Descripción: Esta consulta permite obtener la modalidad de una actividad concreta de la base de datos                            *
+     * Parametros: id_actividad                                                                                                         *
+     * Pantalla: Actividades                                                                                                            *
+     * Rol: Aficionado                                                                                                                  *
+     * **********************************************************************************************************************************/
+
+    getModalidadActividad = async (id_actividad) => {
+        try {
+            this.conectar();
+            const actividad = await models.ActividadesSecundarias.findOne({
+                where: { id: id_actividad },
+                include: [{
+                    model: models.Modalidad,
+                    as: 'modalidad'
+                }]
+            });
+            return actividad.modalidad.descripcion;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al obtener la modalidad de la actividad', error);
+            throw error;
+        }
+    }
+
+    /************************************************************************************************************************************
+     * Nombre consulta: getTotalActividadesParticipado                                                                                           *
+     * Descripción: Esta consulta permite obtener el total de actividades en las que ha participado un usuario concreto de la base de datos    *
+     * Parametros: id_usuario                                                                                                         *
+     * Pantalla: Perfil                                                                                                            *
+     * Rol: Aficionado                                                                                                                  *
+     * **********************************************************************************************************************************/
+
+    getTotalActividadesParticipado = async (id_usuario) => {
+        try {
+            this.conectar();
+            const actividades = await models.Usuario_secundarias.count({
+                where: { id_usuario: id_usuario }
+            });
+            return actividades;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al obtener el total de actividades', error);
+            throw error;
+        }
+    }
+
+
 
 }
 
