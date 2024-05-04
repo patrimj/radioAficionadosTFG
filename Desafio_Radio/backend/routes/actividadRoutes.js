@@ -18,7 +18,7 @@ router.get('/actividades/unicoContacto/aficionado', [validarJWT], controladorAct
 
 router.get('/actividades/variosContactos/aficionado', [validarJWT], controladorActividad.getActividadesVariosContactosAficionado);
 
-// VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO)
+// VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla concurso ***
 
 router.get('/actividades/:id_concurso', [validarJWT], controladorActividad.getActividadesPorConcurso);
 
