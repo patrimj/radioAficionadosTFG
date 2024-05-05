@@ -3,9 +3,7 @@ const controladorActividad = require('../controllers/actividad.controller');
 const router = Router();
 const { check } = require('express-validator');
 const {validarJWT} = require("../middleware/validarJWT");
-const {esAdmin} = require("../middleware/validarRoles");
 const {esOperador} = require("../middleware/validarRoles");
-const {validarCampos} = require("../middleware/validar-campos");
 const { validarArchivoSubir } = require('../middleware/validar-archivo');
 
 // ------------------------------------------------------  PANTALLA PERFIL ------------------------------------------------------ \\
