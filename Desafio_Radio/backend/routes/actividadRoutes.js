@@ -44,13 +44,13 @@ router.put('/actividad/terminar/:id', [validarJWT, esOperador], controladorActiv
 
 // BUSCAR ACTIVIDAD POR ID (AFICIONADO)
 
-router.get('/actividad/:id', [validarJWT], controladorActividad.mostrarActividadId);
+router.get('/actividad/buscar/:id', [validarJWT], controladorActividad.mostrarActividadId);
 
 // BUSCAR ACTIVIDAD POR NOMBRE (AFICIONADO)
 
-router.get('/actividad/:nombre', [validarJWT], controladorActividad.mostrarActividadNombre);
+router.get('/actividad/buscarNombre/:nombre', [validarJWT], controladorActividad.mostrarActividadNombre);
 
-// VER PARTICIPANTES ACTIVIDAD (AFICIONADO)
+// VER PARTICIPANTES ACTIVIDAD (MODAL) (AFICIONADO)
 
 router.get('/participantes/:id', [validarJWT], controladorActividad.verParticipantesActividad);
 

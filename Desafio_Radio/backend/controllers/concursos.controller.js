@@ -268,7 +268,7 @@ const mostrarConcursoNombre = async (req = request, res = response) => {
             res.status(500).json({ msg: 'Error al mostrar el concurso' });
         });
 }
-
+//TODO:ELIMINAR YA SE HACE EN ACTIVIDAD.CONEXION MOSTRAR ACTIVIDADES QUE SE MUETSRA SU CONCURSO TAMB
 /**********************************************************************************************************************************
 * Nombre consulta: mostrarConcursoPorActividad                                                                                    *
 * Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
@@ -292,7 +292,7 @@ const mostrarConcursoPorActividad = async (req = request, res = response) => {
             res.status(500).json({ msg: 'Error al mostrar el concurso por actividad' });
         });
 }
-
+//TODO:ELIMINAR YA SE HACE EN ACTIVIDAD.CONEXION MOSTRAR ACTIVIDADES QUE SE MUETSRA SU CONCURSO TAMB
 /**********************************************************************************************************************************
 * Nombre consulta: getConcursoActividad                                                                                           *
 * Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
@@ -340,6 +340,31 @@ const verParticipantesConcurso = async (req = request, res = response) => {
         });
 }
 
+/*******************************************************************************************************************************************
+ * Nombre consulta: getTotalConcursosParticipado                                                                                           *
+ * Descripción: Esta consulta permite obtener el total de concursos en las que ha participado un usuario concreto de la base de datos      *
+ * Parametros: id_usuario                                                                                                                  *
+ * Pantalla: Perfil                                                                                                                        *
+ * Rol: Aficionado                                                                                                                         *
+ * ****************************************************************************************************************************************/
+
+const getTotalConcursosParticipado = async (req = request, res = response) => {
+
+    const conx = new ConexionConcursos();
+
+    const id_usuario = req.usuario.id;
+
+    conx.getTotalConcursosParticipado(id_usuario)
+        .then(msg => {
+            console.log('Total de concursos en los que ha participado mostrado');
+            res.status(200).json({ message: 'Total de concursos en los que ha participado mostrado correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar el total de concursos en los que ha participado' });
+        });
+}
+
 module.exports = {
     getConcursosAficionado,
     mostrarConcursos,
@@ -353,5 +378,6 @@ module.exports = {
     mostrarConcursoNombre,
     mostrarConcursoPorActividad,
     getConcursoActividad,
-    verParticipantesConcurso
+    verParticipantesConcurso,
+    getTotalConcursosParticipado
 }

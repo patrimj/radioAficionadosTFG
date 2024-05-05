@@ -47,7 +47,7 @@ class ActividadConexion {
                         attributes: [],
                     },
                     {
-                        model:models.Modalidad,
+                        model: models.Modalidad,
                         as: 'modalidad',
                         attributes: ['descripcion']
                     }
@@ -94,7 +94,7 @@ class ActividadConexion {
                         attributes: [],
                     },
                     {
-                        model:models.Modalidad,
+                        model: models.Modalidad,
                         as: 'modalidad',
                     },
                     {
@@ -348,7 +348,7 @@ class ActividadConexion {
                         [models.Sequelize.Op.like]: '%' + nombre + '%'
                     },
                     deleted_at: null
-                }, 
+                },
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'deletedAt']
                 },
@@ -399,7 +399,7 @@ class ActividadConexion {
             throw error;
         }
     }
-//TODO: QUITAR FUNCION
+    //TODO: QUITAR FUNCION
     /***********************************************************************************************************************************
      * Nombre consulta: mostrarActividadPorIdConcurso                                                                                  *
      * Descripción: Esta consulta permite mostrar las actividades que pertenecen a un concurso en particular de la base de datos       *
@@ -605,7 +605,7 @@ class ActividadConexion {
      * Rol: Operador                                                                                                                         *
      * **************************************************************************************************************************************/
 
-    altaActividadVariosContactos= async (body, id_principal) => {
+    altaActividadVariosContactos = async (body, id_principal) => {
         try {
             this.conectar();
             let actividad = await models.ActividadSecundaria.create(body);

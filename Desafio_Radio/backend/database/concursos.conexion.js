@@ -283,7 +283,7 @@ class ConcursosConexion {
             throw error;
         }
     }
-
+    //TODO:ELIMINAR YA SE HACE EN ACTIVIDAD.CONEXION MOSTRAR ACTIVIDADES QUE SE MUETSRA SU CONCURSO TAMB
     /**********************************************************************************************************************************
     * Nombre consulta: mostrarConcursoPorActividad                                                                                    *
     * Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
@@ -322,7 +322,7 @@ class ConcursosConexion {
             throw error;
         }
     }
-
+    //TODO:ELIMINAR YA SE HACE EN ACTIVIDAD.CONEXION MOSTRAR ACTIVIDADES QUE SE MUETSRA SU CONCURSO TAMB
     /**********************************************************************************************************************************
     * Nombre consulta: getConcursoActividad                                                                                           *
     * Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
@@ -397,6 +397,29 @@ class ConcursosConexion {
             throw error;
         }
     }
+
+/*******************************************************************************************************************************************
+ * Nombre consulta: getTotalConcursosParticipado                                                                                           *
+ * Descripción: Esta consulta permite obtener el total de concursos en las que ha participado un usuario concreto de la base de datos      *
+ * Parametros: id_usuario                                                                                                                  *
+ * Pantalla: Perfil                                                                                                                        *
+ * Rol: Aficionado                                                                                                                         *
+ * ****************************************************************************************************************************************/
+
+getTotalConcursosParticipado = async (id_usuario) => {
+        try {
+            this.conectar();
+            const actividades = await models.usuario_principal.count({
+                where: { id_usuario: id_usuario }
+            });
+            return actividades;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al obtener el total de actividades', error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = ConcursosConexion;
