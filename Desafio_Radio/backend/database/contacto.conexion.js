@@ -128,80 +128,123 @@ class ContactoConexion {
     }
 
     /**********************************************************************************************************************************
-    * Nombre consulta: verContactos                                                                                                   *
-    * Descripción: Esta consulta permite ver los contactos que se han registrado previamente en la base de datos                      * 
-    * Pantalla: Registrar contacto                                                                                                    *
+    * Nombre consulta: getUsuarios                                                                                                    *
+    * Descripción: Esta consulta permite ver los usuarios registrados previamente en la base de datos                                 * 
+    * Nota: el usuario se identificará con el id_examen al operador en el contacto (llamada)                                          *
+    * Pantalla: Registrar contacto (selector de usuarios)                                                                             *
     * Rol: Operador                                                                                                                   *
     **********************************************************************************************************************************/
 
-    verContactos = async () => {
+    getUsuarios = async () => {
         try {
             this.conectar();
-            const contactos = await models.Usuario_secundarias.findAll({
+            const usuarios = await models.Usuario.findAll({
                 where: {
                     deleted_at: null
                 },
-                include: [
-                    {
-                        model: models.Usuario,
-                        as: 'usuario_secundarias_secundarias',
-                        where: {
-                            deleted_at: null
-                        },
-                        attributes: ['nombre', 'email', 'apellido_uno', 'apellido_dos', 'url_foto', 'id_examen'],
-                    },
-                    {
-                        model: models.ActividadSecundaria,
-                        as: 'act_secundaria',
-                        where: {
-                            deleted_at: null
-                        },
-                        attributes: ['nombre'],
-                    }
-                ],
-                attributes: []
+                attributes: ['id', 'id_examen']
             });
             this.desconectar();
-            return contactos;
+            return usuarios;
         } catch (error) {
             this.desconectar();
-            console.error('Error al mostrar los contactos', error);
+            console.error('Error al mostrar los usuarios', error);
             throw error;
         }
     }
 
     /**********************************************************************************************************************************
-    * Nombre consulta: verContactoConPremios                                                                                          *
-    * Descripción: Esta consulta permite ver un contacto específico y sus premios en un concurso  de la base de datos                 *
+     * Nombre consulta: getConcursos                                                                                                  *
+     * Descripción: Esta consulta permite ver los concursos registrados previamente en la base de datos                               *
+     * Pantalla: Registrar contacto (selector de concursos)                                                                           *
+     * Rol: Operador                                                                                                                  *
+     *********************************************************************************************************************************/
+
+    getConcursos = async () => {
+        try {
+            this.conectar();
+            const concursos = await models.ActividadPrincipal.findAll({
+                where: {
+                    deleted_at: null
+                },
+                attributes: ['id', 'nombre']
+            });
+            this.desconectar();
+            return concursos;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al mostrar los concursos', error);
+            throw error;
+        }
+    }
+
+    /**********************************************************************************************************************************
+     * Nombre consulta: getSolucionConcurso                                                                                           *
+     * Descripción: Esta consulta permite ver la solución de un concurso en concreto en la base de datos                              *
+     * Parametros: id_principal                                                                                                       *
+     * Pantalla: Registrar contacto                                                                                                   *
+     * Rol: Operador                                                                                                                  *
+    **********************************************************************************************************************************/
+
+    getSolucionConcurso = async (id_principal) => {
+        try {
+            this.conectar();
+            const solucion = await models.ActividadPrincipal.findOne({
+                where: {
+                    id: id_principal
+                },
+                attributes: ['solucion']
+            });
+            this.desconectar();
+            return solucion;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al obtener la solución del concurso', error);
+            throw error;
+        }
+    }
+
+    /**********************************************************************************************************************************
+    * Nombre consulta: getPremiosUsuarioConcurso                                                                                      *
+    * Descripción: Esta consulta permite ver los premios de un usuario en concreto en un concurso de la base de datos                 *
     * Parametros: id_usuario, id_principal                                                                                            *
     * Nota Para asignarle premios que no tiene                                                                                        *  
     * Pantalla: Registrar contacto                                                                                                    *
     * Rol: Operador                                                                                                                   *
     **********************************************************************************************************************************/
 
-    verContactoConPremio = async (id_usuario, id_principal) => {
+    getPremiosUsuarioConcurso = async (id_usuario, id_principal) => {
         try {
             this.conectar();
-
-            const contacto = await models.Usuario_secundarias.findAll({
+            const premios = await models.Usuario_secundarias.findAll({
                 where: {
                     id_usuario: id_usuario,
-                    id_principal: id_principal,
                     deleted_at: null
                 },
-                attributes: ['id', 'id_usuario', 'id_principal', 'premio']
+                include: [{
+                    model: models.PrincipalesSecundarias,
+                    as: 'principales_secundarias',
+                    where: {
+                        id_principal: id_principal,
+                        deleted_at: null
+                    },
+                    attributes: ['premio'],
+                }],
+                attributes: []
             });
-
             this.desconectar();
-
-            return contacto;
+            return premios;
         } catch (error) {
             this.desconectar();
-            console.error('Error al obtener el contacto y su premio', error);
+            console.error('Error al obtener los premios del usuario en el concurso', error);
             throw error;
         }
     }
 
+    
+
+
+    //TODO:ELIMINAR
     /**********************************************************************************************************************************
     * Nombre consulta: verPremioConcurso                                                                                                     *
     * Descripción: Esta consulta permite ver todos los premios para un concurso específico                                            *

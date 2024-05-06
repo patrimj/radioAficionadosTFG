@@ -125,7 +125,7 @@ class ActividadConexion {
     * Nombre consulta: getActividadesPorConcurso                                                                                      *
     * Descripción: Esta consulta obtiene las actividades de varios contactos asociadas a un concurso específico de la base de datos   *
     * Parametros: id_concurso                                                                                                         * 
-    * Pantalla: Perfil y Concursos (modal)                                                                                            *
+    * Pantalla: Perfil y Concursos (modal)  y Registrar Contacto                                                                      *
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
 
@@ -158,6 +158,33 @@ class ActividadConexion {
         } catch (error) {
             this.desconectar();
             console.error('Error al mostrar las actividades de varios contactos de un concurso', error);
+            throw error;
+        }
+    }
+
+    /**********************************************************************************************************************************
+     * Nombre consulta: getPremioActividad                                                                                            *
+     * Descripción: Esta consulta obtiene el premio de una actividad específica de la base de datos                                   *
+     * Parametros: id_actividad                                                                                                       *
+     * Pantalla: Registrar Contacto                                                                                                   *
+     * Rol: Aficionado                                                                                                                *
+     **********************************************************************************************************************************/
+
+    getPremioActividad = async (id_actividad) => {
+        try {
+            this.conectar();
+            const premio = await models.PrincipalesSecundarias.findOne({
+                where: {
+                    id_secundaria: id_actividad,
+                    deleted_at: null
+                },
+                attributes: ['premio']
+            });
+            this.desconectar();
+            return premio;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al obtener el premio de la actividad', error);
             throw error;
         }
     }
