@@ -68,7 +68,6 @@ class ConcursosConexion {
             this.conectar();
             const actividades = await models.ActividadPrincipal.findAll({
                 where: {
-                    completada: false,
                     deleted_at: null
                 }
             });
@@ -112,7 +111,7 @@ class ConcursosConexion {
     * Nombre consulta: mostrarConcursosPendientes                                                                                     *
     * Descripción: Esta consulta obtiene todos los concursos pendientes de la base de datos                                           *
     * Parametros: Ninguno                                                                                                             *
-    * Pantalla: Concursos                                                                                                             *
+    * Pantalla: Concursos y Actividades (selector varios contactos)                                                                   *
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
 
@@ -280,75 +279,6 @@ class ConcursosConexion {
         } catch (error) {
             this.desconectar();
             console.error('Error al mostrar el concurso', error);
-            throw error;
-        }
-    }
-    //TODO:ELIMINAR YA SE HACE EN ACTIVIDAD.CONEXION MOSTRAR ACTIVIDADES QUE SE MUETSRA SU CONCURSO TAMB
-    /**********************************************************************************************************************************
-    * Nombre consulta: mostrarConcursoPorActividad                                                                                    *
-    * Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
-    * Parametros: id_actividad                                                                                                        *
-    * Nota: Mostrará los datos del concurso y de la actividad                                                                         *
-    * Pantalla: Actividades                                                                                                           *
-    * Rol: Aficionado                                                                                                                 *
-    **********************************************************************************************************************************/
-
-    mostrarConcursoPorActividad = async (id_actividad) => {
-        try {
-            this.conectar();
-            const actividadSecundaria = await models.ActividadSecundaria.findOne({
-                where: {
-                    id: id_actividad,
-                    deleted_at: null
-                },
-                include: [
-                    {
-                        model: models.PrincipalesSecundarias,
-                        as: 'principales_secundarias',
-                        include: [
-                            {
-                                model: models.ActividadPrincipal,
-                                as: 'actividad_principal'
-                            }
-                        ]
-                    }
-                ]
-            });
-            this.desconectar();
-            return actividadSecundaria;
-        } catch (error) {
-            this.desconectar();
-            console.error('Error al mostrar el concurso de la actividad', error);
-            throw error;
-        }
-    }
-    //TODO:ELIMINAR YA SE HACE EN ACTIVIDAD.CONEXION MOSTRAR ACTIVIDADES QUE SE MUETSRA SU CONCURSO TAMB
-    /**********************************************************************************************************************************
-    * Nombre consulta: getConcursoActividad                                                                                           *
-    * Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
-    * Parametros: id_actividad                                                                                                        *
-    * Nota: Mostrará los datos del concurso solo                                                                                      *
-    * Pantalla: Actividades                                                                                                           *
-    * Rol: Aficionado                                                                                                                 *
-    **********************************************************************************************************************************/
-
-    getConcursoActividad = async (id_actividad) => {
-        try {
-            const concurso = await models.PrincipalesSecundarias.findOne({
-                where: { id_secundaria: id_actividad },
-                attributes: [],
-                include: {
-                    model: models.ActividadPrincipal,
-                    as: 'principal'
-                }
-            });
-            if (concurso) {
-                return concurso;
-            } else {
-                throw new Error('Concurso no encontrado');
-            }
-        } catch (error) {
-            console.error('Error al mostrar el concurso de la actividad', error);
             throw error;
         }
     }

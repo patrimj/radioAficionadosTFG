@@ -125,7 +125,7 @@ class ActividadConexion {
     * Nombre consulta: getActividadesPorConcurso                                                                                      *
     * Descripción: Esta consulta obtiene las actividades de varios contactos asociadas a un concurso específico de la base de datos   *
     * Parametros: id_concurso                                                                                                         * 
-    * Pantalla: Perfil y Concursos (modal)  y Registrar Contacto                                                                      *
+    * Pantalla: Perfil y Concursos (modal)                                                                                            *   
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
 
@@ -134,7 +134,7 @@ class ActividadConexion {
             this.conectar();
 
             const actividadesSecundarias = await models.ActividadSecundaria.findAll({
-                attributes: ['id', 'nombre', 'url_foto', 'localizacion', 'fecha', 'frecuencia', 'banda'],
+                attributes: ['id', 'nombre', 'url_foto', 'localizacion', 'fecha', 'frecuencia', 'banda', 'completada'],
                 include: [
                     {
                         model: models.PrincipalesSecundarias,
@@ -158,33 +158,6 @@ class ActividadConexion {
         } catch (error) {
             this.desconectar();
             console.error('Error al mostrar las actividades de varios contactos de un concurso', error);
-            throw error;
-        }
-    }
-
-    /**********************************************************************************************************************************
-     * Nombre consulta: getPremioActividad                                                                                            *
-     * Descripción: Esta consulta obtiene el premio de una actividad específica de la base de datos                                   *
-     * Parametros: id_actividad                                                                                                       *
-     * Pantalla: Registrar Contacto                                                                                                   *
-     * Rol: Aficionado                                                                                                                *
-     **********************************************************************************************************************************/
-
-    getPremioActividad = async (id_actividad) => {
-        try {
-            this.conectar();
-            const premio = await models.PrincipalesSecundarias.findOne({
-                where: {
-                    id_secundaria: id_actividad,
-                    deleted_at: null
-                },
-                attributes: ['premio']
-            });
-            this.desconectar();
-            return premio;
-        } catch (error) {
-            this.desconectar();
-            console.error('Error al obtener el premio de la actividad', error);
             throw error;
         }
     }
@@ -394,118 +367,6 @@ class ActividadConexion {
             throw error;
         }
     }
-    //TODO: QUITAR FUNCION PQ YA LO HACE MOSTRARACTIVIDADES
-    /*************************************************************************************************************************************
-     * Nombre consulta: mostrarActividadSinConcurso                                                                                      *
-     * Descripción: Esta consulta permite mostrar las actividades que no pertenecen a un concurso de la base de datos                    *
-     * Parametros: Ninguno                                                                                                               *     
-     * Pantalla: Actividades                                                                                                             *
-     * Rol: Aficionado                                                                                                                   *
-     * **********************************************************************************************************************************/
-
-    mostrarActividadSinConcurso = async () => {
-        try {
-            const actividades = await ActividadSecundaria.findAll({
-                where: {
-                    [Op.notIn]: Sequelize.literal(`(SELECT id_secundaria FROM principales_secundarias)`),
-                    deleted_at: null
-                },
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
-                },
-                include: [
-                    {
-                        model: models.Modalidad,
-                        as: 'modalidad'
-                    }
-                ]
-            });
-            return actividades;
-        } catch (error) {
-            console.error('Error al mostrar las actividades secundarias sin actividad principal', error);
-            throw error;
-        }
-    }
-    //TODO: QUITAR FUNCION
-    /***********************************************************************************************************************************
-     * Nombre consulta: mostrarActividadPorIdConcurso                                                                                  *
-     * Descripción: Esta consulta permite mostrar las actividades que pertenecen a un concurso en particular de la base de datos       *
-     * Parametros: id_concurso                                                                                                         *
-     * Pantalla: Actividades                                                                                                           *
-     * Rol: Aficionado                                                                                                                 *
-     ***********************************************************************************************************************************/
-
-    mostrarActividadPorIdConcurso = async (id_concurso) => {
-        try {
-            const secundarias = await PrincipalesSecundarias.findAll({
-                where: {
-                    id_principal: id_concurso,
-                    deleted_at: null
-                },
-                include: [
-                    {
-                        model: ActividadSecundaria,
-                        as: 'secundaria'
-                    },
-                    {
-                        model: ActividadPrincipal,
-                        as: 'principal'
-                    },
-                    {
-                        model: models.Modalidad,
-                        as: 'modalidad'
-                    }
-                ],
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
-                }
-            });
-            return secundarias;
-        } catch (error) {
-            console.error('Error al mostrar las actividades secundarias por ID de actividad principal', error);
-            throw error;
-        }
-    }
-
-    //TODO: QUITAR FUNCION PQ YA LO HACE MOSTRARACTIVIDADES
-    /************************************************************************************************************************************
-     * Nombre consulta: mostrarActividadConConcurso                                                                                     *
-     * Descripción: Esta consulta permite mostrar las actividades que pertenecen a un concurso en particular                            *
-     * Parametros: Ninguno                                                                                                              *
-     * Pantalla: Actividades                                                                                                            *
-     * Rol: Aficionado                                                                                                                  *
-     ***********************************************************************************************************************************/
-
-    mostrarActividadConConcurso = async () => {
-        try {
-            const secundarias = await PrincipalesSecundarias.findAll({
-                where: {
-                    deleted_at: null
-                },
-                include: [
-                    {
-                        model: ActividadSecundaria,
-                        as: 'secundaria'
-                    },
-                    {
-                        model: ActividadPrincipal,
-                        as: 'principal'
-                    },
-                    {
-                        model: models.Modalidad,
-                        as: 'modalidad'
-                    }
-                ],
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
-                }
-            });
-            return secundarias;
-        } catch (error) {
-            console.error('Error al mostrar las actividades secundarias con actividad principal', error);
-            throw error;
-        }
-    }
 
     /**********************************************************************************************************************************
     * Nombre consulta: verParticipantesActividad                                                                                      *
@@ -644,53 +505,6 @@ class ActividadConexion {
         } catch (error) {
             this.desconectar();
             console.error('Error al dar de alta una actividad de varios contactos', error);
-            throw error;
-        }
-    }
-
-    //TODO: QUITAR FUNCION
-    /************************************************************************************************************************************
-     * Nombre consulta: getModalidades                                                                                                  *
-     * Descripción: Esta consulta permite ver todas las modalidades que existen en la base de datos                                     *
-     * Parametros: ninguno                                                                                                              *
-     * Pantalla: Actividades                                                                                                            *
-     * Rol: Operador                                                                                                                    *
-     ***********************************************************************************************************************************/
-
-    getModalidades = async () => {
-        try {
-            this.conectar();
-            const modalidades = await models.Modalidad.findAll();
-            return modalidades;
-        } catch (error) {
-            this.desconectar();
-            console.error('Error al mostrar las modalidades', error);
-            throw error;
-        }
-    }
-    //TODO: QUITAR FUNCION
-    /************************************************************************************************************************************
-     * Nombre consulta: getModalidadActividad                                                                                           *
-     * Descripción: Esta consulta permite obtener la modalidad de una actividad concreta de la base de datos                            *
-     * Parametros: id_actividad                                                                                                         *
-     * Pantalla: Actividades                                                                                                            *
-     * Rol: Aficionado                                                                                                                  *
-     * **********************************************************************************************************************************/
-
-    getModalidadActividad = async (id_actividad) => {
-        try {
-            this.conectar();
-            const actividad = await models.ActividadesSecundarias.findOne({
-                where: { id: id_actividad },
-                include: [{
-                    model: models.Modalidad,
-                    as: 'modalidad'
-                }]
-            });
-            return actividad.modalidad.descripcion;
-        } catch (error) {
-            this.desconectar();
-            console.error('Error al obtener la modalidad de la actividad', error);
             throw error;
         }
     }
