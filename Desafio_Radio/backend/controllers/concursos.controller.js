@@ -180,7 +180,7 @@ const modificarConcurso = async (req, res = response) => {
 /**********************************************************************************************************************************
 * Nombre consulta: terminarConcurso                                                                                               *
 * Descripción: Esta consulta permite terminar un concurso de la base de datos                                                     *
-* Parametros: id_concurso                                                                                                         *
+* Parametros: id_principal                                                                                                        *
 * Pantalla: Concursos                                                                                                             *
 * Rol: Administrador                                                                                                              *
 **********************************************************************************************************************************/
@@ -203,7 +203,7 @@ const terminarConcurso = async (req, res = response) => {
 /**********************************************************************************************************************************
 * Nombre consulta: bajaConcurso                                                                                                   *
 * Descripción: Esta consulta permite eliminar un concurso en la base de datos                                                     *
-* Parametros: id_concurso                                                                                                         *
+* Parametros: id_principal                                                                                                        *
 * Pantalla: Concursos                                                                                                             *
 * Rol: Administrador                                                                                                              *
 **********************************************************************************************************************************/
@@ -226,7 +226,7 @@ const bajaConcurso = async (req, res = response) => {
 /**********************************************************************************************************************************
 * Nombre consulta: mostrarConcursoId                                                                                              *
 * Descripción: Esta consulta muestra un concurso en concreto(id) de la base de datos                                              *
-* Parametros: id_concurso                                                                                                         *
+* Parametros: id_principal                                                                                                        *
 * Pantalla: Concursos                                                                                                             *
 * Rol: Aficionado                                                                                                                 *
 **********************************************************************************************************************************/
@@ -268,59 +268,11 @@ const mostrarConcursoNombre = async (req = request, res = response) => {
             res.status(500).json({ msg: 'Error al mostrar el concurso' });
         });
 }
-//TODO:ELIMINAR YA SE HACE EN ACTIVIDAD.CONEXION MOSTRAR ACTIVIDADES QUE SE MUETSRA SU CONCURSO TAMB
-/**********************************************************************************************************************************
-* Nombre consulta: mostrarConcursoPorActividad                                                                                    *
-* Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
-* Parametros: id_actividad                                                                                                        *
-* Nota: Mostrará los datos del concurso y de la actividad                                                                         *
-* Pantalla: Actividades                                                                                                           *
-* Rol: Aficionado                                                                                                                 *
-**********************************************************************************************************************************/
-
-const mostrarConcursoPorActividad = async (req = request, res = response) => {
-
-    const conx = new ConexionConcursos();
-
-    conx.mostrarConcursoPorActividad(req.params.id)
-        .then(msg => {
-            console.log('Concurso por actividad mostrado');
-            res.status(200).json({ message: 'Concurso por actividad mostrado correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar el concurso por actividad' });
-        });
-}
-//TODO:ELIMINAR YA SE HACE EN ACTIVIDAD.CONEXION MOSTRAR ACTIVIDADES QUE SE MUETSRA SU CONCURSO TAMB
-/**********************************************************************************************************************************
-* Nombre consulta: getConcursoActividad                                                                                           *
-* Descripción: Esta consulta muestra el concurso al que pertenece la actividad de la base de datos                                *
-* Parametros: id_actividad                                                                                                        *
-* Nota: Mostrará los datos del concurso solo                                                                                      *
-* Pantalla: Actividades                                                                                                           *
-* Rol: Aficionado                                                                                                                 *
-**********************************************************************************************************************************/
-
-const getConcursoActividad = async (req = request, res = response) => {
-
-    const conx = new ConexionConcursos();
-
-    conx.getConcursoActividad(req.params.id)
-        .then(msg => {
-            console.log('Concurso por actividad mostrado');
-            res.status(200).json({ message: 'Concurso por actividad mostrado correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar el concurso por actividad' });
-        });
-}
 
 /**********************************************************************************************************************************
 * Nombre consulta: verParticipantesConcurso                                                                                       *
 * Descripción: Esta consulta muestra los participantes de un concurso concreto de la base de datos                                *
-* Parametros: id_concurso                                                                                                         *
+* Parametros: id_principal                                                                                                        *
 * Pantalla: Concursos y Registrar contacto                                                                                        *
 * Rol: Aficionado                                                                                                                 *
 **********************************************************************************************************************************/
@@ -329,7 +281,7 @@ const verParticipantesConcurso = async (req = request, res = response) => {
 
     const conx = new ConexionConcursos();
 
-    conx.verParticipantesConcurso(req.params.id)
+    conx.verParticipantesConcurso(req.params.id_principal)  
         .then(msg => {
             console.log('Participantes del concurso mostrados');
             res.status(200).json({ message: 'Participantes del concurso mostrados correctamente!', data: msg });
@@ -376,8 +328,6 @@ module.exports = {
     bajaConcurso,
     mostrarConcursoId,
     mostrarConcursoNombre,
-    mostrarConcursoPorActividad,
-    getConcursoActividad,
     verParticipantesConcurso,
     getTotalConcursosParticipado
 }

@@ -32,6 +32,7 @@ class ConcursosConexion {
                     completada: true,
                     deleted_at: null
                 },
+                attributes: ['nombre', 'descripcion', 'url_foto', 'completada', 'solucion'],
                 include: [
                     {
                         model: models.Usuario,
@@ -41,7 +42,7 @@ class ConcursosConexion {
                             model: models.usuario_principal,
                             attributes: [],
                         },
-                        attributes: [],
+                        attributes: ['id', 'nombre', 'email', 'id_examen'],
                     }
 
                 ]
@@ -186,15 +187,15 @@ class ConcursosConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: terminarConcurso                                                                                               *
     * Descripción: Esta consulta permite terminar un concurso de la base de datos                                                     *
-    * Parametros: id_concurso                                                                                                         *
+    * Parametros: id_principal                                                                                                        *
     * Pantalla: Concursos                                                                                                             *
     * Rol: Administrador                                                                                                              *
     **********************************************************************************************************************************/
 
-    terminarConcurso = async (id_concurso) => {
+    terminarConcurso = async (id_principal) => {
         try {
             this.conectar();
-            let actividad = await models.ActividadPrincipal.findByPk(id_concurso);
+            let actividad = await models.ActividadPrincipal.findByPk(id_principal);
             if (!actividad) {
                 this.desconectar();
                 throw error;
@@ -212,15 +213,15 @@ class ConcursosConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: bajaConcurso                                                                                                   *
     * Descripción: Esta consulta permite eliminar un concurso en la base de datos                                                     *
-    * Parametros: id_concurso                                                                                                         *
+    * Parametros: id_principal                                                                                                        *
     * Pantalla: Concursos                                                                                                             *
     * Rol: Administrador                                                                                                              *
     **********************************************************************************************************************************/
 
-    bajaConcurso = async (id_concurso) => {
+    bajaConcurso = async (id_principal) => {
         try {
             this.conectar();
-            let actividad = await models.ActividadPrincipal.findByPk(id_concurso);
+            let actividad = await models.ActividadPrincipal.findByPk(id_principal);
             if (!actividad) {
                 this.desconectar();
                 throw error;
@@ -237,15 +238,15 @@ class ConcursosConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: mostrarConcursoId                                                                                              *
     * Descripción: Esta consulta muestra un concurso en concreto(id) de la base de datos                                              *
-    * Parametros: id_concurso                                                                                                         *
+    * Parametros: id_principal                                                                                                         *
     * Pantalla: Concursos                                                                                                             *
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
 
-    mostrarConcursoId = async (id_concurso) => {
+    mostrarConcursoId = async (id_principal) => {
         try {
             this.conectar();
-            const actividad = await models.ActividadPrincipal.findByPk(id_concurso);
+            const actividad = await models.ActividadPrincipal.findByPk(id_principal);
             this.desconectar();
             return actividad
         } catch (error) {
@@ -286,12 +287,12 @@ class ConcursosConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: verParticipantesConcurso                                                                                       *
     * Descripción: Esta consulta muestra los participantes de un concurso concreto de la base de datos                                *
-    * Parametros: id_concurso                                                                                                         *
+    * Parametros: id_principal                                                                                                        *
     * Pantalla: Concursos y Registrar contacto                                                                                        *
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
 
-    verParticipantesConcurso = async (id_concurso) => {
+    verParticipantesConcurso = async (id_principal) => {
         try {
             this.conectar();
             const usuariosConcurso = await models.Usuario_secundarias.findAll({
@@ -305,13 +306,13 @@ class ConcursosConexion {
                         where: {
                             deleted_at: null
                         },
-                        attributes: ['nombre', 'email', 'apellido_uno', 'apellido_dos', 'url_foto', 'id_examen'],
+                        attributes: ['nombre', 'url_foto', 'id_examen'],
                     },
                     {
                         model: models.ActividadPrincipal,
                         as: 'act_principal',
                         where: {
-                            id: id_concurso,
+                            id: id_principal,
                             deleted_at: null
                         },
                         attributes: ['nombre'],

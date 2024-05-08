@@ -124,12 +124,12 @@ class ActividadConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: getActividadesPorConcurso                                                                                      *
     * Descripción: Esta consulta obtiene las actividades de varios contactos asociadas a un concurso específico de la base de datos   *
-    * Parametros: id_concurso                                                                                                         * 
+    * Parametros: id_principal                                                                                                        * 
     * Pantalla: Perfil y Concursos (modal)                                                                                            *   
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
 
-    getActividadesPorConcurso = async (id_concurso) => {
+    getActividadesPorConcurso = async (id_principal) => {
         try {
             this.conectar();
 
@@ -140,7 +140,7 @@ class ActividadConexion {
                         model: models.PrincipalesSecundarias,
                         as: 'principales_secundarias',
                         where: {
-                            id_principal: id_concurso,
+                            id_principal: id_principal,
                             deleted_at: null
                         },
                         attributes: [],
@@ -273,15 +273,15 @@ class ActividadConexion {
     /**********************************************************************************************************************************
      * Nombre consulta: terminarActividad                                                                                             *
      * Descripción: Esta consulta permite terminar una actividad de la base de datos                                                  *
-     * Parametros: id_actividad                                                                                                       *
+     * Parametros: id_secundaria                                                                                                       *
      * Pantalla: Actividades                                                                                                          *
      * Rol: Operador                                                                                                                  *
      * *******************************************************************************************************************************/
 
-    terminarActividad = async (id_actividad) => {
+    terminarActividad = async (id_secundaria) => {
         try {
             this.conectar();
-            let actividad = await models.ActividadSecundaria.findByPk(id_actividad);
+            let actividad = await models.ActividadSecundaria.findByPk(id_secundaria);
             if (!actividad) {
                 this.desconectar();
                 throw error;
@@ -299,17 +299,17 @@ class ActividadConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: mostrarActividadId                                                                                             *
     * Descripción: Esta consulta muestra una actividad en concreto(id) de la base de datos                                            *
-    * Parametros: id_actividad                                                                                                        *
+    * Parametros: id_secundaria                                                                                                       *
     * Pantalla: Actividades                                                                                                           *
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
 
-    mostrarActividadId = async (id_actividad) => {
+    mostrarActividadId = async (id_secundaria) => {
         this.conectar();
 
         let contacto = await models.ActividadSecundaria.findOne({
             where: {
-                id: id_actividad,
+                id: id_secundaria,
             },
             attributes: {
                 exclude: ['createdAt', 'updatedAt', 'deletedAt']
@@ -371,12 +371,12 @@ class ActividadConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: verParticipantesActividad                                                                                      *
     * Descripción: Esta consulta muestra los participantes de una actividad concreta de la base de datos                              *
-    * Parametros: id_actividad                                                                                                        *
+    * Parametros: id_secundaria                                                                                                       *
     * Pantalla: Actividades                                                                                                           *
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
 
-    verParticipantesActividad = async (id_actividad) => {
+    verParticipantesActividad = async (id_secundaria) => {
         try {
             this.conectar();
             const usuariosActividad = await models.Usuario_secundarias.findAll({
@@ -396,7 +396,7 @@ class ActividadConexion {
                         model: models.ActividadSecundaria,
                         as: 'act_secundaria',
                         where: {
-                            id: id_actividad,
+                            id: id_secundaria,
                             deleted_at: null
                         },
                         attributes: ['nombre'],
@@ -416,15 +416,15 @@ class ActividadConexion {
     /************************************************************************************************************************************
      * Nombre consulta: eliminarActividad                                                                                               *
      * Descripción: Esta consulta permite eliminar una actividad de la base de datos                                                    *
-     * Parametros: id_actividad                                                                                                         *
+     * Parametros: id_secundaria                                                                                                        *
      * Pantalla: Actividades                                                                                                            *
      * Rol: Operador                                                                                                                    *
      ***********************************************************************************************************************************/
 
-    eliminarActividad = async (id_actividad) => {
+    eliminarActividad = async (id_secundaria) => {
         try {
             this.conectar();
-            let actividad = await models.ActividadSecundaria.findByPk(id_actividad);
+            let actividad = await models.ActividadSecundaria.findByPk(id_secundaria);
             if (actividad) {
                 await actividad.destroy();
                 return actividad;
@@ -509,13 +509,13 @@ class ActividadConexion {
         }
     }
 
-    /************************************************************************************************************************************
+    /*********************************************************************************************************************************************
      * Nombre consulta: getTotalActividadesParticipado                                                                                           *
-     * Descripción: Esta consulta permite obtener el total de actividades en las que ha participado un usuario concreto de la base de datos    *
-     * Parametros: id_usuario                                                                                                         *
-     * Pantalla: Perfil                                                                                                            *
-     * Rol: Aficionado                                                                                                                  *
-     * **********************************************************************************************************************************/
+     * Descripción: Esta consulta permite obtener el total de actividades en las que ha participado un usuario concreto de la base de datos      *
+     * Parametros: id_usuario                                                                                                                    *
+     * Pantalla: Perfil                                                                                                                          *
+     * Rol: Aficionado                                                                                                                           *
+     * ******************************************************************************************************************************************/
 
     getTotalActividadesParticipado = async (id_usuario) => {
         try {
@@ -530,9 +530,6 @@ class ActividadConexion {
             throw error;
         }
     }
-
-
-
 }
 
 module.exports = ActividadConexion;

@@ -5,8 +5,6 @@ const router = Router();
 const { check } = require('express-validator');
 const {validarJWT} = require("../middleware/validarJWT");
 const {esAdmin} = require("../middleware/validarRoles");
-const {esOperador} = require("../middleware/validarRoles");
-const {validarCampos} = require("../middleware/validar-campos");
 const { validarArchivoSubir } = require('../middleware/validar-archivo');
 
 // ------------------------------------------------------  PANTALLA PERFIL ------------------------------------------------------ \\
@@ -65,16 +63,16 @@ router.put('/concurso/terminar/:id', [validarJWT, esAdmin], controladorConcursos
 
 // MOSTRAR CONCURSO ID
 
-router.get('/concurso/buscar/:id', [validarJWT], controladorConcursos.mostrarConcursoId);
+router.get('/concurso/buscarId/:id', [validarJWT], controladorConcursos.mostrarConcursoId);
 
 // MOSTRAR CONCURSO NOMBRE
 
-router.get('/concurso/buscarPorNombre/:nombre', [validarJWT], controladorConcursos.mostrarConcursoNombre);
+router.get('/concurso/buscarNombre/:nombre', [validarJWT], controladorConcursos.mostrarConcursoNombre);
 
 // VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) 
 
-router.get('/actividades/:id_concurso', [validarJWT], controladorActividad.getActividadesPorConcurso);
+router.get('/concurso/actividades/:id_principal', [validarJWT], controladorActividad.getActividadesPorConcurso);
 
 // VER PARTICIPANTES DE UN CONCURSO (MODAL) (AFICIONADO) 
 
-router.get('/participantes/:id_concurso', [validarJWT], controladorConcursos.verParticipantesConcurso);
+router.get('/participantes/:id_principal', [validarJWT], controladorConcursos.verParticipantesConcurso);

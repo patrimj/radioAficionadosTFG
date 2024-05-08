@@ -55,7 +55,7 @@ const getActividadesVariosContactosAficionado = async (req = request, res = resp
 /**********************************************************************************************************************************
 * Nombre consulta: getActividadesPorConcurso                                                                                      *
 * Descripción: Esta consulta obtiene las actividades de varios contactos asociadas a un concurso específico de la base de datos   *
-* Parametros: id_concurso                                                                                                         * 
+* Parametros: id_principal                                                                                                        * 
 * Pantalla: Perfil y Concursos (modal)                                                                                            *
 * Rol: Aficionado                                                                                                                 *
 **********************************************************************************************************************************/
@@ -64,9 +64,9 @@ const getActividadesPorConcurso = async (req = request, res = response) => {
 
     const conx = new ConexionActividades();
 
-    const id_concurso = req.params.id_concurso;
+    const id_principal = req.params.id_principal;
 
-    conx.getActividadesPorConcurso(id_concurso)
+    conx.getActividadesPorConcurso(id_principal)
         .then(msg => {
             console.log('Las Actividades de varios contactos de un concurso mostradas');
             res.status(200).json({ message: 'Las Actividades de varios contactos de un concurso mostradas correctamente!', data: msg });
@@ -149,7 +149,7 @@ const mostrarActividadesPendientes = async (req = request, res = response) => {
 /**********************************************************************************************************************************
  * Nombre consulta: terminarActividad                                                                                             *
  * Descripción: Esta consulta permite terminar una actividad de la base de datos                                                  *
- * Parametros: id_actividad                                                                                                       *
+ * Parametros: id_secundaria                                                                                                       *
  * Pantalla: Actividades                                                                                                          *
  * Rol: Operador                                                                                                                  *
  * *******************************************************************************************************************************/
@@ -172,7 +172,7 @@ const terminarActividad = async (req = request, res = response) => {
 /**********************************************************************************************************************************
 * Nombre consulta: mostrarActividadId                                                                                             *
 * Descripción: Esta consulta muestra una actividad en concreto(id) de la base de datos                                            *
-* Parametros: id_actividad                                                                                                        *
+* Parametros: id_secundaria                                                                                                        *
 * Pantalla: Actividades                                                                                                           *
 * Rol: Aficionado                                                                                                                 *
 **********************************************************************************************************************************/
@@ -214,80 +214,11 @@ const mostrarActividadNombre = async (req = request, res = response) => {
             res.status(500).json({ msg: 'Error al mostrar la actividad' });
         });
 }
-//TODO: ELIMINAR
-/*************************************************************************************************************************************
- * Nombre consulta: mostrarActividadSinConcurso                                                                                      *
- * Descripción: Esta consulta permite mostrar las actividades que no pertenecen a un concurso de la base de datos                    *
- * Parametros: Ninguno                                                                                                               *     
- * Pantalla: Actividades                                                                                                             *
- * Rol: Aficionado                                                                                                                   *
- * **********************************************************************************************************************************/
-
-const mostrarActividadSinConcurso = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    conx.mostrarActividadSinConcurso()
-        .then(msg => {
-            console.log('Actividades sin concurso mostradas');
-            res.status(200).json({ message: 'Actividades sin concurso mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las actividades sin concurso' });
-        });
-}
-//TODO: ELIMINAR
-/***********************************************************************************************************************************
- * Nombre consulta: mostrarActividadPorIdConcurso                                                                                  *
- * Descripción: Esta consulta permite mostrar las actividades que pertenecen a un concurso en particular de la base de datos       *
- * Parametros: id_concurso                                                                                                         *
- * Pantalla: Actividades                                                                                                           *
- * Rol: Aficionado                                                                                                                 *
- ***********************************************************************************************************************************/
-
-const mostrarActividadPorIdConcurso = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    conx.mostrarActividadPorIdConcurso(req.params.id)
-        .then(msg => {
-            console.log('Actividades por concurso mostradas');
-            res.status(200).json({ message: 'Actividades por concurso mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las actividades por concurso' });
-        });
-}
-//TODO: ELIMINAR
-/************************************************************************************************************************************
- * Nombre consulta: mostrarActividadConConcurso                                                                                     *
- * Descripción: Esta consulta permite mostrar las actividades que pertenecen a un concurso en particular                            *
- * Parametros: Ninguno                                                                                                              *
- * Pantalla: Actividades                                                                                                            *
- * Rol: Aficionado                                                                                                                  *
- ***********************************************************************************************************************************/
-
-const mostrarActividadConConcurso = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    conx.mostrarActividadConConcurso()
-        .then(msg => {
-            console.log('Actividades con concurso mostradas');
-            res.status(200).json({ message: 'Actividades con concurso mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las actividades con concurso' });
-        });
-}
 
 /**********************************************************************************************************************************
 * Nombre consulta: verParticipantesActividad                                                                                      *
 * Descripción: Esta consulta muestra los participantes de una actividad concreta de la base de datos                              *
-* Parametros: id_actividad                                                                                                        *
+* Parametros: id_secundaria                                                                                                        *
 * Pantalla: Actividades                                                                                                           *
 * Rol: Aficionado                                                                                                                 *
 **********************************************************************************************************************************/
@@ -310,7 +241,7 @@ const verParticipantesActividad = async (req = request, res = response) => {
 /************************************************************************************************************************************
  * Nombre consulta: eliminarActividad                                                                                               *
  * Descripción: Esta consulta permite eliminar una actividad de la base de datos                                                    *
- * Parametros: id_actividad                                                                                                         *
+ * Parametros: id_secundaria                                                                                                         *
  * Pantalla: Actividades                                                                                                            *
  * Rol: Operador                                                                                                                    *
  ***********************************************************************************************************************************/
@@ -452,52 +383,6 @@ const altaActividadVariosContactos = async (req, res = response) => {
         res.status(500).json({ msg: 'Error al subir la imagen o al crear la actividad varios contactos' });
     }
 }
-//TODO: ELIMINAR
-/************************************************************************************************************************************
- * Nombre consulta: getModalidades                                                                                                  *
- * Descripción: Esta consulta permite ver todas las modalidades que existen en la base de datos                                     *
- * Parametros: ninguno                                                                                                              *
- * Pantalla: Actividades                                                                                                            *
- * Rol: Operador                                                                                                                    *
- ***********************************************************************************************************************************/
-
-const getModalidades = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    conx.getModalidades()
-        .then(msg => {
-            console.log('Modalidades mostradas');
-            res.status(200).json({ message: 'Modalidades mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las modalidades' });
-        });
-}
-//TODO: ELIMINAR
-/************************************************************************************************************************************
- * Nombre consulta: getModalidadActividad                                                                                           *
- * Descripción: Esta consulta permite obtener la modalidad de una actividad concreta de la base de datos                            *
- * Parametros: id_actividad                                                                                                         *
- * Pantalla: Actividades                                                                                                            *
- * Rol: Aficionado                                                                                                                  *
- * **********************************************************************************************************************************/
-
-const getModalidadActividad = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    conx.getModalidadActividad(req.params.id)
-        .then(msg => {
-            console.log('Modalidad de actividad mostrada');
-            res.status(200).json({ message: 'Modalidad de actividad mostrada correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar la modalidad de la actividad' });
-        });
-}
 
 /************************************************************************************************************************************
  * Nombre consulta: getTotalActividadesParticipado                                                                                           *
@@ -534,15 +419,10 @@ module.exports = {
     terminarActividad,
     mostrarActividadId,
     mostrarActividadNombre,
-    mostrarActividadSinConcurso,
-    mostrarActividadPorIdConcurso,
-    mostrarActividadConConcurso,
     verParticipantesActividad,
     eliminarActividad,
     modificarActividad,
     altaActividadUnicoContacto,
     altaActividadVariosContactos,
-    getModalidades,
-    getModalidadActividad,
     getTotalActividadesParticipado
 }
