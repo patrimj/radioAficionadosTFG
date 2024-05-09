@@ -4,6 +4,7 @@ const router = Router();
 const { check } = require('express-validator');
 const {validarJWT} = require("../middleware/validarJWT");
 const {esOperador} = require("../middleware/validarRoles");
+const {validarCampos} = require("../middleware/validar-campos");
 
 // ------------------------------------------------------  PANTALLA CONTACTO ------------------------------------------------------ \\ 
 
@@ -14,7 +15,7 @@ router.post('/contacto/registrar',
         check('id_usuario', 'El id del usuario es obligatorio').not().isEmpty(),
         check('id_secundaria', 'El id de la actividad secundaria es obligatorio').not().isEmpty(),
         check('id_principal', 'El id de la actividad principal es opcional').optional(),
-    ], [validarJWT, esOperador], controladorContacto.registrarContacto);
+    ], validarCampos, [validarJWT, esOperador], controladorContacto.registrarContacto);
 
 // LISTAR USUARIOS 
 

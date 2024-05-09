@@ -6,6 +6,7 @@ const { check } = require('express-validator');
 const {validarJWT} = require("../middleware/validarJWT");
 const {esAdmin} = require("../middleware/validarRoles");
 const { validarArchivoSubir } = require('../middleware/validar-archivo');
+const {validarCampos} = require("../middleware/validar-campos");
 
 // ------------------------------------------------------  PANTALLA PERFIL ------------------------------------------------------ \\
 
@@ -40,7 +41,7 @@ router.post('/concurso/alta', validarArchivoSubir,
         check('completada', 'El estado del concurso es obligatorio').not().isEmpty(),
         check('solucion', 'La solución del concurso es obligatoria').not().isEmpty(),
         check('url_foto', 'La foto del concurso es obligatoria').not().isEmpty(),
-    ], [validarJWT, esAdmin], controladorConcursos.altaConcurso);
+    ], validarCampos, [validarJWT, esAdmin], controladorConcursos.altaConcurso);
 
 // MODIFICAR CONCURSO
 
@@ -51,7 +52,7 @@ router.put('/concurso/modificar/:id', validarArchivoSubir,
         check('completada', 'El estado del concurso es obligatorio').not().isEmpty(),
         check('solucion', 'La solución del concurso es obligatoria').not().isEmpty(),
         check('url_foto', 'La foto del concurso es obligatoria').not().isEmpty(),
-    ], [validarJWT, esAdmin], controladorConcursos.modificarConcurso);
+    ], validarCampos, [validarJWT, esAdmin], controladorConcursos.modificarConcurso);
 
 // BAJA CONCURSO
 

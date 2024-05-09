@@ -396,7 +396,6 @@ const mostrarUsuariosConDiploma = async (req = request, res = response) => {
  * Nota: Se muestran los usuarios con su rol                                                                                        *
  ************************************************************************************************************************************/
 
-
 const mostrarUsuarios = async (req = request, res = response) => {
     const conx = new ConexionUsuario();
 

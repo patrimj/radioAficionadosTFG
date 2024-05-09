@@ -5,6 +5,7 @@ const { check } = require('express-validator');
 const {validarJWT} = require("../middleware/validarJWT");
 const {esOperador} = require("../middleware/validarRoles");
 const { validarArchivoSubir } = require('../middleware/validar-archivo');
+const {validarCampos} = require("../middleware/validar-campos");
 
 // ------------------------------------------------------  PANTALLA PERFIL ------------------------------------------------------ \\
 
@@ -72,7 +73,7 @@ router.post('/actividad/alta/unicoContacto', validarArchivoSubir,
         check('frecuencia', 'La frecuencia de la actividad es obligatoria').not().isEmpty(),
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
         check('completada', 'El estado de la actividad es obligatorio').not().isEmpty(),
-    ], [validarJWT, esOperador], controladorActividad.altaActividadUnicoContacto);
+    ], validarCampos, [validarJWT, esOperador], controladorActividad.altaActividadUnicoContacto);
 
 // ALTA ACTIVIDAD DE VARIOS CONTACTOS (OPERADOR)
 
@@ -85,7 +86,7 @@ router.post('/actividad/alta/variosContactos', validarArchivoSubir,
         check('frecuencia', 'La frecuencia de la actividad es obligatoria').not().isEmpty(),
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
         check('completada', 'El estado de la actividad es obligatorio').not().isEmpty(),
-    ], [validarJWT, esOperador], controladorActividad.altaActividadVariosContactos);
+    ], validarCampos, [validarJWT, esOperador], controladorActividad.altaActividadVariosContactos);
 
 // MOSTRAR MODALIDADES
 

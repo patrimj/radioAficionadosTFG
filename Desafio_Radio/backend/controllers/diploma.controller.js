@@ -2,7 +2,7 @@ const DiplomaConexion = require('../database/diploma.conexion');
 const { response, request } = require('express');
 
 /**************************************************************************************************************************************
- * Nombre consulta: crearDiploma                                                                                                    *
+ * Nombre consulta: crearDiploma                                                                                                      *
  * Descripción: Esta función se encarga de generar un diploma. Crea un nuevo documento PDF con la librería 'pdf-lib' y lo guarda en   *
  * la carpeta 'temp' con el nombre del 'identificador'.pdf.                                                                           *
  * Pantalla: Perfil                                                                                                                   *
@@ -23,9 +23,9 @@ const crearDiploma = async (req = request, res = response) => {
 
 /************************************************************************************************************************************
  * Nombre consulta: generarYEnviarDiploma                                                                                           *
- * Descripción: Esta función se encarga de generar un diploma y enviarlo por correo electrónico.                                   *
- * Pantalla: Perfil                                                                                                                  *
- * Rol: aficionado                                                                                                                   *
+ * Descripción: Esta función se encarga de generar un diploma y enviarlo por correo electrónico.                                    *
+ * Pantalla: Perfil                                                                                                                 *
+ * Rol: aficionado                                                                                                                  *
  * *********************************************************************************************************************************/
 
 const generarYEnviarDiploma = async (req = request, res = response) => {
