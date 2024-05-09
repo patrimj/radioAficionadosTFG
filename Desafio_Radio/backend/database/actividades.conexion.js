@@ -1,5 +1,5 @@
 const Conexion = require('./ConexionSequelize');
-const { Sequelize, Op } = require('sequelize');
+const { Sequelize, Op, where } = require('sequelize');
 const models = require('../models/index.js');
 
 class ActividadConexion {
@@ -50,6 +50,11 @@ class ActividadConexion {
                         model: models.Modalidad,
                         as: 'modalidad',
                         attributes: ['descripcion']
+                    },
+                    {
+                        model: models.Modos_trabajo,
+                        as: 'modo',
+                        attributes: ['nombre']
                     }
                 ]
             });
@@ -108,6 +113,11 @@ class ActividadConexion {
                                 attributes: ['nombre'],
                             }
                         ]
+                    },
+                    {
+                        model: models.Modos_trabajo,
+                        as: 'modo',
+                        attributes: ['nombre']
                     }
                 ]
             });
@@ -149,6 +159,11 @@ class ActividadConexion {
                         model: models.Modalidad,
                         as: 'modalidad',
                         attributes: ['descripcion']
+                    },
+                    {
+                        model: models.Modos_trabajo,
+                        as: 'modo',
+                        attributes: ['nombre']
                     }
                 ]
             });
@@ -190,6 +205,11 @@ class ActividadConexion {
                     {
                         model: models.Modalidad,
                         as: 'modalidad'
+                    },
+                    {
+                        model: models.Modos_trabajo,
+                        as: 'modo',
+                        attributes: ['nombre']
                     }
                 ],
             });
@@ -224,6 +244,11 @@ class ActividadConexion {
                         model: models.Modalidad,
                         as: 'modalidad',
                         attributes: ['descripcion']
+                    },
+                    {
+                        model: models.Modos_trabajo,
+                        as: 'modo',
+                        attributes: ['nombre']
                     }
                 ]
             });
@@ -258,6 +283,11 @@ class ActividadConexion {
                         model: models.Modalidad,
                         as: 'modalidad',
                         attributes: ['descripcion']
+                    },
+                    {
+                        model: models.Modos_trabajo,
+                        as: 'modo',
+                        attributes: ['nombre']
                     }
                 ]
             });
@@ -273,7 +303,7 @@ class ActividadConexion {
     /**********************************************************************************************************************************
      * Nombre consulta: terminarActividad                                                                                             *
      * Descripción: Esta consulta permite terminar una actividad de la base de datos                                                  *
-     * Parametros: id_secundaria                                                                                                       *
+     * Parametros: id_secundaria                                                                                                      *
      * Pantalla: Actividades                                                                                                          *
      * Rol: Operador                                                                                                                  *
      * *******************************************************************************************************************************/
@@ -319,7 +349,13 @@ class ActividadConexion {
                     model: models.Modalidad,
                     as: 'modalidad',
                     attributes: ['descripcion']
+                },
+                {
+                    model: models.Modos_trabajo,
+                    as: 'modo',
+                    attributes: ['nombre']
                 }
+
             ]
         });
         if (contacto) {
@@ -356,6 +392,11 @@ class ActividadConexion {
                     {
                         model: models.Modalidad,
                         as: 'modalidad'
+                    },
+                    {
+                        model: models.Modos_trabajo,
+                        as: 'modo',
+                        attributes: ['nombre']
                     }
                 ]
             });
@@ -485,21 +526,22 @@ class ActividadConexion {
         }
     }
 
-    /*****************************************************************************************************************************************
-     * Nombre consulta: altaActividadVariosContactos                                                                                         *
-     * Descripción: Esta consulta permite crear una actividad de varios contactos en la base de datos                                        *
-     * Parametros: nombre, url_foto, localizacion, fecha, frecuencia, banda, id_modo, id_modalidad, completada, id_operador y id_principal   *
-     * Pantalla: Actividades                                                                                                                 *
-     * Rol: Operador                                                                                                                         *
-     * **************************************************************************************************************************************/
+    /************************************************************************************************************************************************
+     * Nombre consulta: altaActividadVariosContactos                                                                                                *
+     * Descripción: Esta consulta permite crear una actividad de varios contactos en la base de datos                                               *
+     * Parametros: nombre, url_foto, localizacion, fecha, frecuencia, banda, id_modo, id_modalidad, completada, id_operador y id_principal, premio  *
+     * Pantalla: Actividades                                                                                                                        *
+     * Rol: Operador                                                                                                                                *
+     * *********************************************************************************************************************************************/
 
-    altaActividadVariosContactos = async (body, id_principal) => {
+    altaActividadVariosContactos = async (body, id_principal, premio) => {
         try {
             this.conectar();
             let actividad = await models.ActividadSecundaria.create(body);
             let principal_secundaria = await models.PrincipalesSecundarias.create({
                 id_principal: id_principal,
-                id_secundaria: actividad.id
+                id_secundaria: actividad.id,
+                premio: premio
             });
             return { actividad, principal_secundaria };
         } catch (error) {
@@ -528,6 +570,56 @@ class ActividadConexion {
             this.desconectar();
             console.error('Error al obtener el total de actividades', error);
             throw error;
+        }
+    }
+
+    /*********************************************************************************************************************************************
+     * Nombre consulta: getModalidades                                                                                                           *
+     * Descripción: Esta consulta permite obtener las modalidades de la base de datos                                                            *
+     * Parametros: Ninguno                                                                                                                       *
+     * Pantalla: Actividades                                                                                                                     *
+     * Rol: Operador                                                                                                                             *
+     * ******************************************************************************************************************************************/
+
+    getModalidades = async () => {
+        try {
+            this.conectar();
+            const modalidades = await models.Modalidad.findAll({
+                where: {
+                    deleted_at: null
+                },
+                attributes: ['id', 'descripcion']
+
+            });
+            return modalidades;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al obtener las modalidades')
+        }
+    }
+
+    /*********************************************************************************************************************************************
+     * Nombre consulta: getModos                                                                                                                 *
+     * Descripción: Esta consulta permite obtener los modos de la base de datos                                                                  *
+     * Parametros: Ninguno                                                                                                                       *
+     * Pantalla: Actividades                                                                                                                     *
+     * Rol: Operador                                                                                                                             *
+     * ******************************************************************************************************************************************/
+
+    getModos = async () => {
+        try {
+            this.conectar();
+            const modos = await models.Modos_trabajo.findAll({
+                where: {
+                    deleted_at: null
+                },
+                attributes: ['id', 'nombre']
+
+            });
+            return modos;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al obtener los modos')
         }
     }
 }

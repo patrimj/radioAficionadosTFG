@@ -149,7 +149,7 @@ const mostrarActividadesPendientes = async (req = request, res = response) => {
 /**********************************************************************************************************************************
  * Nombre consulta: terminarActividad                                                                                             *
  * Descripción: Esta consulta permite terminar una actividad de la base de datos                                                  *
- * Parametros: id_secundaria                                                                                                       *
+ * Parametros: id_secundaria                                                                                                      *
  * Pantalla: Actividades                                                                                                          *
  * Rol: Operador                                                                                                                  *
  * *******************************************************************************************************************************/
@@ -172,7 +172,7 @@ const terminarActividad = async (req = request, res = response) => {
 /**********************************************************************************************************************************
 * Nombre consulta: mostrarActividadId                                                                                             *
 * Descripción: Esta consulta muestra una actividad en concreto(id) de la base de datos                                            *
-* Parametros: id_secundaria                                                                                                        *
+* Parametros: id_secundaria                                                                                                       *
 * Pantalla: Actividades                                                                                                           *
 * Rol: Aficionado                                                                                                                 *
 **********************************************************************************************************************************/
@@ -218,7 +218,7 @@ const mostrarActividadNombre = async (req = request, res = response) => {
 /**********************************************************************************************************************************
 * Nombre consulta: verParticipantesActividad                                                                                      *
 * Descripción: Esta consulta muestra los participantes de una actividad concreta de la base de datos                              *
-* Parametros: id_secundaria                                                                                                        *
+* Parametros: id_secundaria                                                                                                       *
 * Pantalla: Actividades                                                                                                           *
 * Rol: Aficionado                                                                                                                 *
 **********************************************************************************************************************************/
@@ -241,7 +241,7 @@ const verParticipantesActividad = async (req = request, res = response) => {
 /************************************************************************************************************************************
  * Nombre consulta: eliminarActividad                                                                                               *
  * Descripción: Esta consulta permite eliminar una actividad de la base de datos                                                    *
- * Parametros: id_secundaria                                                                                                         *
+ * Parametros: id_secundaria                                                                                                        *
  * Pantalla: Actividades                                                                                                            *
  * Rol: Operador                                                                                                                    *
  ***********************************************************************************************************************************/
@@ -343,13 +343,13 @@ const altaActividadUnicoContacto = async (req, res = response) => {
     }
 }
 
-/*****************************************************************************************************************************************
- * Nombre consulta: altaActividadVariosContactos                                                                                         *
- * Descripción: Esta consulta permite crear una actividad de varios contactos en la base de datos                                        *
- * Parametros: nombre, url_foto, localizacion, fecha, frecuencia, banda, id_modo, id_modalidad, completada, id_operador y id_principal   *
- * Pantalla: Actividades                                                                                                                 *
- * Rol: Operador                                                                                                                         *
- * **************************************************************************************************************************************/
+/************************************************************************************************************************************************
+ * Nombre consulta: altaActividadVariosContactos                                                                                                *
+ * Descripción: Esta consulta permite crear una actividad de varios contactos en la base de datos                                               *
+ * Parametros: nombre, url_foto, localizacion, fecha, frecuencia, banda, id_modo, id_modalidad, completada, id_operador y id_principal, premio  *
+ * Pantalla: Actividades                                                                                                                        *
+ * Rol: Operador                                                                                                                                *
+ * *********************************************************************************************************************************************/
 
 const altaActividadVariosContactos = async (req, res = response) => {
 
@@ -364,11 +364,13 @@ const altaActividadVariosContactos = async (req, res = response) => {
 
         if (resultadoSubida && resultadoSubida.secure_url) {
             req.body.url_foto = resultadoSubida.secure_url;
-        }else {
+        } else {
             throw new Error('Error al subir el archivo');
         }
 
-        conx.altaActividadVariosContactos(req.body, req.params.id_principal)
+        const premio = req.body.premio;
+
+        conx.altaActividadVariosContactos(req.body, req.params.id_principal, premio)
             .then(msg => {
                 console.log('Actividad creada correctamente!');
                 res.status(200).json({ message: 'Actividad varios contactos creada correctamente!', data: msg });
@@ -384,13 +386,13 @@ const altaActividadVariosContactos = async (req, res = response) => {
     }
 }
 
-/************************************************************************************************************************************
+/*********************************************************************************************************************************************
  * Nombre consulta: getTotalActividadesParticipado                                                                                           *
- * Descripción: Esta consulta permite obtener el total de actividades en las que ha participado un usuario concreto de la base de datos    *
- * Parametros: id_usuario                                                                                                         *
- * Pantalla: Perfil                                                                                                            *
- * Rol: Aficionado                                                                                                                  *
- * **********************************************************************************************************************************/
+ * Descripción: Esta consulta permite obtener el total de actividades en las que ha participado un usuario concreto de la base de datos      *
+ * Parametros: id_usuario                                                                                                                    *
+ * Pantalla: Perfil                                                                                                                          *
+ * Rol: Aficionado                                                                                                                           *
+ * ******************************************************************************************************************************************/
 
 const getTotalActividadesParticipado = async (req = request, res = response) => {
 
@@ -409,6 +411,52 @@ const getTotalActividadesParticipado = async (req = request, res = response) => 
         });
 }
 
+/*********************************************************************************************************************************************
+ * Nombre consulta: getModalidades                                                                                                           *
+ * Descripción: Esta consulta permite obtener las modalidades de la base de datos                                                            *
+ * Parametros: Ninguno                                                                                                                       *
+ * Pantalla: Actividades                                                                                                                     *
+ * Rol: Operador                                                                                                                             *
+ * ******************************************************************************************************************************************/
+
+const getModalidades = async (req = request, res = response) => {
+
+    const conx = new ConexionActividades();
+
+    conx.getModalidades()
+        .then(msg => {
+            console.log('Modalidades mostradas');
+            res.status(200).json({ message: 'Modalidades mostradas correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar las modalidades' });
+        });
+}
+
+/*********************************************************************************************************************************************
+ * Nombre consulta: getModos                                                                                                                 *
+ * Descripción: Esta consulta permite obtener los modos de la base de datos                                                                  *
+ * Parametros: Ninguno                                                                                                                       *
+ * Pantalla: Actividades                                                                                                                     *
+ * Rol: Operador                                                                                                                             *
+ * ******************************************************************************************************************************************/
+
+const getModos = async (req = request, res = response) => {
+
+    const conx = new ConexionActividades();
+
+    conx.getModos()
+        .then(msg => {
+            console.log('Modos mostrados');
+            res.status(200).json({ message: 'Modos mostrados correctamente!', data: msg });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: 'Error al mostrar los modos' });
+        });
+}
+
 module.exports = {
     getActividadesUnicoContactoAficionado,
     getActividadesVariosContactosAficionado,
@@ -424,5 +472,7 @@ module.exports = {
     modificarActividad,
     altaActividadUnicoContacto,
     altaActividadVariosContactos,
-    getTotalActividadesParticipado
+    getTotalActividadesParticipado,
+    getModalidades,
+    getModos
 }

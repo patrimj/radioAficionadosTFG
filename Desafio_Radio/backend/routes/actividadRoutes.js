@@ -18,7 +18,7 @@ router.get('/actividades/variosContactos/aficionado', [validarJWT], controladorA
 
 // VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla concurso ***
 
-router.get('/actividades/:id_concurso', [validarJWT], controladorActividad.getActividadesPorConcurso);
+router.get('/perfil/actividades/:id_principal', [validarJWT], controladorActividad.getActividadesPorConcurso);
 
 // MOSTRAR TOTAL ACTIVIDADES EN LAS QUE HA PARTICIPADO UN USUARIO (AFICIONADO)
 
@@ -44,7 +44,7 @@ router.put('/actividad/terminar/:id', [validarJWT, esOperador], controladorActiv
 
 // BUSCAR ACTIVIDAD POR ID (AFICIONADO)
 
-router.get('/actividad/buscar/:id', [validarJWT], controladorActividad.mostrarActividadId);
+router.get('/actividad/buscarId/:id', [validarJWT], controladorActividad.mostrarActividadId);
 
 // BUSCAR ACTIVIDAD POR NOMBRE (AFICIONADO)
 
@@ -86,5 +86,13 @@ router.post('/actividad/alta/variosContactos', validarArchivoSubir,
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
         check('completada', 'El estado de la actividad es obligatorio').not().isEmpty(),
     ], [validarJWT, esOperador], controladorActividad.altaActividadVariosContactos);
+
+// MOSTRAR MODALIDADES
+
+router.get('/actividades/modalidades', [validarJWT], controladorActividad.getModalidades);
+
+// MOSTRAR MODOS
+
+router.get('/actividades/modos', [validarJWT], controladorActividad.getModos);
 
 module.exports = router;

@@ -116,7 +116,7 @@ class ContactoConexion {
     }
 
     /**********************************************************************************************************************************
-     * Nombre consulta: getConcursosContacto                                                                                                  *
+     * Nombre consulta: getConcursosContacto                                                                                          *
      * Descripción: Esta consulta permite ver los concursos registrados previamente en la base de datos                               *
      * Pantalla: Registrar contacto (selector de concursos)                                                                           *
      * Rol: Operador                                                                                                                  *
@@ -170,12 +170,12 @@ class ContactoConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: getActividadesVariosContactos                                                                                  *
     * Descripción: Esta consulta obtiene las actividades de varios contactos asociadas a un concurso específico de la base de datos   *
-    * Parametros: id_concurso                                                                                                         * 
+    * Parametros:                                                                                                          * 
     * Pantalla: Perfil y Concursos (modal)  y Registrar Contacto                                                                      *
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
 
-    getActividadesVariosContactos = async (id_concurso) => {
+    getActividadesVariosContactos = async (id_principal) => {
         try {
             this.conectar();
 
@@ -190,7 +190,7 @@ class ContactoConexion {
                         model: models.PrincipalesSecundarias,
                         as: 'principales_secundarias',
                         where: {
-                            id_principal: id_concurso,
+                            id_principal: id_principal,
                             deleted_at: null
                         },
                         attributes: [],
@@ -215,17 +215,17 @@ class ContactoConexion {
     /**********************************************************************************************************************************
      * Nombre consulta: getPremioActividad                                                                                            *
      * Descripción: Esta consulta obtiene el premio de una actividad específica de la base de datos                                   *
-     * Parametros: id_actividad                                                                                                       *
+     * Parametros: id_secundaria                                                                                                      *
      * Pantalla: Registrar Contacto                                                                                                   *
      * Rol: Aficionado                                                                                                                *
      **********************************************************************************************************************************/
 
-    getPremioActividad = async (id_actividad) => {
+    getPremioActividad = async (id_secundaria) => {
         try {
             this.conectar();
             const premio = await models.PrincipalesSecundarias.findOne({
                 where: {
-                    id_secundaria: id_actividad,
+                    id_secundaria: id_secundaria,
                     deleted_at: null
                 },
                 attributes: ['premio']
@@ -276,6 +276,13 @@ class ContactoConexion {
         }
     }
 
+    /**********************************************************************************************************************************
+     * Nombre consulta: getActividadesContacto                                                                                        *
+     * Descripción: Esta consulta permite ver las actividades registradas previamente en la base de datos                             *
+     * Pantalla: Registrar contacto                                                                                                   *
+     * Rol: Operador                                                                                                                  *
+     *********************************************************************************************************************************/
+
     getActividadesContacto = async () => {
         try {
             let actividades = [];
@@ -296,6 +303,92 @@ class ContactoConexion {
         }
     }
 
+    /**********************************************************************************************************************************
+     * Nombre consulta: getContactosConDetalles                                                                                       *
+     * Descripción: Esta consulta permite ver los contactos registrados previamente en la base de datos con sus detalles              *
+     * Pantalla: Registrar contacto                                                                                                   *
+     * Rol: Operador                                                                                                                  *
+     *********************************************************************************************************************************/
+
+    getContactosConDetalles = async () => {
+        try {
+            this.conectar();
+            const contactos = await models.Usuario.findAll({
+                include: [
+                    {
+                        model: models.Usuario_secundarias,
+                        as: 'usuario_secundarias',
+                        attributes: ['premio'],
+                        include: [
+                            {
+                                model: models.ActividadSecundaria,
+                                as: 'actividad_secundaria',
+                                attributes: ['nombre'],
+                            },
+                            {
+                                model: models.PrincipalesSecundarias,
+                                as: 'principales_secundarias',
+                                attributes: ['id_principal'],
+                                include: [
+                                    {
+                                        model: models.ActividadPrincipal,
+                                        as: 'actividad_principal',
+                                        attributes: ['nombre', 'solucion'],
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                where: {
+                    deleted_at: null
+                },
+                attributes: ['nombre', 'id_examen', 'email'],
+                order: [[{ model: models.Usuario_secundarias, as: 'usuario_secundarias' }, { model: models.PrincipalesSecundarias, as: 'principales_secundarias' }, 'id_principal', 'ASC']]
+            });
+            this.desconectar();
+            return contactos;
+        } catch (error) {
+            this.desconectar();
+            console.error('Error al obtener los contactos con detalles:', error);
+            throw error;
+        }
+    }
+
+    /**********************************************************************************************************************************
+     * Nombre consulta: getModalidadActividad                                                                                         *
+     * Descripción: Esta consulta permite ver la modalidad de una actividad en concreto en la base de datos                           *
+     * Parametros: id_secundaria                                                                                                      *
+     * Pantalla: Registrar contacto                                                                                                   *
+     * Rol: Operador                                                                                                                  *
+     *********************************************************************************************************************************/
+
+    getModalidadActividad = async (id_secundaria) => {
+        try {
+            this.conectar();
+            const actividad = await models.ActividadSecundaria.findOne({
+                include: [
+                    {
+                        model: models.Modalidad,
+                        as: 'modalidad',
+                        attributes: ['nombre']
+                    }
+                ],
+                where: {
+                    id: id_secundaria,
+                    completada: false,
+                    deleted_at: null
+                },
+                attributes: []
+            });
+            this.desconectar();
+            return actividad ? actividad.modalidad.nombre : null;
+        } catch (error) {
+            this.desconectar();
+            console.error(`Error al mostrar el nombre de la modalidad de la actividad con id ${id_secundaria}:`, error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ContactoConexion;

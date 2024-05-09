@@ -69,7 +69,7 @@ router.get('/concurso/buscarId/:id', [validarJWT], controladorConcursos.mostrarC
 
 router.get('/concurso/buscarNombre/:nombre', [validarJWT], controladorConcursos.mostrarConcursoNombre);
 
-// VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) 
+// VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla Perfil (actividadRoutes) ***
 
 router.get('/concurso/actividades/:id_principal', [validarJWT], controladorActividad.getActividadesPorConcurso);
 
