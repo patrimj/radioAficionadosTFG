@@ -7,24 +7,6 @@ const {esOperador} = require("../middleware/validarRoles");
 const { validarArchivoSubir } = require('../middleware/validar-archivo');
 const {validarCampos} = require("../middleware/validar-campos");
 
-// ------------------------------------------------------  PANTALLA PERFIL ------------------------------------------------------ \\
-
-// VER ACTIVIDADES DE UN UNICO CONTACTO (AFICIONADO)
-
-router.get('/actividades/unicoContacto/aficionado', [validarJWT], controladorActividad.getActividadesUnicoContactoAficionado);
-
-// VER ACTIVIDADES DE VARIOS CONTACTOS Y CONCURSO (AFICIONADO)
-
-router.get('/actividades/variosContactos/aficionado', [validarJWT], controladorActividad.getActividadesVariosContactosAficionado);
-
-// VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla concurso ***
-
-router.get('/perfil/actividades/:id_principal', [validarJWT], controladorActividad.getActividadesPorConcurso);
-
-// MOSTRAR TOTAL ACTIVIDADES EN LAS QUE HA PARTICIPADO UN USUARIO (AFICIONADO)
-
-router.get('/actividades/total', [validarJWT], controladorActividad.getTotalActividadesParticipado);
-
 // ------------------------------------------------------ PANTALLA ACTIVIDADES ------------------------------------------------------ \\
 
 // VER TODAS LAS ACTIVIDADES Y SUS CONCURSOS (SI TIENE) (AFICIONADO)

@@ -37,38 +37,6 @@ router.post('/usuarios/recuperar', [
     validarCampos
 ], controladorUsuario.recuperarContrasena);
 
-// ------------------------------------------------------  PANTALLA PERFIL ------------------------------------------------------ \\
-
-// MOSTRAR PERFIL
-
-router.get('/perfil', [validarJWT], controladorUsuario.mostrarPerfil);
-
-// MODIFICAR PERFIL
-
-router.put('/usuario/perfil/:id',
-    [
-        check('id', 'El id del usuario es obligatorio').not().isEmpty(),
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-        check('apellido_uno', 'El primer apellido es obligatorio').not().isEmpty(),
-        check('apellido_dos', 'El segundo apellido es obligatorio').not().isEmpty(),
-        check('url_foto', 'La URL de la foto es obligatoria').not().isEmpty(),
-        check('id_examen', 'El id del examen es obligatorio').not().isEmpty(),
-    ], 
-    validarCampos, 
-    controladorUsuario.modificarPerfil
-);
-
-// CAMBIAR CONTRASEÑA
-
-router.put('/cambiar-password',
-    [
-        check('email', 'El correo electrónico es obligatorio').isEmail(),
-        check('password', 'La contraseña es obligatoria').not().isEmpty(),
-    ], 
-    validarCampos, 
-    controladorUsuario.cambiarPassword
-);
-
 
 // ------------------------------------------------------  PANTALLA GESTIÓN USUARIOS ------------------------------------------------------ \\
 
@@ -99,7 +67,7 @@ router.delete('/usuario/baja/:id', [validarJWT, esAdmin],  controladorUsuario.ba
 
 // MODIFICAR USUARIOS
 
-router.put('/usuario/modificar/:id', validarArchivoSubir, validarCampos
+router.put('/usuario/modificar/:id', validarArchivoSubir,
     [
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         check('email', 'El correo no es válido').isEmail(),

@@ -77,92 +77,6 @@ const registro = async (req = request, res = response) => {
 }
 
 /************************************************************************************************************************************
-* Nombre consulta: cambiarPassword                                                                                                  *
-* Descripción: Esta consulta permite cambiar la contraseña de un usuario en la base de datos                                        *
-* Parametros: email, password                                                                                                       *
-* Pantalla: Perfil                                                                                                                  *
-* Rol: aficionado, admin, operador                                                                                                  *
-************************************************************************************************************************************/
-
-const cambiarPassword = async (req = request, res = response) => {
-
-    const conx = new ConexionUsuario();
-
-    conx.cambiarPassword(req.body.email, req.body.password)
-        .then(msg => {
-            console.log('Cambio de contraseña exitoso');
-            res.status(200).json({ message: 'Cambio de contraseña exitoso', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al cambiar contraseña ' });
-        });
-}
-
-/************************************************************************************************************************************
- * Nombre consulta: mostrarPerfil                                                                                                   *
- * Descripción: Esta consulta permite mostrar el perfil de un usuario en la base de datos                                           *
- * Parametros: id_usuario                                                                                                           *
- * Pantalla: Perfil                                                                                                                 *
- * Rol: aficionado, admin, operador                                                                                                 *
- ***********************************************************************************************************************************/
-
-const mostrarPerfil = async (req = request, res = response) => {
-
-    const conx = new ConexionUsuario();
-
-    conx.mostrarPerfil(req.body.id_usuario)
-        .then(msg => {
-            console.log('Perfil mostrado exitosamente');
-            res.status(200).json({ message: 'Perfil mostrado exitosamente', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar perfil ' });
-        });
-}
-
-/************************************************************************************************************************************
-* Nombre consulta: modificarPerfil                                                                                                  *  
-* Descripción: Esta consulta permite modificar el perfil de un usuario en la base de datos                                          *
-* Parametros: id_usuario, email, nombre, apellido_uno, apellido_dos, url_foto, id_examen, id_rol                                    *
-* Pantalla: Perfil                                                                                                                  *
-* Rol: aficionado, admin, operador                                                                                                  *
-************************************************************************************************************************************/
-
-const modificarPerfil = async (req, res = response) => {
-
-    const conx = new ConexionUsuario();
-
-    if (!req.files || !req.files.archivo) {
-        return res.status(400).json({ msg: 'No se subió ninguna imagen' });
-    }
-
-    try {
-        const resultadoSubida = await subirArchivo(req.files.archivo, undefined, 'usuario');
-
-        if (resultadoSubida && resultadoSubida.secure_url) {
-            req.body.url_foto = resultadoSubida.secure_url;
-        } else {
-            throw new Error('Error al subir el archivo');
-        }
-
-        conx.modificarPerfil(req.params.id, req.body)
-            .then(msg => {
-                console.log('Perfil modificado correctamente !');
-                res.status(200).json({ message: 'Perfil modificado correctamente!', data: msg });
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(200).json({ msg: 'No se han encontrado registros' });
-            });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ msg: 'Error al subir la imagen o al modificar el perfil' });
-    }
-}
-
-/************************************************************************************************************************************
 * Nombre consulta: buscarUsuario                                                                                                    *
 * Descripción: Esta consulta permite buscar un usuario en la base de datos por su nombre                                            *
 * Parametros: nombre                                                                                                                *
@@ -452,9 +366,6 @@ const recuperarContrasena = async (req, res) => {
 module.exports = {
     login,
     registro,
-    cambiarPassword,
-    mostrarPerfil,
-    modificarPerfil,
     buscarUsuario,
     mostrarIdUsuarioPorIndicativo,
     altaUsuarioCompleto,
@@ -466,5 +377,4 @@ module.exports = {
     mostrarUsuarios,
     recuperarContrasena
 }
-
 

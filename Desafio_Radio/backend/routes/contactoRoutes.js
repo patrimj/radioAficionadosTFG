@@ -25,7 +25,7 @@ router.get('/contacto/usuarios', [validarJWT, esOperador], controladorContacto.g
 
 router.get('/contacto/contactos', [validarJWT, esOperador], controladorContacto.getContactosConDetalles);
 
-// *** REGISTRAR USUARIO EN UNA ACTIVIDAD DE VARIOS CONTACTOS *** //
+// ************************** REGISTRAR USUARIO EN UNA ACTIVIDAD DE VARIOS CONTACTOS ************************** //
 
 // LISTAR CONCURSOS
 
@@ -47,7 +47,7 @@ router.get('/contacto/actividad/premio/:id_secundaria', [validarJWT, esOperador]
 
 router.get('/contacto/usuario/premios/:id_usuario/:id_principal', [validarJWT, esOperador], controladorContacto.getPremiosUsuarioConcurso);
 
-// *** REGISTRAR USUARIO EN UNA ACTIVIDAD DE VARIOS CONTACTOS *** //
+// ************************** REGISTRAR USUARIO EN UNA ACTIVIDAD DE VARIOS CONTACTOS ************************** //
 
 // MOSTRAR TODAS LAS ACTIVIDADES
 

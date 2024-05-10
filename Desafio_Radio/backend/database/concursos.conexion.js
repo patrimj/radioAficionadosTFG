@@ -16,46 +16,6 @@ class ConcursosConexion {
         this.conexion.desconectar();
     }
 
-    /************************************************************************************************************************************
-    * Nombre consulta: getConcursosAficionado                                                                                           *
-    * Descripción: Esta consulta obtiene los concursos de un usuario aficionado de la base de datos                                     *  
-    * Parametros: id_usuario                                                                                                            *  
-    * Pantalla: Perfil                                                                                                                  *
-    * Rol: Aficionado                                                                                                                   *
-    ************************************************************************************************************************************/
-
-    getConcursosAficionado = async (id_usuario) => {
-        try {
-            this.conectar();
-            const concursos = await models.ActividadPrincipal.findAll({
-                where: {
-                    completada: true,
-                    deleted_at: null
-                },
-                attributes: ['nombre', 'descripcion', 'url_foto', 'completada', 'solucion'],
-                include: [
-                    {
-                        model: models.Usuario,
-                        as: 'act_principales_usuario',
-                        where: { id: id_usuario },
-                        through: {
-                            model: models.usuario_principal,
-                            attributes: [],
-                        },
-                        attributes: ['id', 'nombre', 'email', 'id_examen'],
-                    }
-
-                ]
-            });
-            this.desconectar();
-            return concursos;
-        } catch (error) {
-            this.desconectar();
-            console.error('Error al mostrar los concursos del aficionado', error);
-            throw error;
-        }
-    }
-
     /**********************************************************************************************************************************
     * Nombre consulta: mostrarConcursos                                                                                               *
     * Descripción: Esta consulta obtiene todos los concursos de la base de datos                                                      *
@@ -329,28 +289,51 @@ class ConcursosConexion {
         }
     }
 
-/*******************************************************************************************************************************************
- * Nombre consulta: getTotalConcursosParticipado                                                                                           *
- * Descripción: Esta consulta permite obtener el total de concursos en las que ha participado un usuario concreto de la base de datos      *
- * Parametros: id_usuario                                                                                                                  *
- * Pantalla: Perfil                                                                                                                        *
- * Rol: Aficionado                                                                                                                         *
- * ****************************************************************************************************************************************/
+    /**********************************************************************************************************************************
+    * Nombre consulta: getActividadesPorConcurso                                                                                      *
+    * Descripción: Esta consulta obtiene las actividades de varios contactos asociadas a un concurso específico de la base de datos   *
+    * Parametros: id_principal                                                                                                        * 
+    * Pantalla: Concursos (modal)                                                                                                     *   
+    * Rol: Aficionado                                                                                                                 *
+    **********************************************************************************************************************************/
 
-getTotalConcursosParticipado = async (id_usuario) => {
+    getActividadesPorConcurso = async (id_principal) => {
         try {
             this.conectar();
-            const actividades = await models.usuario_principal.count({
-                where: { id_usuario: id_usuario }
+
+            const actividadesSecundarias = await models.ActividadSecundaria.findAll({
+                attributes: ['id', 'nombre', 'url_foto', 'localizacion', 'fecha', 'frecuencia', 'banda', 'completada'],
+                include: [
+                    {
+                        model: models.PrincipalesSecundarias,
+                        as: 'principales_secundarias',
+                        where: {
+                            id_principal: id_principal,
+                            deleted_at: null
+                        },
+                        attributes: [],
+                    },
+                    {
+                        model: models.Modalidad,
+                        as: 'modalidad',
+                        attributes: ['descripcion']
+                    },
+                    {
+                        model: models.Modos_trabajo,
+                        as: 'modo',
+                        attributes: ['nombre']
+                    }
+                ]
             });
-            return actividades;
+
+            this.desconectar();
+            return actividadesSecundarias;
         } catch (error) {
             this.desconectar();
-            console.error('Error al obtener el total de actividades', error);
+            console.error('Error al mostrar las actividades de varios contactos de un concurso', error);
             throw error;
         }
     }
-
 }
 
 module.exports = ConcursosConexion;

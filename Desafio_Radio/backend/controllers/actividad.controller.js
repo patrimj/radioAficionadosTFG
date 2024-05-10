@@ -2,81 +2,6 @@ const { response, request } = require('express');
 const ConexionActividades = require('../database/actividades.conexion');
 const { subirArchivo } = require("../helpers/subir-archivo");
 
-/************************************************************************************************************************
-* Nombre consulta: getActividadesUnicoContactoAficionado                                                                *
-* Descripción: Esta consulta obtiene las actividades de un unico contacto de un usuario aficionado de la base de datos  *
-* Parametros: id_usuario                                                                                                *
-* Pantalla: Perfil                                                                                                      *  
-* Rol: Aficionado                                                                                                       *  
-************************************************************************************************************************/
-
-const getActividadesUnicoContactoAficionado = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    const id_usuario = req.usuario.id
-
-    conx.getActividadesUnicoContactoAficionado(id_usuario)
-        .then(msg => {
-            console.log('Actividades Unico Contacto del aficionado mostradas');
-            res.status(200).json({ message: 'Actividades Unico Contacto mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: "Error al mostrar las actividades Unico Contacto." })
-        });
-}
-
-/************************************************************************************************************************
-* Nombre consulta: getActividadesVariosContactosAficionado                                                              *
-* Descripción: Esta consulta obtiene todas las actividades de varios contactos que pertenece a un concurso              *
-* Parametros: id_usuario                                                                                                *
-* Pantalla: Perfil                                                                                                      *
-* Rol: Aficionado                                                                                                       *
-************************************************************************************************************************/
-
-const getActividadesVariosContactosAficionado = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    const id_usuario = req.usuario.id
-
-    conx.getActividadesVariosContactosAficionado(id_usuario)
-        .then(msg => {
-            console.log('Actividades Varios Contactos del aficionado mostradas');
-            res.status(200).json({ message: 'Actividades Varios Contactos mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las actividades Varios Contactos' });
-        });
-}
-
-/**********************************************************************************************************************************
-* Nombre consulta: getActividadesPorConcurso                                                                                      *
-* Descripción: Esta consulta obtiene las actividades de varios contactos asociadas a un concurso específico de la base de datos   *
-* Parametros: id_principal                                                                                                        * 
-* Pantalla: Perfil y Concursos (modal)                                                                                            *
-* Rol: Aficionado                                                                                                                 *
-**********************************************************************************************************************************/
-
-const getActividadesPorConcurso = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    const id_principal = req.params.id_principal;
-
-    conx.getActividadesPorConcurso(id_principal)
-        .then(msg => {
-            console.log('Las Actividades de varios contactos de un concurso mostradas');
-            res.status(200).json({ message: 'Las Actividades de varios contactos de un concurso mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las actividades de varios contactos de un concurso' });
-        });
-}
-
 /**********************************************************************************************************************************
 * Nombre consulta: mostrarActividades                                                                                             *
 * Descripción: Esta consulta muestra todas las actividades de la base de datos                                                    *
@@ -387,31 +312,6 @@ const altaActividadVariosContactos = async (req, res = response) => {
 }
 
 /*********************************************************************************************************************************************
- * Nombre consulta: getTotalActividadesParticipado                                                                                           *
- * Descripción: Esta consulta permite obtener el total de actividades en las que ha participado un usuario concreto de la base de datos      *
- * Parametros: id_usuario                                                                                                                    *
- * Pantalla: Perfil                                                                                                                          *
- * Rol: Aficionado                                                                                                                           *
- * ******************************************************************************************************************************************/
-
-const getTotalActividadesParticipado = async (req = request, res = response) => {
-
-    const conx = new ConexionActividades();
-
-    const id_usuario = req.usuario.id
-
-    conx.getTotalActividadesParticipado(id_usuario)
-        .then(msg => {
-            console.log('Total de actividades en las que ha participado mostrado');
-            res.status(200).json({ message: 'Total de actividades en las que ha participado mostrado correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar el total de actividades en las que ha participado' });
-        });
-}
-
-/*********************************************************************************************************************************************
  * Nombre consulta: getModalidades                                                                                                           *
  * Descripción: Esta consulta permite obtener las modalidades de la base de datos                                                            *
  * Parametros: Ninguno                                                                                                                       *
@@ -458,9 +358,6 @@ const getModos = async (req = request, res = response) => {
 }
 
 module.exports = {
-    getActividadesUnicoContactoAficionado,
-    getActividadesVariosContactosAficionado,
-    getActividadesPorConcurso,
     mostrarActividades,
     mostrarActividadesTerminadas,
     mostrarActividadesPendientes,
@@ -472,7 +369,6 @@ module.exports = {
     modificarActividad,
     altaActividadUnicoContacto,
     altaActividadVariosContactos,
-    getTotalActividadesParticipado,
     getModalidades,
     getModos
 }

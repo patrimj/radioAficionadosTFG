@@ -8,16 +8,6 @@ const {esAdmin} = require("../middleware/validarRoles");
 const { validarArchivoSubir } = require('../middleware/validar-archivo');
 const {validarCampos} = require("../middleware/validar-campos");
 
-// ------------------------------------------------------  PANTALLA PERFIL ------------------------------------------------------ \\
-
-// CONCURSOS DE UN USUARIO (AFICIONADO)
-
-router.get('/concursos/aficionado', [validarJWT], controladorConcursos.getConcursosAficionado);
-
-// MOSTRAR EL TOTAL DE CONCURSOS EN LOS QUE HA PARTICIPADO UN USUARIO (AFICIONADO)
-
-router.get('/concursos/total', [validarJWT], controladorConcursos.getTotalConcursosParticipado);
-
 // ------------------------------------------------------  PANTALLA CONCURSOS ------------------------------------------------------ \\
 
 // MUESTRA TODOS LOS CONCURSOS 
@@ -72,7 +62,7 @@ router.get('/concurso/buscarNombre/:nombre', [validarJWT], controladorConcursos.
 
 // VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla Perfil (actividadRoutes) ***
 
-router.get('/concurso/actividades/:id_principal', [validarJWT], controladorActividad.getActividadesPorConcurso);
+router.get('/concurso/actividades/:id_principal', [validarJWT], controladorConcursos.getActividadesPorConcurso);
 
 // VER PARTICIPANTES DE UN CONCURSO (MODAL) (AFICIONADO) 
 

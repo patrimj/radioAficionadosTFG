@@ -2,31 +2,6 @@ const { response, request } = require('express');
 const ConexionConcursos = require('../database/concursos.conexion');
 const { subirArchivo } = require("../helpers/subir-archivo");
 
-/************************************************************************************************************************************
-* Nombre consulta: getConcursosAficionado                                                                                           *
-* Descripción: Esta consulta obtiene los concursos de un usuario aficionado de la base de datos                                     *  
-* Parametros: id_usuario                                                                                                            *  
-* Pantalla: Perfil                                                                                                                  *
-* Rol: Aficionado                                                                                                                   *
-************************************************************************************************************************************/
-
-const getConcursosAficionado = async (req = request, res = response) => {
-
-    const conx = new ConexionConcursos();
-
-    const id_usuario = req.usuario.id;
-
-    conx.getConcursosAficionado(id_usuario)
-        .then(msg => {
-            console.log('Concursos del aficionado mostrados');
-            res.status(200).json({ message: 'Concursos del aficionado mostrados correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: "Error al mostrar los concursos del aficionado." })
-        });
-}
-
 /**********************************************************************************************************************************
 * Nombre consulta: mostrarConcursos                                                                                               *
 * Descripción: Esta consulta obtiene todos los concursos de la base de datos                                                      *
@@ -281,7 +256,7 @@ const verParticipantesConcurso = async (req = request, res = response) => {
 
     const conx = new ConexionConcursos();
 
-    conx.verParticipantesConcurso(req.params.id_principal)  
+    conx.verParticipantesConcurso(req.params.id_principal)
         .then(msg => {
             console.log('Participantes del concurso mostrados');
             res.status(200).json({ message: 'Participantes del concurso mostrados correctamente!', data: msg });
@@ -292,33 +267,32 @@ const verParticipantesConcurso = async (req = request, res = response) => {
         });
 }
 
-/*******************************************************************************************************************************************
- * Nombre consulta: getTotalConcursosParticipado                                                                                           *
- * Descripción: Esta consulta permite obtener el total de concursos en las que ha participado un usuario concreto de la base de datos      *
- * Parametros: id_usuario                                                                                                                  *
- * Pantalla: Perfil                                                                                                                        *
- * Rol: Aficionado                                                                                                                         *
- * ****************************************************************************************************************************************/
+/**********************************************************************************************************************************
+* Nombre consulta: getActividadesPorConcurso                                                                                      *
+* Descripción: Esta consulta obtiene las actividades de varios contactos asociadas a un concurso específico de la base de datos   *
+* Parametros: id_principal                                                                                                        * 
+* Pantalla: Concursos (modal)                                                                                                     *
+* Rol: Aficionado                                                                                                                 *
+**********************************************************************************************************************************/
 
-const getTotalConcursosParticipado = async (req = request, res = response) => {
+const getActividadesPorConcurso = async (req = request, res = response) => {
 
     const conx = new ConexionConcursos();
 
-    const id_usuario = req.usuario.id;
+    const id_principal = req.params.id_principal;
 
-    conx.getTotalConcursosParticipado(id_usuario)
+    conx.getActividadesPorConcurso(id_principal)
         .then(msg => {
-            console.log('Total de concursos en los que ha participado mostrado');
-            res.status(200).json({ message: 'Total de concursos en los que ha participado mostrado correctamente!', data: msg });
+            console.log('Las Actividades de varios contactos de un concurso mostradas');
+            res.status(200).json({ message: 'Las Actividades de varios contactos de un concurso mostradas correctamente!', data: msg });
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar el total de concursos en los que ha participado' });
+            res.status(500).json({ msg: 'Error al mostrar las actividades de varios contactos de un concurso' });
         });
 }
 
 module.exports = {
-    getConcursosAficionado,
     mostrarConcursos,
     mostrarConcursosTerminados,
     mostrarConcursosPendientes,
@@ -329,5 +303,5 @@ module.exports = {
     mostrarConcursoId,
     mostrarConcursoNombre,
     verParticipantesConcurso,
-    getTotalConcursosParticipado
+    getActividadesPorConcurso
 }
