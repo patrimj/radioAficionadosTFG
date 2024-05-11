@@ -81,7 +81,7 @@ class UsuarioConexion {
                 id_examen: usuario.id_examen
             });
 
-            const rolAsignado = await models.roles_asignados.create({
+            const rolAsignado = await models.RolAsignado.create({
                 id_rol: usuario.id_rol,
                 id_usuario: nuevoUsuario.id
             });
@@ -115,7 +115,7 @@ class UsuarioConexion {
             const usuarios = await models.Usuario.findAll({
                 where: {
                     nombre: {
-                        [models.Sequelize.Op.like]: '%' + nombre + '%'
+                        [models.Sequelize.Op.like]: `%${nombre}%` 
                     },
                     deleted_at: null
                 }
@@ -140,9 +140,12 @@ class UsuarioConexion {
     mostrarIdUsuarioPorIndicativo = async (id_examen) => {
         try {
             this.conectar();
-            const usuario = await models.Usuario.findOne({
+            const usuario = await models.Usuario.findAll({
                 where: {
-                    id_examen: id_examen
+                    id_examen: {
+                        [models.Sequelize.Op.like]: `%${id_examen}%` 
+                    },
+                    deleted_at: null
                 }
             });
             this.desconectar();
@@ -166,8 +169,10 @@ class UsuarioConexion {
     altaUsuarioCompleto = async (usuario, id_rol = 3) => {
 
         this.conectar();
+        let resultado;
         try {
             const usuarioNuevo = await models.Usuario.create(usuario);
+            let rolAsignado;
             if (usuarioNuevo) {
                 rolAsignado = await models.RolAsignado.create({
                     id_rol: id_rol,

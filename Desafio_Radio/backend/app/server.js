@@ -48,10 +48,12 @@ class Server {
 
     routes() {
         this.app.use(this.usuariosPath, require('../routes/actividadRoutes'));
+        this.app.use(this.usuariosPath, require('../routes/concursoRoutes'));
+        this.app.use(this.usuariosPath, require('../routes/contactoRoutes'));
         this.app.use(this.usuariosPath, require('../routes/usuarioRoutes'));
-        this.app.use(this.usuariosPath, require('../routes/imagenesRoutes'));
         this.app.use(this.usuariosPath, require('../routes/csvRoutes'));
-        this.app.use(this.usuariosPath, require('../routes/diplomaRoutes'));
+        this.app.use(this.usuariosPath, require('../routes/perfilRoutes'));
+        this.app.use(this.usuariosPath, require('../routes/inicioRoutes'));
     }
 
     sockets(){

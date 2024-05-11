@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
 const { PDFDocument, StandardFonts, PageSizes, rgb } = require('pdf-lib');
+const bcrypt = require("bcrypt");
 
 class PerfilConexion {
 

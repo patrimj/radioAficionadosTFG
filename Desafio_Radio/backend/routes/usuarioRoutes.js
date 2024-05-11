@@ -56,8 +56,7 @@ router.post('/usuario/alta/:id_rol',validarArchivoSubir,
         check('email', 'El correo del usuario no es válido').isEmail(),
         check('apellido_uno', 'El apellido es obligatorio').not().isEmpty(),
         check('apellido_dos', 'El apellido es obligatorio').not().isEmpty(),
-        check('id_examen', 'El Identificador es obligatorio').not().isEmpty().isNumeric(),
-        check('password', 'La contraseña debe de ser más de 6 letras').isLength({ min: 6 }),
+        check('id_examen', 'El Identificador es obligatorio').not().isEmpty(),
         check('id_rol', 'El rol es obligatorio').optional().isNumeric()
     ], validarCampos, [validarJWT, esAdmin],  controladorUsuario.altaUsuarioCompleto);
 
@@ -70,11 +69,9 @@ router.delete('/usuario/baja/:id', [validarJWT, esAdmin],  controladorUsuario.ba
 router.put('/usuario/modificar/:id', validarArchivoSubir,
     [
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-        check('email', 'El correo no es válido').isEmail(),
         check('apellido_uno', 'El nombre es obligatorio').not().isEmpty(),
         check('apellido_dos', 'El nombre es obligatorio').not().isEmpty(),
         check('id_examen', 'El Identificador es obligatorio').not().isEmpty(),
-        check('password', 'La contraseña debe de ser más de 6 letras').isLength({ min: 6 }),
         check('id_rol', 'El rol es obligatorio').optional().isNumeric()
     ], validarCampos, [validarJWT, esAdmin],  controladorUsuario.modificarUsuario);
 

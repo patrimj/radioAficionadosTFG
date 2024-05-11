@@ -1,9 +1,12 @@
 const { response, request } = require('express');
 const ConexionUsuario = require('../database/usuarios.conexion');
+const ConexionPerfil = require('../database/perfil.conexion');
 const { enviarCorreo } = require("./correo.controller");
 const { generarContrasena } = require("../helpers/comun");
 const { subirArchivo } = require("../helpers/subir-archivo");
 const { generarJWT } = require("../helpers/generate_jwt");
+const bcrypt = require("bcrypt");
+
 
 /************************************************************************************************************************************
  * Nombre consulta: login                                                                                                           *                                                                                                  
@@ -88,7 +91,7 @@ const buscarUsuario = async (req = request, res = response) => {
 
     const conx = new ConexionUsuario();
 
-    conx.buscarUsuario(req.body.nombre)
+    conx.buscarUsuario(req.params.nombre)
         .then(msg => {
             console.log('Usuario encontrado');
             res.status(200).json({ message: 'Usuario encontrado', data: msg });
@@ -111,7 +114,7 @@ const mostrarIdUsuarioPorIndicativo = async (req = request, res = response) => {
 
     const conx = new ConexionUsuario();
 
-    conx.mostrarIdUsuarioPorIndicativo(req.body.id_examen)
+    conx.mostrarIdUsuarioPorIndicativo(req.params.id_examen)
         .then(msg => {
             console.log('Usuario encontrado');
             res.status(200).json({ message: 'Usuario encontrado', data: msg });
@@ -164,7 +167,7 @@ const altaUsuarioCompleto = async (req, res = response) => {
 
         const usuarioNuevo = await conx.altaUsuarioCompleto(req.body, id_rol);
         if (usuarioNuevo) {
-            res.status(200).json({ message: 'Usuario dado de alta correctamente', data: usuarioNuevo, rol: usuarioNuevo.rol });
+            res.status(200).json({ message: 'Usuario dado de alta correctamente', data: usuarioNuevo});
         } else {
             throw new Error('Error al crear el usuario');
         }
@@ -334,7 +337,7 @@ const mostrarUsuarios = async (req = request, res = response) => {
  ***********************************************************************************************************************************/
 
 const recuperarContrasena = async (req, res) => {
-    const conx = new ConexionUsuario();
+    const conx = new ConexionPerfil();
     const destinatario = req.body.email;
 
     const contrasena = generarContrasena(16);
@@ -354,9 +357,12 @@ const recuperarContrasena = async (req, res) => {
 
         try {
             const actualizada = await conx.cambiarPassword(destinatario, contrasena);
-            if (actualizada === true) return res.status(200).json({ msg: true });
-
-            else return res.status(403).json({ msg: false });
+            if (enviado && actualizada) {
+                res.status(200).json({ msg: " Correo de recuperación enviado con éxito a " + destinatario });
+            } else {
+                res.status(403).json({ msg: false });
+            }
+            
         } catch (e) {
             return res.status(500).json({ msg: e.message });
         }

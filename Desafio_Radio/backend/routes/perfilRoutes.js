@@ -65,11 +65,11 @@ router.put('/cambiar-password',
 
 //CREAR DIPLOMA DE LA ACTIVIDAD 
 
-router.post('/diploma', [midsJWT.validarJWT], controladorPerfil.crearDiploma);
+router.post('/diploma', [validarJWT], controladorPerfil.crearDiploma);
 
 // CREAR Y PEDIR DIPLOMA DE ACTIVIDAD 
 
-router.post('/diploma/enviar', [midsJWT.validarJWT], controladorPerfil.generarYEnviarDiploma);
+router.post('/diploma/enviar', [validarJWT], controladorPerfil.generarYEnviarDiploma);
 
 
 module.exports = router;

@@ -67,3 +67,5 @@ router.get('/concurso/actividades/:id_principal', [validarJWT], controladorConcu
 // VER PARTICIPANTES DE UN CONCURSO (MODAL) (AFICIONADO) 
 
 router.get('/participantes/:id_principal', [validarJWT], controladorConcursos.verParticipantesConcurso);
+
+module.exports = router;
