@@ -11,7 +11,7 @@ const { subirArchivo } = require("../helpers/subir-archivo");
 ************************************************************************************************************************/
 
 const getActividadesUnicoContactoAficionado = async (req = request, res = response) => {
-
+    console.log("ID del usuario:", req.usuario.id);
     const conx = new ConexionPerfil();
 
     const id_usuario = req.usuario.id

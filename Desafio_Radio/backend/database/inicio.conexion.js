@@ -124,6 +124,7 @@ class InicioConexion {
             const usuarios = await models.Usuario.findAll({
                 include: [{
                     model: models.RolAsignado,
+                    as: 'rol',
                     where: {
                         id_rol: 1
                     }
@@ -152,6 +153,7 @@ class InicioConexion {
             const usuarios = await models.Usuario.findAll({
                 include: [{
                     model: models.RolAsignado,
+                    as: 'rol',
                     where: {
                         id_rol: 2
                     }
