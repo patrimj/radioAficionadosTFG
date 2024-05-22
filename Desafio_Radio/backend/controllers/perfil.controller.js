@@ -187,7 +187,9 @@ const mostrarPerfil = async (req = request, res = response) => {
 
     const conx = new ConexionPerfil();
 
-    conx.mostrarPerfil(req.body.id_usuario)
+    const id_usuario = req.usuario.id
+
+    conx.mostrarPerfil(id_usuario)
         .then(msg => {
             console.log('Perfil mostrado exitosamente');
             res.status(200).json({ message: 'Perfil mostrado exitosamente', data: msg });
@@ -205,7 +207,7 @@ const mostrarPerfil = async (req = request, res = response) => {
 * Pantalla: Perfil                                                                                                                  *
 * Rol: aficionado, admin, operador                                                                                                  *
 ************************************************************************************************************************************/
-
+//TODO: mandar el id en el token como mostrar perfil
 const modificarPerfil = async (req, res = response) => {
 
     const conx = new ConexionPerfil();

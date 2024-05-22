@@ -108,16 +108,9 @@ class PerfilConexion {
                         as: 'modalidad',
                     },
                     {
-                        model: models.PrincipalesSecundarias,
-                        as: 'act_primarias', //o 'secundaria'
-                        attributes: [],
-                        include: [
-                            {
-                                model: models.ActividadPrincipal,
-                                as: 'principal',
-                                attributes: ['nombre'],
-                            }
-                        ]
+                        model: models.ActividadPrincipal,
+                        as: 'act_primarias',
+                        attributes: ['nombre'],
                     },
                     {
                         model: models.Modos_trabajo,
@@ -169,18 +162,20 @@ class PerfilConexion {
     getActividadesPorConcurso = async (id_principal) => {
         try {
             this.conectar();
-
+    
             const actividadesSecundarias = await models.ActividadSecundaria.findAll({
                 attributes: ['id', 'nombre', 'url_foto', 'localizacion', 'fecha', 'frecuencia', 'banda', 'completada'],
                 include: [
                     {
-                        model: models.PrincipalesSecundarias,
-                        as: 'principales_secundarias',
+                        model: models.ActividadPrincipal,
+                        as: 'act_primarias',
                         where: {
-                            id_principal: id_principal,
-                            deleted_at: null
+                            id: id_principal
                         },
-                        attributes: [],
+                        through: {
+                            attributes: [],
+                            where: { deleted_at: null }
+                        }
                     },
                     {
                         model: models.Modalidad,
@@ -194,7 +189,7 @@ class PerfilConexion {
                     }
                 ]
             });
-
+    
             this.desconectar();
             return actividadesSecundarias;
         } catch (error) {
