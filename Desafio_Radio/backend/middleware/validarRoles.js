@@ -37,7 +37,7 @@ const esOperador = async (req, res, next) => {
         );
 
         if (!esOperador) {
-            return res.status(403).json({ 'msg': 'Acceso denegado. No tienes permisos de administrador.' });
+            return res.status(403).json({ 'msg': 'Acceso denegado. No tienes permisos de operador.' });
         }
 
         next();

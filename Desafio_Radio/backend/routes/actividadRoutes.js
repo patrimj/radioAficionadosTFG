@@ -39,11 +39,11 @@ router.get('/participantes/:id', [validarJWT], controladorActividad.verParticipa
 
 // ELIMINAR ACTIVIDAD (OPERADOR)
 
-router.delete('/actividad/baja/:id', [validarJWT, esOperador], controladorActividad.eliminarActividad);
+router.delete('/actividad/baja/:id', [validarJWT], controladorActividad.eliminarActividad);
 
 // MODIFICAR ACTIVIDAD (OPERADOR)
 
-router.put('/actividad/modificar/:id', [validarJWT, esOperador], controladorActividad.modificarActividad);
+router.put('/actividad/modificar/:id', [validarJWT], controladorActividad.modificarActividad);
 
 // ALTA ACTIVIDAD DE UN UNICO CONTACTO (OPERADOR)
 
