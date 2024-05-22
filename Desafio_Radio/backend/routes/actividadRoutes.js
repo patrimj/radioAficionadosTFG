@@ -9,15 +9,15 @@ const {validarCampos} = require("../middleware/validar-campos");
 
 // ------------------------------------------------------ PANTALLA ACTIVIDADES ------------------------------------------------------ \\
 
-// VER TODAS LAS ACTIVIDADES Y SUS CONCURSOS (SI TIENE) (AFICIONADO)
+// VER TODAS LAS ACTIVIDADES Y SUS CONCURSOS (SI TIENE) 
 
 router.get('/actividades', [validarJWT], controladorActividad.mostrarActividades);
 
-// VER TODAS LAS ACTIVIDADES TERMINADAS (AFICIONADO)
+// VER TODAS LAS ACTIVIDADES TERMINADAS
 
 router.get('/actividades/terminadas', [validarJWT], controladorActividad.mostrarActividadesTerminadas);
 
-//VER TODAS LAS ACTIVIDADES PENDIENTES (AFICIONADO)
+//VER TODAS LAS ACTIVIDADES PENDIENTES 
 
 router.get('/actividades/pendientes', [validarJWT], controladorActividad.mostrarActividadesPendientes);
 

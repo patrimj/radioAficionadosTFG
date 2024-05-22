@@ -33,13 +33,10 @@ class ActividadConexion {
                     deleted_at: null
                 },
                 include: [
+
                     {
-                        model: ActividadSecundaria,
-                        as: 'secundaria'
-                    },
-                    {
-                        model: ActividadPrincipal,
-                        as: 'principal'
+                        model: models.ActividadPrincipal,
+                        as: 'act_primarias'
                     },
                     {
                         model: models.Modalidad,
