@@ -353,6 +353,7 @@ class ActividadConexion {
     altaActividadUnicoContacto = async (body) => {
         try {
             this.conectar();
+            body.completada = 0;
             let actividad = await models.ActividadSecundaria.create(body);
             return actividad;
         } catch (error) {
@@ -373,6 +374,7 @@ class ActividadConexion {
     altaActividadVariosContactos = async (body, id_principal, premio) => {
         try {
             this.conectar();
+            body.completada = 0;
             let actividad = await models.ActividadSecundaria.create(body);
             let principal_secundaria = await models.PrincipalesSecundarias.create({
                 id_principal: id_principal,

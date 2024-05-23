@@ -62,13 +62,13 @@ router.post('/actividad/alta/unicoContacto', validarArchivoSubir,
 router.post('/actividad/alta/variosContactos', validarArchivoSubir,
     [
         check('nombre', 'El nombre de la actividad es obligatorio').not().isEmpty(),
-        check('url_foto', 'La foto de la actividad es obligatoria').not().isEmpty(),
         check('localizacion', 'La localización de la actividad es obligatoria').not().isEmpty(),
         check('fecha', 'La fecha de la actividad es obligatoria').not().isEmpty(),
         check('frecuencia', 'La frecuencia de la actividad es obligatoria').not().isEmpty(),
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
-        check('completada', 'El estado de la actividad es obligatorio').not().isEmpty(),
-    ], validarCampos, [validarJWT, esOperador], controladorActividad.altaActividadVariosContactos);
+        check('id_modo', 'El modo de la actividad es obligatorio').not().isEmpty(),
+        check('id_modalidad', 'La modalidad de la actividad es obligatoria').not().isEmpty(),
+    ], validarCampos, [validarJWT], controladorActividad.altaActividadVariosContactos);
 
 // MOSTRAR MODALIDADES
 

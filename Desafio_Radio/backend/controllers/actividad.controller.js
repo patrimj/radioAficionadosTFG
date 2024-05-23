@@ -293,9 +293,10 @@ const altaActividadVariosContactos = async (req, res = response) => {
             throw new Error('Error al subir el archivo');
         }
 
+        const id_principal = req.body.id_principal;
         const premio = req.body.premio;
 
-        conx.altaActividadVariosContactos(req.body, req.params.id_principal, premio)
+        conx.altaActividadVariosContactos(req.body, id_principal, premio)
             .then(msg => {
                 console.log('Actividad creada correctamente!');
                 res.status(200).json({ message: 'Actividad varios contactos creada correctamente!', data: msg });
