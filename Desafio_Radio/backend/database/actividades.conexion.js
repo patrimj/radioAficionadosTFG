@@ -401,10 +401,7 @@ class ActividadConexion {
         try {
             this.conectar();
             const modalidades = await models.Modalidad.findAll({
-                where: {
-                    deleted_at: null
-                },
-                attributes: ['id', 'descripcion']
+                attributes: ['id','descripcion']
 
             });
             return modalidades;
@@ -426,9 +423,6 @@ class ActividadConexion {
         try {
             this.conectar();
             const modos = await models.Modos_trabajo.findAll({
-                where: {
-                    deleted_at: null
-                },
                 attributes: ['id', 'nombre']
 
             });

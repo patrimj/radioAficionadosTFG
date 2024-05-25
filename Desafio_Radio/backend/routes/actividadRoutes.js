@@ -54,8 +54,9 @@ router.post('/actividad/alta/unicoContacto', validarArchivoSubir,
         check('fecha', 'La fecha de la actividad es obligatoria').not().isEmpty(),
         check('frecuencia', 'La frecuencia de la actividad es obligatoria').not().isEmpty(),
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
-        check('completada', 'El estado de la actividad es obligatorio').not().isEmpty(),
-    ], validarCampos, [validarJWT, esOperador], controladorActividad.altaActividadUnicoContacto);
+        check('id_modo', 'El modo de la actividad es obligatorio').not().isEmpty(),
+        check('id_modalidad', 'La modalidad de la actividad es obligatoria').not().isEmpty(),
+    ], validarCampos, [validarJWT, ], controladorActividad.altaActividadUnicoContacto);
 
 // ALTA ACTIVIDAD DE VARIOS CONTACTOS (OPERADOR)
 
@@ -68,7 +69,7 @@ router.post('/actividad/alta/variosContactos', validarArchivoSubir,
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
         check('id_modo', 'El modo de la actividad es obligatorio').not().isEmpty(),
         check('id_modalidad', 'La modalidad de la actividad es obligatoria').not().isEmpty(),
-    ], validarCampos, [validarJWT], controladorActividad.altaActividadVariosContactos);
+    ], validarCampos, [validarJWT, esOperador], controladorActividad.altaActividadVariosContactos);
 
 // MOSTRAR MODALIDADES
 

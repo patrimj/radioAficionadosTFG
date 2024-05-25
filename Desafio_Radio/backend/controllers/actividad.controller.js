@@ -319,22 +319,17 @@ const altaActividadVariosContactos = async (req, res = response) => {
  * Pantalla: Actividades                                                                                                                     *
  * Rol: Operador                                                                                                                             *
  * ******************************************************************************************************************************************/
-
 const getModalidades = async (req = request, res = response) => {
-
     const conx = new ConexionActividades();
-
-    conx.getModalidades()
-        .then(msg => {
-            console.log('Modalidades mostradas');
-            res.status(200).json({ message: 'Modalidades mostradas correctamente!', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al mostrar las modalidades' });
-        });
+    try {
+        const modalidades = await conx.getModalidades();
+        console.log('Modalidades mostradas');
+        res.status(200).json({ message: 'Modalidades mostradas correctamente!', data: modalidades });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ msg: 'Error al mostrar las modalidades', error: err.toString() });
+    }
 }
-
 /*********************************************************************************************************************************************
  * Nombre consulta: getModos                                                                                                                 *
  * Descripción: Esta consulta permite obtener los modos de la base de datos                                                                  *
