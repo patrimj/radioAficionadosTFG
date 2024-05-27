@@ -30,6 +30,7 @@ class UsuarioConexion {
             this.conectar();
 
             const usuario = await models.Usuario.findOne({
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: { email: email },
                 include: {
                     model: models.Rol,
@@ -113,6 +114,7 @@ class UsuarioConexion {
             this.conectar();
 
             const usuarios = await models.Usuario.findAll({
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     nombre: {
                         [models.Sequelize.Op.like]: `%${nombre}%` 
@@ -141,6 +143,7 @@ class UsuarioConexion {
         try {
             this.conectar();
             const usuario = await models.Usuario.findAll({
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     id_examen: {
                         [models.Sequelize.Op.like]: `%${id_examen}%` 
@@ -450,6 +453,7 @@ class UsuarioConexion {
             let resultados = [];
             this.conectar();
             resultados = await models.Usuario.findAll({
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     nombre: {
                         [Op.ne]: ''

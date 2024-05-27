@@ -22,7 +22,6 @@ router.post('/registro',
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         check('apellido_uno', 'El primer apellido es obligatorio').not().isEmpty(),
         check('apellido_dos', 'El segundo apellido es obligatorio').not().isEmpty(),
-        check('url_foto', 'La URL de la foto es obligatoria').not().isEmpty(),
         check('id_examen', 'El id del examen es obligatorio').not().isEmpty(),
     ], 
     validarCampos, 
@@ -66,14 +65,7 @@ router.delete('/usuario/baja/:id', [validarJWT, esAdmin],  controladorUsuario.ba
 
 // MODIFICAR USUARIOS
 
-router.put('/usuario/modificar/:id', validarArchivoSubir,
-    [
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-        check('apellido_uno', 'El nombre es obligatorio').not().isEmpty(),
-        check('apellido_dos', 'El nombre es obligatorio').not().isEmpty(),
-        check('id_examen', 'El Identificador es obligatorio').not().isEmpty(),
-        check('id_rol', 'El rol es obligatorio').optional().isNumeric()
-    ], validarCampos, [validarJWT, esAdmin],  controladorUsuario.modificarUsuario);
+router.put('/usuario/modificar/:id', [validarJWT, esAdmin],  controladorUsuario.modificarUsuario);
 
 // ASIGNAR ROL
 
