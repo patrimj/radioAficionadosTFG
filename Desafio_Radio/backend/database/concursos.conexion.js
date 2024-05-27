@@ -107,6 +107,7 @@ class ConcursosConexion {
         try {
             let actividad = 0;
             this.conectar();
+            body.completada = 0;
             const actividadNueva = await models.ActividadPrincipal.create(body);
             actividad = actividadNueva;
             this.desconectar();
@@ -155,14 +156,14 @@ class ConcursosConexion {
     terminarConcurso = async (id_principal) => {
         try {
             this.conectar();
-            let actividad = await models.ActividadPrincipal.findByPk(id_principal);
-            if (!actividad) {
+            let concurso = await models.ActividadPrincipal.findByPk(id_principal);
+            if (!concurso) {
                 this.desconectar();
                 throw error;
             }
-            await actividad.update({ completada: true });
+            await concurso.update({ completada: true });
             this.desconectar();
-            return actividad;
+            return concurso;
         } catch (error) {
             this.desconectar();
             console.error('Error al terminar el concurso', error);

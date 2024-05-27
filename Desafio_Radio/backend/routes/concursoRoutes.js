@@ -28,9 +28,7 @@ router.post('/concurso/alta', validarArchivoSubir,
     [
         check('nombre', 'El nombre del concurso es obligatorio').not().isEmpty(),
         check('descripcion', 'La descripción del concurso es obligatoria').not().isEmpty(),
-        check('completada', 'El estado del concurso es obligatorio').not().isEmpty(),
         check('solucion', 'La solución del concurso es obligatoria').not().isEmpty(),
-        check('url_foto', 'La foto del concurso es obligatoria').not().isEmpty(),
     ], validarCampos, [validarJWT, esAdmin], controladorConcursos.altaConcurso);
 
 // MODIFICAR CONCURSO
@@ -39,9 +37,7 @@ router.put('/concurso/modificar/:id', validarArchivoSubir,
     [
         check('nombre', 'El nombre del concurso es obligatorio').not().isEmpty(),
         check('descripcion', 'La descripción del concurso es obligatoria').not().isEmpty(),
-        check('completada', 'El estado del concurso es obligatorio').not().isEmpty(),
         check('solucion', 'La solución del concurso es obligatoria').not().isEmpty(),
-        check('url_foto', 'La foto del concurso es obligatoria').not().isEmpty(),
     ], validarCampos, [validarJWT, esAdmin], controladorConcursos.modificarConcurso);
 
 // BAJA CONCURSO

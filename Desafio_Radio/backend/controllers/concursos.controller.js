@@ -160,7 +160,7 @@ const modificarConcurso = async (req, res = response) => {
 * Rol: Administrador                                                                                                              *
 **********************************************************************************************************************************/
 
-const terminarConcurso = async (req, res = response) => {
+const terminarConcurso = async (req = request, res = response) => {
 
     const conx = new ConexionConcursos();
 
