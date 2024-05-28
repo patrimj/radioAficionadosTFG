@@ -29,6 +29,7 @@ class ActividadConexion {
             let actividades = [];
             this.conectar();
             actividades = await models.ActividadSecundaria.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     deleted_at: null
                 },
@@ -71,6 +72,7 @@ class ActividadConexion {
             let actividades = [];
             this.conectar();
             actividades = await models.ActividadSecundaria.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     completada: true,
                     deleted_at: null
@@ -110,6 +112,7 @@ class ActividadConexion {
             let actividades = [];
             this.conectar();
             actividades = await models.ActividadSecundaria.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     completada: false,
                     deleted_at: null
@@ -178,7 +181,7 @@ class ActividadConexion {
                 id: id_secundaria,
             },
             attributes: {
-                exclude: ['createdAt', 'updatedAt', 'deletedAt']
+                exclude: ['created_at', 'updated_at', 'deleted_at']
             },
             include: [
                 {
@@ -215,6 +218,9 @@ class ActividadConexion {
         try {
             this.conectar();
             const actividades = await models.ActividadSecundaria.findAll({
+                attributes: {
+                    exclude: ['created_at', 'updated_at', 'deleted_at']
+                },
                 where: {
                     nombre: {
                         [models.Sequelize.Op.like]: '%' + nombre + '%'
@@ -222,7 +228,7 @@ class ActividadConexion {
                     deleted_at: null
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'deletedAt']
+                    exclude: ['created_at', 'updated_at', 'deletedAt']
                 },
                 include: [
                     {

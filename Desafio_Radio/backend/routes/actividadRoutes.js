@@ -39,7 +39,7 @@ router.get('/participantes/:id', [validarJWT], controladorActividad.verParticipa
 
 // ELIMINAR ACTIVIDAD (OPERADOR)
 
-router.delete('/actividad/baja/:id', [validarJWT], controladorActividad.eliminarActividad);
+router.delete('/actividad/baja/:id', [validarJWT, esOperador], controladorActividad.eliminarActividad);
 
 // MODIFICAR ACTIVIDAD (OPERADOR)
 
@@ -56,7 +56,7 @@ router.post('/actividad/alta/unicoContacto', validarArchivoSubir,
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
         check('id_modo', 'El modo de la actividad es obligatorio').not().isEmpty(),
         check('id_modalidad', 'La modalidad de la actividad es obligatoria').not().isEmpty(),
-    ], validarCampos, [validarJWT, ], controladorActividad.altaActividadUnicoContacto);
+    ], validarCampos, [validarJWT ], controladorActividad.altaActividadUnicoContacto);
 
 // ALTA ACTIVIDAD DE VARIOS CONTACTOS (OPERADOR)
 
@@ -69,7 +69,7 @@ router.post('/actividad/alta/variosContactos', validarArchivoSubir,
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
         check('id_modo', 'El modo de la actividad es obligatorio').not().isEmpty(),
         check('id_modalidad', 'La modalidad de la actividad es obligatoria').not().isEmpty(),
-    ], validarCampos, [validarJWT, esOperador], controladorActividad.altaActividadVariosContactos);
+    ], validarCampos, [validarJWT], controladorActividad.altaActividadVariosContactos);
 
 // MOSTRAR MODALIDADES
 

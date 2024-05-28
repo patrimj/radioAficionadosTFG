@@ -1,15 +1,15 @@
-interface Modalidad {
+export interface Modalidad {
     id?: number;
     descripcion: string;
 }
 
-interface PrincipalesSecundarias {
+export interface PrincipalesSecundarias {
     id_principal: number;
     id_secundaria: number;
     premio: string;
 }
 
-interface ActPrimaria {
+export interface ActPrimaria {
     id?: number;
     nombre: string;
     descripcion?: string;
@@ -19,11 +19,11 @@ interface ActPrimaria {
     PrincipalesSecundarias?: PrincipalesSecundarias;
 }
 
-interface Modo {
+export interface Modo {
     nombre: string;
 }
 
-interface Actividad {
+export interface Actividad {
     id: number;
     nombre: string;
     url_foto: string;
@@ -37,24 +37,24 @@ interface Actividad {
     modo: Modo;
 }
 
-interface RespuestaActividades {
+export interface RespuestaActividades {
     message: string;
     data: Actividad[];
 }
 
-interface RespuestaTotalActividadesYconcursos {
+export interface RespuestaTotalActividadesYconcursos {
     message: string;
     data: number;
 }
 
-interface ActPrincipalUsuario {
+export interface ActPrincipalUsuario {
     id: number;
     nombre: string;
     email: string;
     id_examen: string;
 }
 
-interface Concurso {
+export interface Concurso {
     nombre: string;
     descripcion: string;
     url_foto: string;
@@ -63,12 +63,12 @@ interface Concurso {
     act_principales_usuario: ActPrincipalUsuario[];
 }
 
-interface RespuestaConcursos {
+export interface RespuestaConcursos {
     message: string;
     data: Concurso[];
 }
 
-interface Perfil {
+export interface Perfil {
     id: number;
     nombre: string;
     email: string;
@@ -79,7 +79,7 @@ interface Perfil {
     id_examen: string;
 }
 
-interface RespuestaPerfil {
+export interface RespuestaPerfil {
     message: string;
     data: Perfil;
 }

@@ -1,11 +1,11 @@
-interface Noticia {
+export interface Noticia {
     id: number;
     nombre: string;
     fecha: string;
     descripcion: string;
 }
 
-interface RespuestaNoticias {
+export interface RespuestaNoticias {
     message: string;
     data: Noticia[];
 }
