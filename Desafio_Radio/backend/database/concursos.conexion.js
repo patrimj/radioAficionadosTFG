@@ -28,6 +28,7 @@ class ConcursosConexion {
         try {
             this.conectar();
             const actividades = await models.ActividadPrincipal.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     deleted_at: null
                 }
@@ -54,6 +55,7 @@ class ConcursosConexion {
             let actividades = [];
             this.conectar();
             actividades = await models.ActividadPrincipal.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     completada: true,
                     deleted_at: null
@@ -81,6 +83,7 @@ class ConcursosConexion {
             let actividades = [];
             this.conectar();
             actividades = await models.ActividadPrincipal.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     completada: false,
                     deleted_at: null
@@ -229,6 +232,7 @@ class ConcursosConexion {
         try {
             this.conectar();
             const actividades = await models.ActividadPrincipal.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     nombre: {
                         [models.Sequelize.Op.like]: '%' + nombre + '%'
@@ -256,14 +260,15 @@ class ConcursosConexion {
     verParticipantesConcurso = async (id_principal) => {
         try {
             this.conectar();
-            const usuariosConcurso = await models.Usuario_secundarias.findAll({
+            const usuariosConcurso = await models.usuario_principal.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     deleted_at: null
                 },
                 include: [
                     {
                         model: models.Usuario,
-                        as: 'usuario_secundarias_secundarias',
+                        as: 'usuario',
                         where: {
                             deleted_at: null
                         },
@@ -271,7 +276,7 @@ class ConcursosConexion {
                     },
                     {
                         model: models.ActividadPrincipal,
-                        as: 'act_principal',
+                        as: 'actividad_principal',
                         where: {
                             id: id_principal,
                             deleted_at: null
@@ -303,6 +308,7 @@ class ConcursosConexion {
             this.conectar();
 
             const actividadesSecundarias = await models.ActividadSecundaria.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 attributes: ['id', 'nombre', 'url_foto', 'localizacion', 'fecha', 'frecuencia', 'banda', 'completada'],
                 include: [
                     {

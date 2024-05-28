@@ -70,3 +70,24 @@ export interface ModosRespuesta {
     message: string;
     data: Modo[];
 }
+
+export interface PrincipalSecundaria {
+    id_principal: string;
+    id_secundaria: number;
+    premio: string;
+    updated_at: string;
+    created_at: string;
+}
+
+export interface ActividadVariosContactosRespuesta {
+    message: string;
+    data: {
+        actividad: Actividad;
+        principal_secundaria: PrincipalSecundaria;
+    };
+}
+
+export interface ActividadUnicoContactoRespuesta {
+    message: string;
+    data: Actividad;
+}

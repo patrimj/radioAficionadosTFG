@@ -33,12 +33,7 @@ router.post('/concurso/alta', validarArchivoSubir,
 
 // MODIFICAR CONCURSO
 
-router.put('/concurso/modificar/:id', validarArchivoSubir,
-    [
-        check('nombre', 'El nombre del concurso es obligatorio').not().isEmpty(),
-        check('descripcion', 'La descripción del concurso es obligatoria').not().isEmpty(),
-        check('solucion', 'La solución del concurso es obligatoria').not().isEmpty(),
-    ], validarCampos, [validarJWT, esAdmin], controladorConcursos.modificarConcurso);
+router.put('/concurso/modificar/:id', [validarJWT, esAdmin], controladorConcursos.modificarConcurso);
 
 // BAJA CONCURSO
 
@@ -62,6 +57,6 @@ router.get('/concurso/actividades/:id_principal', [validarJWT], controladorConcu
 
 // VER PARTICIPANTES DE UN CONCURSO (MODAL) (AFICIONADO) 
 
-router.get('/participantes/:id_principal', [validarJWT], controladorConcursos.verParticipantesConcurso);
+router.get('/participantesConcurso/:id_principal', [validarJWT], controladorConcursos.verParticipantesConcurso);
 
 module.exports = router;
