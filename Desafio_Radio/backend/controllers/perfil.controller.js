@@ -207,7 +207,7 @@ const mostrarPerfil = async (req = request, res = response) => {
 * Pantalla: Perfil                                                                                                                  *
 * Rol: aficionado, admin, operador                                                                                                  *
 ************************************************************************************************************************************/
-//TODO: mandar el id en el token como mostrar perfil
+
 const modificarPerfil = async (req, res = response) => {
 
     const conx = new ConexionPerfil();

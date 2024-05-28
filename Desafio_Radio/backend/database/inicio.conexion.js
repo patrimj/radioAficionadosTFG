@@ -1,7 +1,8 @@
 const Conexion = require('./ConexionSequelize');
-const { Sequelize, Op } = require('sequelize');
+const { Sequelize, Op, where } = require('sequelize');
 const models = require('../models/index.js');
 const bcrypt = require("bcrypt");
+const e = require('express');
 
 class InicioConexion {
 
@@ -29,6 +30,10 @@ class InicioConexion {
         let resultados = [];
         this.conectar();
         resultados = await models.Noticias.findAll({
+            where: {
+                deleted_at: null
+            },
+            attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
             order: [
                 ['fecha', 'ASC']
             ]
@@ -122,6 +127,10 @@ class InicioConexion {
         try {
             this.conectar();
             const usuarios = await models.Usuario.findAll({
+                where: {
+                    deleted_at: null
+                },
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 include: [{
                     model: models.RolAsignado,
                     as: 'rol',
@@ -151,6 +160,10 @@ class InicioConexion {
         try {
             this.conectar();
             const usuarios = await models.Usuario.findAll({
+                where: {
+                    deleted_at: null
+                },
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 include: [{
                     model: models.RolAsignado,
                     as: 'rol',

@@ -307,7 +307,9 @@ class PerfilConexion {
         try {
             this.conectar();
 
-            const usuario = await models.Usuario.findOne({ where: { id: id_usuario } });
+            const usuario = await models.Usuario.findOne({ 
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
+                where: { id: id_usuario } });
 
             this.desconectar();
 
@@ -373,7 +375,7 @@ class PerfilConexion {
 
         // Llamamos a la imagen y la redimensionamos
         const fotoImageBytes = await fetch(url).then(res => res.arrayBuffer())
-        const fotoImage = await pdfDoc.embedJpg(fotoImageBytes);
+        const fotoImage = await pdfDoc.embedJpg(fotoImageBytes); // solo se permite imagenes en jpeg
         const dimImage = this.ajustarDimensionesImagen(fotoImage, anchoPagina, altoPagina);
 
 

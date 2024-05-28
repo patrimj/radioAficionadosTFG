@@ -39,16 +39,7 @@ router.get('/perfil', [validarJWT], controladorPerfil.mostrarPerfil);
 
 // MODIFICAR PERFIL
 
-router.put('/usuario/perfil/:id', validarArchivoSubir,
-    [
-        check('id', 'El id del usuario es obligatorio').not().isEmpty(),
-        check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-        check('apellido_uno', 'El primer apellido es obligatorio').not().isEmpty(),
-        check('apellido_dos', 'El segundo apellido es obligatorio').not().isEmpty(),
-        check('id_examen', 'El id del examen es obligatorio').not().isEmpty(),
-    ], 
-    validarCampos, 
-    controladorPerfil.modificarPerfil
+router.put('/usuario/perfil/:id', validarArchivoSubir, validarCampos, controladorPerfil.modificarPerfil
 );
 
 // CAMBIAR CONTRASEÑA
