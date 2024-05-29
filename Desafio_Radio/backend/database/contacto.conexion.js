@@ -170,7 +170,7 @@ class ContactoConexion {
     /**********************************************************************************************************************************
     * Nombre consulta: getActividadesVariosContactos                                                                                  *
     * Descripción: Esta consulta obtiene las actividades de varios contactos asociadas a un concurso específico de la base de datos   *
-    * Parametros:                                                                                                          * 
+    * Parametros:                                                                                                                     * 
     * Pantalla: Perfil y Concursos (modal)  y Registrar Contacto                                                                      *
     * Rol: Aficionado                                                                                                                 *
     **********************************************************************************************************************************/
@@ -184,7 +184,6 @@ class ContactoConexion {
                     completada: false,
                     deleted_at: null
                 },
-                attributes: ['id', 'nombre'],
                 include: [
                     {
                         model: models.PrincipalesSecundarias,
@@ -322,7 +321,7 @@ class ContactoConexion {
                         include: [
                             {
                                 model: models.ActividadSecundaria,
-                                as: 'actividad_secundaria',
+                                as: 'act_secundaria',
                                 attributes: ['nombre'],
                             },
                             {
@@ -332,7 +331,7 @@ class ContactoConexion {
                                 include: [
                                     {
                                         model: models.ActividadPrincipal,
-                                        as: 'actividad_principal',
+                                        as: 'principal',
                                         attributes: ['nombre', 'solucion'],
                                     }
                                 ]

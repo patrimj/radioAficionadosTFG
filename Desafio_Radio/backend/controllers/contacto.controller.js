@@ -59,7 +59,7 @@ const getConcursosContacto = async (req = request, res = response) => {
 
     const conx = new ConexionContacto();
 
-    conx.getConcursos()
+    conx.getConcursosContacto()
         .then(concursos => {
             console.log('Concursos obtenidos correctamente');
             res.status(200).json({ message: 'Concursos obtenidos correctamente!', data: concursos });

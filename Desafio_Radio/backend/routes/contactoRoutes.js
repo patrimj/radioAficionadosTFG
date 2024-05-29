@@ -15,7 +15,7 @@ router.post('/contacto/registrar',
         check('id_usuario', 'El id del usuario es obligatorio').not().isEmpty(),
         check('id_secundaria', 'El id de la actividad secundaria es obligatorio').not().isEmpty(),
         check('id_principal', 'El id de la actividad principal es opcional').optional(),
-    ], validarCampos, [validarJWT, esOperador], controladorContacto.registrarContacto);
+    ], validarCampos, [validarJWT], controladorContacto.registrarContacto);
 
 // LISTAR USUARIOS 
 
@@ -37,7 +37,7 @@ router.get('/contacto/concurso/solucion/:id_principal', [validarJWT, esOperador]
 
 // MOSTRAR ACTIVIDADES QUE PERTENECEN A UN CONCURSO
 
-router.get('/contacto/concurso/actividades/:id_principal', [validarJWT, esOperador], controladorContacto.getActividadesVariosContactos);
+router.get('/contacto/concurso/actividades/:id_principal', [validarJWT], controladorContacto.getActividadesVariosContactos);
 
 // MOSTRAR PREMIO DE LA ACTIVIDAD
 
