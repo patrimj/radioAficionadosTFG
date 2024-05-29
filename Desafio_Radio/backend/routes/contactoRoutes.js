@@ -23,7 +23,7 @@ router.get('/contacto/usuarios', [validarJWT, esOperador], controladorContacto.g
 
 // MOSTRAR TODOS LOS CONTACTOS DETALLADOS
 
-router.get('/contacto/contactos', [validarJWT, esOperador], controladorContacto.getContactosConDetalles);
+router.get('/contacto/contactos', [validarJWT], controladorContacto.getContactosConDetalles);
 
 // ************************** REGISTRAR USUARIO EN UNA ACTIVIDAD DE VARIOS CONTACTOS ************************** //
 
