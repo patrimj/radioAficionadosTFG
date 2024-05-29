@@ -65,7 +65,7 @@ class ContactoConexion {
             });
 
             if (body.id_principal) { //significa que estamos registrando una actividad de varios contactos (concurso)
-                const registroPrincipalExistente = await models.Usuario_principales.findOne({
+                const registroPrincipalExistente = await models.usuario_principal.findOne({
                     where: {
                         id_usuario: body.id_usuario,
                         id_principal: body.id_principal
@@ -259,7 +259,7 @@ class ContactoConexion {
                 attributes: ['id_secundaria'],
                 raw: true
             });
-    
+
             let premios = [];
             for (let ps of principalesSecundarias) {
                 const usuarioSecundarias = await models.Usuario_secundarias.findOne({
@@ -275,7 +275,7 @@ class ContactoConexion {
                     premios.push(usuarioSecundarias.premio);
                 }
             }
-    
+
             this.desconectar();
             return premios;
         } catch (error) {
@@ -391,7 +391,7 @@ class ContactoConexion {
                 attributes: []
             });
             this.desconectar();
-            return actividad ? actividad.modalidad.nombre : null;
+            return actividad ? actividad.modalidad.descripcion : null;
         } catch (error) {
             this.desconectar();
             console.error(`Error al mostrar el nombre de la modalidad de la actividad con id ${id_secundaria}:`, error);
