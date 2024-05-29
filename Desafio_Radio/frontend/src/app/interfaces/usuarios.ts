@@ -9,21 +9,21 @@ export interface Rol {
     RolAsignado: RolAsignado;
 }
 
-export interface ActividadPrincipal {
+export interface Concurso {
     nombre: string;
     descripcion: string;
-    url_foto: string;
+    url_foto: File;
 }
 
-export interface UsuarioPrincipal {
+export interface UsuarioConcurso {
     id_usuario: number;
     id_principal: number;
-    actividad_principal: ActividadPrincipal;
+    actividad_principal: Concurso;
 }
 
-export interface ActSecundaria {
+export interface Actividad {
     nombre: string;
-    url_foto: string;
+    url_foto: File;
     localizacion: string;
     fecha: string;
     frecuencia: string;
@@ -32,11 +32,11 @@ export interface ActSecundaria {
     id_modalidad: number;
 }
 
-export interface UsuarioSecundaria {
+export interface UsuarioActividad {
     id_usuario: number;
     id_secundaria: number;
     premio: null | string;
-    act_secundaria: ActSecundaria;
+    act_secundaria: Actividad;
 }
 
 export interface Usuario {
@@ -46,16 +46,17 @@ export interface Usuario {
     apellido_uno: string;
     apellido_dos: string;
     password: string;
-    url_foto: string;
+    url_foto: File;
     id_examen: string;
     roles?: Rol[];
-    usuario_principal?: UsuarioPrincipal[];
-    usuario_secundarias?: UsuarioSecundaria[];
+    id_rol?: number;
+    usuario_principal?: UsuarioConcurso[];
+    usuario_secundarias?: UsuarioActividad[];
 }
 
 // RESPUESTAS
 
-export interface UsuariosDiplomaRespuesta {
+export interface UsuariosRespuesta {
     message: string;
     data: Usuario[];
 }
