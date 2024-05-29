@@ -316,16 +316,25 @@ export class UsuariosComponent implements OnInit {
   // LOGIN
 
   login() {
-    this.usuariosService.login(this.usuario.email, this.usuario.password).subscribe((respuesta) => {
-      if (respuesta) {
-        this.mensaje = [{ severity: 'success', summary: 'Bienvenido', detail: `Usuario  ${this.usuario.email} logueado` }];
-        this.mensajeModificado = [];
-        this.mensajeEliminado = [];
-        this.mensajeRol = [];
-
-        this.mostrarUsuarios();
+    this.usuariosService.login(this.usuario.email, this.usuario.password).subscribe(
+      (respuesta) => {
+        if (respuesta && respuesta.token) {
+          localStorage.setItem('token', respuesta.token);
+          this.mensaje = [{ severity: 'success', summary: 'Bienvenido', detail: `Usuario  ${this.usuario.email} logueado` }];
+          this.mensajeModificado = [];
+          this.mensajeEliminado = [];
+          this.mensajeRol = [];
+  
+          this.mostrarUsuarios();
+        } else {
+          this.mensaje = [{ severity: 'error', summary: 'Error', detail: 'Login fallido' }];
+        }
+      },
+      (error) => {
+        console.error(error);
+        this.mensaje = [{ severity: 'error', summary: 'Error', detail: 'Error en el servidor' }];
       }
-    })
+    );
   }
 
   //RECURSOS VARIOS
