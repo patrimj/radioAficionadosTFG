@@ -37,7 +37,7 @@ router.get('/contacto/concurso/solucion/:id_principal', [validarJWT, esOperador]
 
 // MOSTRAR ACTIVIDADES QUE PERTENECEN A UN CONCURSO
 
-router.get('/contacto/concurso/actividades/:id_principal', [validarJWT], controladorContacto.getActividadesVariosContactos);
+router.get('/contacto/concurso/actividades/:id_principal', [validarJWT, esOperador], controladorContacto.getActividadesVariosContactos);
 
 // MOSTRAR PREMIO DE LA ACTIVIDAD
 
@@ -45,17 +45,17 @@ router.get('/contacto/actividad/premio/:id_secundaria', [validarJWT, esOperador]
 
 // MOSTRAR LOS PREMIOS DE UN USUARIO EN UN CONCURSO
 
-router.get('/contacto/usuario/premios/:id_usuario/:id_principal', [validarJWT, esOperador], controladorContacto.getPremiosUsuarioConcurso);
+router.get('/contacto/usuario/premios/:id_usuario/:id_principal', [validarJWT], controladorContacto.getPremiosUsuarioConcurso);
 
 // ************************** REGISTRAR USUARIO EN UNA ACTIVIDAD DE VARIOS CONTACTOS ************************** //
 
 // MOSTRAR TODAS LAS ACTIVIDADES
 
-router.get('/contacto/actividades', [validarJWT, esOperador], controladorContacto.getActividadesContacto);
+router.get('/contacto/actividades', [validarJWT], controladorContacto.getActividadesContacto);
 
 // MOSTRAR LA MODALIDAD DE LA ACTIVIDAD
 
-router.get('/contacto/actividad/modalidad/:id_secundaria', [validarJWT, esOperador], controladorContacto.getModalidadActividad);
+router.get('/contacto/actividad/modalidad/:id_secundaria', [validarJWT], controladorContacto.getModalidadActividad);
 
 module.exports = router;
 

@@ -180,6 +180,7 @@ class ContactoConexion {
             this.conectar();
 
             const actividadesSecundarias = await models.ActividadSecundaria.findAll({
+                attributes: { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     completada: false,
                     deleted_at: null
@@ -250,22 +251,31 @@ class ContactoConexion {
     getPremiosUsuarioConcurso = async (id_usuario, id_principal) => {
         try {
             this.conectar();
-            const premios = await models.Usuario_secundarias.findAll({
+            const principalesSecundarias = await models.PrincipalesSecundarias.findAll({
                 where: {
-                    id_usuario: id_usuario,
+                    id_principal: id_principal,
                     deleted_at: null
                 },
-                include: [{
-                    model: models.PrincipalesSecundarias,
-                    as: 'principales_secundarias',
+                attributes: ['id_secundaria'],
+                raw: true
+            });
+    
+            let premios = [];
+            for (let ps of principalesSecundarias) {
+                const usuarioSecundarias = await models.Usuario_secundarias.findOne({
                     where: {
-                        id_principal: id_principal,
+                        id_usuario: id_usuario,
+                        id_secundaria: ps.id_secundaria,
                         deleted_at: null
                     },
                     attributes: ['premio'],
-                }],
-                attributes: []
-            });
+                    raw: true
+                });
+                if (usuarioSecundarias) {
+                    premios.push(usuarioSecundarias.premio);
+                }
+            }
+    
             this.desconectar();
             return premios;
         } catch (error) {
@@ -370,7 +380,7 @@ class ContactoConexion {
                     {
                         model: models.Modalidad,
                         as: 'modalidad',
-                        attributes: ['nombre']
+                        attributes: ['descripcion']
                     }
                 ],
                 where: {
