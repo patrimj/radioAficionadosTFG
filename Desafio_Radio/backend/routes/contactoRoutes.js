@@ -15,7 +15,7 @@ router.post('/contacto/registrar',
         check('id_usuario', 'El id del usuario es obligatorio').not().isEmpty(),
         check('id_secundaria', 'El id de la actividad secundaria es obligatorio').not().isEmpty(),
         check('id_principal', 'El id de la actividad principal es opcional').optional(),
-    ], validarCampos, [validarJWT], controladorContacto.registrarContacto);
+    ], validarCampos, [validarJWT, esOperador], controladorContacto.registrarContacto);
 
 // LISTAR USUARIOS 
 
@@ -23,7 +23,7 @@ router.get('/contacto/usuarios', [validarJWT, esOperador], controladorContacto.g
 
 // MOSTRAR TODOS LOS CONTACTOS DETALLADOS
 
-router.get('/contacto/contactos', [validarJWT], controladorContacto.getContactosConDetalles);
+router.get('/contacto/contactos', [validarJWT, esOperador], controladorContacto.getContactosConDetalles);
 
 // ************************** REGISTRAR USUARIO EN UNA ACTIVIDAD DE VARIOS CONTACTOS ************************** //
 
