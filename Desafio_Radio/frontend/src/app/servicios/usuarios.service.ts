@@ -10,13 +10,14 @@ import { AuthService } from '../servicios/auth.service';
 
 //---Interfaces---
 
-import { 
-  UsuariosRespuesta, 
-  Usuario, 
+import {
+  UsuariosRespuesta,
+  Usuario,
   AsignarRolRespuesta,
   LoginRespuesta,
-  RegistroRespuesta,
-  RecuperacionPasswordRespuesta
+  UsuarioRespuesta,
+  RecuperacionPasswordRespuesta,
+  ModificarAltaUsuarioRespuesta
 
 } from "../interfaces/usuarios";
 
@@ -50,8 +51,8 @@ export class UsuariosService {
 
   // REGISTRO
 
-  registro(usuario: Usuario, formData: FormData): Observable<RegistroRespuesta> {
-    return this.http.post<RegistroRespuesta>(`${this.baseUrl}/registro`, formData).pipe(
+  registro(usuario: Usuario, formData: FormData): Observable<UsuarioRespuesta> {
+    return this.http.post<UsuarioRespuesta>(`${this.baseUrl}/registro`, formData).pipe(
       tap(response => {
         if (response) {
           console.log('Usuario:', response)
@@ -124,8 +125,8 @@ export class UsuariosService {
 
   // ALTA COMPLETA DE USUARIO
 
-  altaUsuario(usuario: Usuario, formData: FormData): Observable<Usuario | undefined> {
-    return this.http.post<Usuario>(`${this.baseUrl}/usuario/alta/${usuario.id_rol}`, formData, { responseType: 'json', params: { auth: 'true' } }).pipe(
+  altaUsuario(usuario: Usuario, formData: FormData): Observable<ModificarAltaUsuarioRespuesta | undefined> {
+    return this.http.post<ModificarAltaUsuarioRespuesta>(`${this.baseUrl}/usuario/alta/${usuario.id_rol}`, formData, { responseType: 'json', params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Usuario creado:', response)
@@ -140,66 +141,66 @@ export class UsuariosService {
     );
   }
 
-// BAJA DE USUARIOS
+  // BAJA DE USUARIOS
 
-bajaUsuario(id: number): Observable<Usuario | undefined> { 
-  return this.http.delete<Usuario>(`${this.baseUrl}/usuario/baja/${id}`, { params: { auth: 'true' }  }).pipe(
-    tap(response => {
-      if (response) {
-        console.log('Usuario eliminado:', response)
-      } else {
-        throw new Error('Error, datos incorrectos');
-      }
-    }),
-    catchError((error) => {
-      console.error(error);
-      throw error;
-    })
-  );
-}
+  bajaUsuario(id: number): Observable<UsuarioRespuesta> {
+    return this.http.delete<UsuarioRespuesta>(`${this.baseUrl}/usuario/baja/${id}`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Usuario eliminado:', response)
+        } else {
+          throw new Error('Error, datos incorrectos');
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
 
-// MODIFICAR USUARIOS
+  // MODIFICAR USUARIOS
 
-modificarUsuario(usuario: Usuario, formData: FormData): Observable<Usuario | undefined> { 
+  modificarUsuario(usuario: Usuario, formData: FormData): Observable<ModificarAltaUsuarioRespuesta | undefined> {
 
-  return this.http.put<Usuario>(`${this.baseUrl}/usuario/modificar/${usuario.id}`, formData, { params: { auth: 'true' } }).pipe(
-    tap(response => {
-      if (response) {
-        console.log('Usuario modificado:', response)
-      } else {
-        throw new Error('Error, datos incorrectos');
-      }
-    }),
-    catchError((error) => {
-      console.error(error);
-      throw error;
-    })
-  );
-}
+    return this.http.put<ModificarAltaUsuarioRespuesta>(`${this.baseUrl}/usuario/modificar/${usuario.id}`, formData, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Usuario modificado:', response)
+        } else {
+          throw new Error('Error, datos incorrectos');
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
 
-// ASIGNAR ROL
+  // ASIGNAR ROL
 
-asignarRol(id_rol: number, id_usuario: number): Observable<AsignarRolRespuesta | undefined> { 
-  return this.http.post<AsignarRolRespuesta>(`${this.baseUrl}/usuario/asignar/${id_rol}/${id_usuario}`, {}, { params: { auth: 'true' }  }).pipe(
-    tap(response => {
-      if (response) {
-        console.log('Rol asignado:', response)
-      } else {
-        throw new Error('Error, no se pudo asignar el rol');
-      }
-    }),
-    catchError((error) => {
-      console.error(error);
-      throw error;
-    })
-  );
-}
+  asignarRol(id_rol: number, id_usuario: number): Observable<AsignarRolRespuesta | undefined> {
+    return this.http.post<AsignarRolRespuesta>(`${this.baseUrl}/usuario/asignar/${id_rol}/${id_usuario}`, {}, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Rol asignado:', response)
+        } else {
+          throw new Error('Error, no se pudo asignar el rol');
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
 
-// VER UN USUARIO CON DIPLOMA
+  // VER UN USUARIO CON DIPLOMA
 
-mostrarUsuarioConDiploma(email: string): Observable<Usuario> {
-  
-    return this.http.get<Usuario>(`${this.baseUrl}/usuario/diploma/${email}`, { params: { auth: 'true' } }).pipe(
+  mostrarUsuarioConDiploma(email: string): Observable<UsuarioRespuesta> {
+
+    return this.http.get<UsuarioRespuesta>(`${this.baseUrl}/usuario/diploma/${email}`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Usuario con diploma:', response)
@@ -214,42 +215,63 @@ mostrarUsuarioConDiploma(email: string): Observable<Usuario> {
     );
   }
 
-// VER USUARIOS CON DIPLOMA
+  // VER USUARIOS CON DIPLOMA
 
-mostrarUsuariosConDiploma(): Observable<UsuariosRespuesta> { 
-  return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuarios/diploma`, { params: { auth: 'true' }  }).pipe(
-    tap(response => {
-      if (response) {
-        console.log('Usuarios con diploma:', response)
-      } else {
-        throw new Error('Error, no se pudo mostrar los usuarios con diplomas')
-      }
-    }),
-    catchError((error) => {
-      console.error(error);
-      throw error;
-    })
-  );
-}
+  mostrarUsuariosConDiploma(): Observable<UsuariosRespuesta> {
+    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuarios/diploma`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Usuarios con diploma:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar los usuarios con diplomas')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
 
-// VER USUARIOS
+  // VER USUARIOS
 
-mostrarUsuarios(): Observable < UsuariosRespuesta > {
+  mostrarUsuarios(): Observable<UsuariosRespuesta> {
 
-  return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuarios`, { params: { auth: 'true' } }).pipe(
-    tap(response => {
-      if (response) {
-        console.log('Usuarios:', response)
-      } else {
-        throw new Error('Error, no se pudo mostrar los usuarios')
-      }
-    }),
-    catchError((error) => {
-      console.error(error);
-      throw error;
-    })
-  );
-}
+    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuarios`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Usuarios:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar los usuarios')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
+
+  // TOKEN
+
+  private token: string | number = '';
+
+  setToken(token: string | number): void { // guarda el token en el localstorage
+    this.token = token;
+    localStorage.setItem('token', token.toString());
+  }
+
+  getToken(): string | number { // obtiene el token del localstorage
+    if (!this.token) {
+      this.token = JSON.parse( localStorage.getItem('datosLogin')!).token  || '';
+    }
+    return this.token;
+  }
+
+  logout(): void { // elimina el token del localstorage
+    this.token = '';
+    localStorage.removeItem('datosLogin');
+  }
 
 
 }

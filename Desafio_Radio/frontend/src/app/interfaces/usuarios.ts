@@ -54,7 +54,7 @@ export interface Usuario {
     usuario_secundarias?: UsuarioActividad[];
 }
 
-// RESPUESTAS
+// RESPUESTAS BACKEND
 
 export interface UsuariosRespuesta {
     message: string;
@@ -74,7 +74,7 @@ export interface ModificarAltaUsuarioRespuesta {
     };
 }
 
-export interface RegistroRespuesta {
+export interface UsuarioRespuesta {
     message: string;
     data: Usuario;
 }
