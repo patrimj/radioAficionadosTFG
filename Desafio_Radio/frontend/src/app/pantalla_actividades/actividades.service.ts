@@ -16,7 +16,7 @@ import {
   RecuperacionPasswordRespuesta,
   ModificarAltaUsuarioRespuesta
 
-} from "../interfaces/usuarios";
+} from "./usuarios";
 
 
 @Injectable({

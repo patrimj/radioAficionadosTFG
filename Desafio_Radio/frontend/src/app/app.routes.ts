@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 //-----Componentes-----\\
 
 // Pantalla de Gestión de Usuarios
-import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { UsuariosComponent } from './pantalla_usuarios/usuarios.component';
 
 //-----Guards-----\\
 
