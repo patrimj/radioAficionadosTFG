@@ -51,13 +51,12 @@ export class InicioComponent implements OnInit {
   //---Recursos---
   usuario: Usuario | null = null;
   noticiaSeleccionada: boolean = false;
-  esAdmin: boolean = false;
+
 
   constructor(private inicioService: InicioService, private router: Router, private webSocketService: WebsocketService) { }
 
   ngOnInit(): void {
     this.usuario = this.getUsuario();
-    this.esAdmin = esAdmin(this.usuario);
     this.mostrarNoticias();
   }
 
@@ -70,7 +69,7 @@ export class InicioComponent implements OnInit {
     return usuario ? JSON.parse(usuario) : null;
   }
   
-  esUsuarioAdmin(): boolean {
+  esAdmin(): boolean {
     const usuario = this.getUsuario();
     return usuario !== null && usuario !== undefined && usuario.rol !== null && usuario.rol !== undefined && usuario.rol.some(rol => rol.id_rol === 1);
 }
