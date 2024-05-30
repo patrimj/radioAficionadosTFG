@@ -74,8 +74,8 @@ export class UsuariosComponent implements OnInit {
   // VER USUARIOS
 
   mostrarUsuarios() {
-    this.usuariosService.mostrarUsuarios().subscribe((respuesta) => {
-      this.usuarios = respuesta.data;
+    this.usuariosService.mostrarUsuarios().subscribe((usuario) => {
+      this.usuarios = usuario.data;
     })
   }
 

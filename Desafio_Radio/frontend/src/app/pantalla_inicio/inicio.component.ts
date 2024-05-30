@@ -45,7 +45,6 @@ export class InicioComponent implements OnInit {
   noticia: Noticia = { id: 0, nombre: '', fecha: new Date(), descripcion: '' };
 
   //---Usuario---
-
   adminOper: Usuario = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', password: '', url_foto: '', id_examen: '' };
   adminOpers: Usuario[] = [];
 
@@ -66,6 +65,8 @@ export class InicioComponent implements OnInit {
     return this.noticias.length > 0;
   }
 
+  // ELIMINAR NOTICIA
+
   eliminarNoticia(id: number) {
     this.inicioService.eliminarNoticia(id).subscribe(
       data => {
@@ -73,7 +74,7 @@ export class InicioComponent implements OnInit {
           this.mensajeEliminado = [{ severity: 'success', summary: 'Noticia eliminada', detail: '' }]
           this.mensaje = [];
           this.mensajeModificado = [];
-          this.mostrarNoticia();
+          this.mostrarNoticias();
         }
       },
       error => {
@@ -84,9 +85,11 @@ export class InicioComponent implements OnInit {
     );
   }
 
-  mostrarNoticia() {
-    this.inicioService.mostrarNoticias().subscribe((respuesta) => {
-      this.noticias = respuesta.data;
+  //MOSTRAR NOTICIAS
+
+  mostrarNoticias() {
+    this.inicioService.mostrarNoticias().subscribe((noticia) => {
+      this.noticias = noticia.data;
     });
   }
 
@@ -94,7 +97,9 @@ export class InicioComponent implements OnInit {
     return validarNoticias(this.noticia)
   }
 
-  agregarNoticia() {
+  // CREAR NOTICIA
+
+  crearNoticia() {
     const mensajeValidado = this.validarNoticia();
 
     if (mensajeValidado) {
@@ -109,8 +114,8 @@ export class InicioComponent implements OnInit {
           this.mensajeModificado = [];
           this.mensajeEliminado = [];
 
-          this.mostrarNoticia();
-          
+          this.mostrarNoticias();
+
           this.webSocketService.noticiaCreada(this.noticia);
 
           this.noticia = { id: 0, nombre: '', fecha: new Date(), descripcion: '' };
@@ -124,15 +129,21 @@ export class InicioComponent implements OnInit {
     );
   }
 
+  // SELECCIONAR NOTICIA
+
   seleccionarNoticia(noticia: Noticia) {
     this.noticia = noticia;
     this.noticiaSeleccionada = true;
   }
 
+  // DESELECCIONAR NOTICIA
+
   deseleccionarNoticia() {
     this.noticia = { id: 0, nombre: '', fecha: new Date(), descripcion: '' };
     this.noticiaSeleccionada = false;
   }
+
+  // MODIFICAR NOTICIA
 
   modificarNoticia() {
 
@@ -151,7 +162,7 @@ export class InicioComponent implements OnInit {
           this.mensaje = [];
           this.mensajeEliminado = [];
 
-          this.mostrarNoticia();
+          this.mostrarNoticias();
 
           this.noticia = { id: 0, nombre: '', fecha: new Date(), descripcion: '' };
         }
@@ -165,5 +176,23 @@ export class InicioComponent implements OnInit {
     );
 
   }
+
+  // MOSTRAR ADMINISTRADORES
+
+  administradores() {
+    this.inicioService.mostrarAdministradores().subscribe((admin) => {
+      this.adminOpers = admin.data;
+    })
+  }
+
+  // MOSTRAR OPERADORES
+
+  mostrarOperadores() {
+    this.inicioService.mostrarAdministradores().subscribe((oper) => {
+      this.adminOpers = oper.data;
+    })
+  }
+
+
 
 }

@@ -19,7 +19,7 @@ export interface Usuario {
     password: string;
     url_foto: string; 
     id_examen: string;
-    rol?: RolAsignado[]; 
+    rol?: RolAsignado[];
 }
 
 // RESPUESTAS BACKEND
@@ -40,7 +40,3 @@ export interface Rol {
     RolAsignado: RolAsignado;
 }
 
-export interface Rol {
-    id: number
-    nombre: string
-  }

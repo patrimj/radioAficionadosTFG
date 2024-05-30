@@ -260,7 +260,7 @@ export class UsuariosService {
 
   getToken(): string | number { // obtiene el token del localstorage
     if (!this.token) {
-      this.token = JSON.parse( localStorage.getItem('datosLogin')!).token  || '';
+      this.token = localStorage.getItem('token') || '';
     }
     return this.token;
   }

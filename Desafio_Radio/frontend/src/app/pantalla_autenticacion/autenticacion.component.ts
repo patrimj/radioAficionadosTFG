@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 //---Helpers---
-import { validarUsuario} from '../helpers/validaciones';
+import { validarUsuario } from '../helpers/validaciones';
 
 //---PrimeNG---
 import { Message } from 'primeng/api';
@@ -28,7 +28,7 @@ import { Usuario } from "../pantalla_usuarios/usuarios";
 
 export class AutenticacionComponent implements OnInit {
 
-      //---Mensajes---
+  //---Mensajes---
   mensaje: Message[] = [];
   mensajePassword: Message[] = [];
 
@@ -41,29 +41,29 @@ export class AutenticacionComponent implements OnInit {
   imagenSubir: File = new File([], '');
   emailRecuperacion: string = '';
 
-    constructor(private usuariosService: UsuariosService, private router: Router) { }
+  constructor(private usuariosService: UsuariosService, private router: Router) { }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
 
+  }
+
+  imagen(event: Event) {
+    const eventTarget = event.target as HTMLInputElement;
+    if (eventTarget.files && eventTarget.files.length > 0) {
+      this.imagenSubir = eventTarget.files[0];
+      console.log('imagen:', this.imagenSubir);
     }
+  }
 
-    imagen(event: Event) {
-        const eventTarget = event.target as HTMLInputElement;
-        if (eventTarget.files && eventTarget.files.length > 0) {
-          this.imagenSubir = eventTarget.files[0];
-          console.log('imagen:', this.imagenSubir);
-        }
-      }
+  validarDatosUsuario(): string {
+    return validarUsuario(this.usuario);
+  }
 
-    validarDatosUsuario(): string {
-        return validarUsuario(this.usuario);
-      }
-
-    // RECUPERAR CONTRASEÑA
+  // RECUPERAR CONTRASEÑA
 
   recuperarPassword(email: string) {
     this.usuariosService.recuperarPassword(email).subscribe((respuesta) => {
-        this.mensajePassword = [{severity:'info', summary:'Mensaje', detail: respuesta.msg}];
+      this.mensajePassword = [{ severity: 'info', summary: 'Mensaje', detail: respuesta.msg }];
     })
   }
 
@@ -112,7 +112,7 @@ export class AutenticacionComponent implements OnInit {
     this.usuariosService.login(this.usuario.email, this.usuario.password).subscribe(
       (respuesta) => {
         if (respuesta && respuesta.token) {
-          localStorage.setItem('token', respuesta.token);
+          this.usuariosService.setToken(respuesta.token); 
           this.mensaje = [{ severity: 'success', summary: 'Bienvenido', detail: `Usuario  ${this.usuario.email} logueado` }];
         } else {
           this.mensaje = [{ severity: 'error', summary: 'Error', detail: 'Login fallido' }];
@@ -124,4 +124,5 @@ export class AutenticacionComponent implements OnInit {
       }
     );
   }
+
 }
