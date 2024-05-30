@@ -13,7 +13,6 @@ import { ToastModule } from "primeng/toast";
 import {
   Usuario,
   Noticia,
-  Rol
 } from "./inicio";
 
 
@@ -63,6 +62,8 @@ export class InicioComponent implements OnInit {
     return this.noticias.length > 0;
   }
 
+  // COMPROBAR SI EL USUARIO ES ADMIN
+
   getUsuario(): Usuario | null {
     const usuario = localStorage.getItem('usuarioDatos');
     return usuario ? JSON.parse(usuario) : null;
@@ -100,6 +101,8 @@ export class InicioComponent implements OnInit {
       this.noticias = noticia.data;
     });
   }
+
+  // VALIDAR NOTICIA
 
   validarNoticia(): string {
     return validarNoticias(this.noticia)

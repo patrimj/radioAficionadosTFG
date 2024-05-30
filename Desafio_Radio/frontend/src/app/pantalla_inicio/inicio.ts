@@ -5,11 +5,6 @@ export interface Noticia {
     descripcion: string;
 }
 
-export interface RespuestaNoticias {
-    message: string;
-    data: Noticia[];
-}
-
 export interface Usuario {
     id: number;
     nombre: string;
@@ -22,6 +17,11 @@ export interface Usuario {
     rol?: RolAsignado[];
 }
 
+export interface RolAsignado {
+    id_rol: number;
+    id_usuario: number;
+}
+
 // RESPUESTAS BACKEND
 
 export interface UsuariosRespuesta {
@@ -29,14 +29,10 @@ export interface UsuariosRespuesta {
     data: Usuario[];
 }
 
-export interface RolAsignado {
-    id_rol: number;
-    id_usuario: number;
+export interface RespuestaNoticias {
+    message: string;
+    data: Noticia[];
 }
 
-export interface Rol {
-    id: number;
-    nombre: string;
-    RolAsignado: RolAsignado;
-}
+
 

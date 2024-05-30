@@ -2,6 +2,9 @@
     <div class="d-flex justify-content-center align-items-center mt-4">
         <img class="mt-4 mb-4" src="../../../assets/Logo.png" alt="Imagen de logo" style="width: 50%;">
     </div>
+
+    <!--INTRODUCCIÓN-->
+
     <div class="card  shadow mt-4 mb-4" style=" background-color: #181a1dbe;">
 
         <div class="card-body flex-column d-flex align-items-center mb-4 mt-4 ">
@@ -16,6 +19,8 @@
 
         </div>
     </div>
+
+    <!--NOTICIAS-->
 
     @if (hayRegistros()) {
     <div class="d-flex justify-content-center mb-4 mt-4 ">
@@ -51,6 +56,8 @@
     } @else {
     <p class="alert alert-warning">No hay noticias que mostrar.</p>
     }
+
+    <!--PANEL DEL ADMINISTRADOR PARA CREAR O MODIFICAR NOTICIAS-->
 
     @if (esAdmin){
     <div class="container mb-3 mt-3">
@@ -95,3 +102,45 @@
 </div>
 
 <p-toast position="top-right" key="mensaje"></p-toast>
+
+<!-- ADMINISTRADORES -->
+<div class="card shadow mb-4" style=" background-color: #181a1d68;">
+    <div class="card-header text-center" style=" background-color: #ffb062;">
+        <h2 style="color: #fff2d4;">NUESTROS ADMINISTRADORES</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+        @for(admin of administradores; track admin.id) {
+        <li class="list-group-item" style=" background-color: #181a1d68;">
+            <div class="d-flex align-items-center">
+                <img src="{{admin.url_foto}}" class="rounded-circle" style="width: 100px; height: 100px">
+                <div class="ms-3">
+                    <p class="fw-bold mb-1">{{admin.nombre | titlecase }} {{admin.apellido_uno | titlecase }}
+                        {{admin.apellido_dos | titlecase }}</p>
+                    <p class="text-muted mb-0">{{admin.email}}</p>
+                </div>
+            </div>
+        </li>
+        }
+    </ul>
+</div>
+
+<!-- OPERADORES -->
+<div class="card shadow mb-4" style=" background-color: #181a1d68;">
+    <div class="card-header text-center" style=" background-color: #ffb062;">
+        <h2 style="color: #fff2d4;">NUESTROS OPERADORES</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+        @for(oper of operadores; track oper.id) {
+        <li class="list-group-item" style=" background-color: #181a1d68;">
+            <div class="d-flex align-items-center">
+                <img src="{{oper.url_foto}}" class="rounded-circle" style="width: 100px; height: 100px">
+                <div class="ms-3">
+                    <p class="fw-bold mb-1">{{oper.nombre | titlecase }} {{oper.apellido_uno | titlecase }}
+                        {{oper.apellido_dos | titlecase }}</p>
+                    <p class="text-muted mb-0">{{oper.email}}</p>
+                </div>
+            </div>
+        </li>
+        }
+    </ul>
+</div>
