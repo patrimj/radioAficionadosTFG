@@ -8,33 +8,48 @@ import { tap } from 'rxjs/operators';
 //---Interfaces---
 
 import {
-  UsuariosRespuesta,
-  Usuario,
-  AsignarRolRespuesta,
-  LoginRespuesta,
-  UsuarioRespuesta,
-  RecuperacionPasswordRespuesta,
-  ModificarAltaUsuarioRespuesta
+  Noticia,
+  RespuestaNoticias,
+  UsuariosRespuesta
+} from "./inicio";
 
-} from "./usuarios";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuariosService {
+export class InicioService {
   private baseUrl: string = environment.baseUrl
 
   constructor(private http: HttpClient) { }
 
 
-  // LOGIN
+  // MOSTRAR NOTICIAS
 
-  login(email: string, password: string): Observable<LoginRespuesta> {
-    return this.http.post<LoginRespuesta>(`${this.baseUrl}/login`, { email, password }).pipe(
+  mostrarNoticias(): Observable<RespuestaNoticias> {
+
+    return this.http.get<RespuestaNoticias>(`${this.baseUrl}/noticias`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
-          console.log('Usuario:', response)
+          console.log('Noticias:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar las noticias')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
+
+  // ELIMINAR NOTICIAS
+
+  eliminarNoticia(id: number): Observable<Noticia> {
+    return this.http.delete<Noticia>(`${this.baseUrl}/noticia/eliminar/${id}`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Noticia eliminada:', response)
         } else {
           throw new Error('Error, datos incorrectos');
         }
@@ -46,13 +61,13 @@ export class UsuariosService {
     );
   }
 
-  // REGISTRO
+  // MODIFICAR NOTICIAS
 
-  registro(usuario: Usuario, formData: FormData): Observable<UsuarioRespuesta> {
-    return this.http.post<UsuarioRespuesta>(`${this.baseUrl}/registro`, formData).pipe(
+  modificarNoticia(noticia: Noticia): Observable<Noticia> {
+    return this.http.put<Noticia>(`${this.baseUrl}/noticia/modificar/${noticia.id}`, noticia, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
-          console.log('Usuario:', response)
+          console.log('Noticia modificada:', response)
         } else {
           throw new Error('Error, datos incorrectos');
         }
@@ -64,13 +79,13 @@ export class UsuariosService {
     );
   }
 
-  // RECUPERAR CONTRASEÑA
+  // CREAR NOTICIAS
 
-  recuperarPassword(email: string): Observable<RecuperacionPasswordRespuesta> {
-    return this.http.post<RecuperacionPasswordRespuesta>(`${this.baseUrl}/usuarios/recuperar`, { email }).pipe(
+  crearNoticia(noticia: Noticia): Observable<Noticia> {
+    return this.http.post<Noticia>(`${this.baseUrl}/noticia/crear`, noticia, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
-          console.log('Usuario:', response)
+          console.log('Noticia creada:', response)
         } else {
           throw new Error('Error, datos incorrectos');
         }
@@ -82,16 +97,16 @@ export class UsuariosService {
     );
   }
 
-  // BUSCAR USUARIO POR NOMBRE
+  // MOSTRAR ADMIN (Sección Sobre Nosotros)
 
-  mostrarUsuariosNombre(nombre: string): Observable<UsuariosRespuesta> {
+  mostrarAdministradores(): Observable<UsuariosRespuesta> {
 
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuario/buscarNombre/${nombre}`).pipe(
+    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/administradores`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
-          console.log('Usuarios:', response)
+          console.log('Administradores:', response)
         } else {
-          throw new Error('Error, no se pudo mostrar los usuarios')
+          throw new Error('Error, no se pudo mostrar los administradores')
         }
       }),
       catchError((error) => {
@@ -101,16 +116,16 @@ export class UsuariosService {
     );
   }
 
-  // BUSCAR USUARIO POR INDICATIVO
+  // MOSTRAR OPERADORES
 
-  mostrarUsuariosIndicativo(indicativo: string): Observable<UsuariosRespuesta> {
+  mostrarOperadores(): Observable<UsuariosRespuesta> {
 
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuario/buscarIndicativo/${indicativo}`).pipe(
+    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/operadores`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
-          console.log('Usuarios:', response)
+          console.log('Operadores:', response)
         } else {
-          throw new Error('Error, no se pudo mostrar los usuarios')
+          throw new Error('Error, no se pudo mostrar los operadores')
         }
       }),
       catchError((error) => {
@@ -119,156 +134,5 @@ export class UsuariosService {
       })
     );
   }
-
-  // ALTA COMPLETA DE USUARIO
-
-  altaUsuario(usuario: Usuario, formData: FormData): Observable<ModificarAltaUsuarioRespuesta | undefined> {
-    return this.http.post<ModificarAltaUsuarioRespuesta>(`${this.baseUrl}/usuario/alta/${usuario.id_rol}`, formData, { responseType: 'json', params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuario creado:', response)
-        } else {
-          throw new Error('Error, datos incorrectos');
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // BAJA DE USUARIOS
-
-  bajaUsuario(id: number): Observable<UsuarioRespuesta> {
-    return this.http.delete<UsuarioRespuesta>(`${this.baseUrl}/usuario/baja/${id}`, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuario eliminado:', response)
-        } else {
-          throw new Error('Error, datos incorrectos');
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // MODIFICAR USUARIOS
-
-  modificarUsuario(usuario: Usuario, formData: FormData): Observable<ModificarAltaUsuarioRespuesta | undefined> {
-
-    return this.http.put<ModificarAltaUsuarioRespuesta>(`${this.baseUrl}/usuario/modificar/${usuario.id}`, formData, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuario modificado:', response)
-        } else {
-          throw new Error('Error, datos incorrectos');
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // ASIGNAR ROL
-
-  asignarRol(id_rol: number, id_usuario: number): Observable<AsignarRolRespuesta | undefined> {
-    return this.http.post<AsignarRolRespuesta>(`${this.baseUrl}/usuario/asignar/${id_rol}/${id_usuario}`, {}, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Rol asignado:', response)
-        } else {
-          throw new Error('Error, no se pudo asignar el rol');
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // VER UN USUARIO CON DIPLOMA
-
-  mostrarUsuarioConDiploma(email: string): Observable<UsuarioRespuesta> {
-
-    return this.http.get<UsuarioRespuesta>(`${this.baseUrl}/usuario/diploma/${email}`, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuario con diploma:', response)
-        } else {
-          throw new Error('Error, no se pudo mostrar el usuario con diploma')
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // VER USUARIOS CON DIPLOMA
-
-  mostrarUsuariosConDiploma(): Observable<UsuariosRespuesta> {
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuarios/diploma`, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuarios con diploma:', response)
-        } else {
-          throw new Error('Error, no se pudo mostrar los usuarios con diplomas')
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // VER USUARIOS
-
-  mostrarUsuarios(): Observable<UsuariosRespuesta> {
-
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuarios`, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuarios:', response)
-        } else {
-          throw new Error('Error, no se pudo mostrar los usuarios')
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // TOKEN
-
-  private token: string | number = '';
-
-  setToken(token: string | number): void { // guarda el token en el localstorage
-    this.token = token;
-    localStorage.setItem('token', token.toString());
-  }
-
-  getToken(): string | number { // obtiene el token del localstorage
-    if (!this.token) {
-      this.token = JSON.parse( localStorage.getItem('datosLogin')!).token  || '';
-    }
-    return this.token;
-  }
-
-  logout(): void { // elimina el token del localstorage
-    this.token = '';
-    localStorage.removeItem('datosLogin');
-  }
-
 
 }
