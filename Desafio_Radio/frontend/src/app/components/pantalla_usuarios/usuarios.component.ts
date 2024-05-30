@@ -14,6 +14,7 @@ import { MessagesModule } from 'primeng/messages';
 //---Servicios---
 import { UsuariosService } from '../../servicios/usuarios.service';
 
+//---Interfaces---
 import { Usuario } from "../../interfaces/usuarios";
 
 
@@ -28,24 +29,27 @@ import { Usuario } from "../../interfaces/usuarios";
 
 export class UsuariosComponent implements OnInit {
 
-    //---Mensajes---
-    mensaje: Message[] = [];
-    mensajeEliminado: Message[] = [];
-    mensajeModificado: Message[] = [];
-    mensajeRol: Message[] = [];
-    mensajePassword: string = '';
+  //---Mensajes---
+  mensaje: Message[] = [];
+  mensajeEliminado: Message[] = [];
+  mensajeModificado: Message[] = [];
+  mensajeRol: Message[] = [];
+  mensajePassword: string = '';
 
+  //---Usuarios---
   usuarios: Usuario[] = [];
   usuario: Usuario = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', password: '', url_foto: new File([], ''), id_examen: '' };
 
-  tipoUsuario = 'todos'; // para el select
+  //---Recursos---
   usuarioSeleccionado: boolean = false;  //para deseleccionar 
   imagenSubir: File = new File([], '');
+  nombreUsuario: string = '';
+  indicativoUsuario: string = '';
 
   constructor(private usuariosService: UsuariosService, private router: Router) { }
 
   ngOnInit(): void {
-
+    this.mostrarUsuarios();
   }
 
   imagen(event: Event) {
@@ -73,22 +77,6 @@ export class UsuariosComponent implements OnInit {
   mostrarUsuarios() {
     this.usuariosService.mostrarUsuarios().subscribe((respuesta) => {
       this.usuarios = respuesta.data;
-    })
-  }
-
-  // VER USUARIOS CON DIPLOMA
-
-  mostrarUsuariosDiploma() {
-    this.usuariosService.mostrarUsuariosConDiploma().subscribe((respuesta) => {
-      this.usuarios = respuesta.data;
-    })
-  }
-
-  // VER UN USUARIO CON DIPLOMA
-
-  mostrarUsuarioDiploma(email: string) {
-    this.usuariosService.mostrarUsuarioConDiploma(email).subscribe((respuesta) => {
-      this.usuario = respuesta.data;
     })
   }
 
@@ -153,7 +141,6 @@ export class UsuariosComponent implements OnInit {
     formData.append('apellido_uno', this.usuario.apellido_uno);
     formData.append('apellido_dos', this.usuario.apellido_dos);
     formData.append('id_examen', this.usuario.id_examen);
-    formData.append('password', this.usuario.password);
 
     this.usuariosService.modificarUsuario(this.usuario, formData).subscribe(
       data => {
@@ -221,7 +208,6 @@ export class UsuariosComponent implements OnInit {
     formData.append('apellido_uno', this.usuario.apellido_uno);
     formData.append('apellido_dos', this.usuario.apellido_dos);
     formData.append('id_examen', this.usuario.id_examen);
-    formData.append('password', this.usuario.password);
 
     this.usuariosService.altaUsuario(this.usuario, formData).subscribe(
       data => {
@@ -289,7 +275,6 @@ export class UsuariosComponent implements OnInit {
     formData.append('apellido_uno', this.usuario.apellido_uno);
     formData.append('apellido_dos', this.usuario.apellido_dos);
     formData.append('id_examen', this.usuario.id_examen);
-    formData.append('password', this.usuario.password);
 
     this.usuariosService.registro(this.usuario, formData).subscribe(
       data => {
@@ -324,7 +309,7 @@ export class UsuariosComponent implements OnInit {
           this.mensajeModificado = [];
           this.mensajeEliminado = [];
           this.mensajeRol = [];
-  
+
           this.mostrarUsuarios();
         } else {
           this.mensaje = [{ severity: 'error', summary: 'Error', detail: 'Login fallido' }];
@@ -339,31 +324,17 @@ export class UsuariosComponent implements OnInit {
 
   //RECURSOS VARIOS
 
-  cargarUsuarios() {
-    switch (this.tipoUsuario) {
-      case 'todos':
-        this.mostrarUsuarios();
-        break;
-      case 'conDiploma':
-        this.mostrarUsuariosDiploma();
-        break;
-      default:
-        this.mostrarUsuarios();
-        break;
-    }
+  //seleccionar usuario
+  seleccionarUsuario(usuario: Usuario) {
+    this.usuario = usuario;
+    this.usuarioSeleccionado = true;
   }
 
-    //seleccionar usuario
-    seleccionarUsuario(usuario: Usuario) {
-      this.usuario = usuario;
-      this.usuarioSeleccionado = true;
-    }
-  
-    //deseleccionar usuario
-    deseleccionarUsuario() {
-      this.usuario = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', url_foto: new File([], ''), id_examen: '', password: '', roles: [] };
-      this.usuarioSeleccionado = false;
-    }
+  //deseleccionar usuario
+  deseleccionarUsuario() {
+    this.usuario = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', url_foto: new File([], ''), id_examen: '', password: '', roles: [] };
+    this.usuarioSeleccionado = false;
+  }
 
 
 }
