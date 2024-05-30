@@ -34,7 +34,6 @@ export class UsuariosComponent implements OnInit {
   mensajeEliminado: Message[] = [];
   mensajeModificado: Message[] = [];
   mensajeRol: Message[] = [];
-  mensajePassword: string = '';
 
   //---Usuarios---
   usuarios: Usuario[] = [];
