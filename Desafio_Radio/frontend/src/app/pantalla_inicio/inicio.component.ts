@@ -22,7 +22,7 @@ import { InicioService } from './inicio.service';
 import { WebsocketService } from '../servicios/websocket.service';
 
 //---Helpers---
-import { recibirIdUsuario, recibirUsuario, esAdmin } from '../helpers/comun';
+import { esAdmin } from '../helpers/comun';
 import { validarNoticias } from '../helpers/validaciones';
 
 
@@ -48,22 +48,32 @@ export class InicioComponent implements OnInit {
   adminOper: Usuario = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', password: '', url_foto: '', id_examen: '' };
   adminOpers: Usuario[] = [];
 
-
+  //---Recursos---
   usuario: Usuario | null = null;
-  id_usuario = 0;
-  esAdmin: Rol | null = null;
-
   noticiaSeleccionada: boolean = false;
+  esAdmin: boolean = false;
 
   constructor(private inicioService: InicioService, private router: Router, private webSocketService: WebsocketService) { }
 
   ngOnInit(): void {
-
+    this.usuario = this.getUsuario();
+    this.esAdmin = esAdmin(this.usuario);
+    this.mostrarNoticias();
   }
 
   hayRegistros() {
     return this.noticias.length > 0;
   }
+
+  getUsuario(): Usuario | null {
+    const usuario = localStorage.getItem('usuarioDatos');
+    return usuario ? JSON.parse(usuario) : null;
+  }
+  
+  esUsuarioAdmin(): boolean {
+    const usuario = this.getUsuario();
+    return usuario !== null && usuario !== undefined && usuario.rol !== null && usuario.rol !== undefined && usuario.rol.some(rol => rol.id_rol === 1);
+}
 
   // ELIMINAR NOTICIA
 

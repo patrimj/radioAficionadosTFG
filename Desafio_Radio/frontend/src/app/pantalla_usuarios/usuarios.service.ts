@@ -33,8 +33,9 @@ export class UsuariosService {
   login(email: string, password: string): Observable<LoginRespuesta> {
     return this.http.post<LoginRespuesta>(`${this.baseUrl}/login`, { email, password }).pipe(
       tap(response => {
-        if (response) {
-          console.log('Usuario:', response)
+        if (response && response.token) {
+          this.setToken(response.token);
+          this.setUsuario(response.usuario);
         } else {
           throw new Error('Error, datos incorrectos');
         }
@@ -253,6 +254,8 @@ export class UsuariosService {
 
   private token: string | number = '';
 
+  // TOKEN
+
   setToken(token: string | number): void { // guarda el token en el localstorage
     this.token = token;
     localStorage.setItem('token', token.toString());
@@ -265,9 +268,19 @@ export class UsuariosService {
     return this.token;
   }
 
-  logout(): void { // elimina el token del localstorage
+  // USUARIO COMPLETO LOGUEADO
+
+  setUsuario(usuario: Usuario): void { // guarda el usuario en el localstorage
+    localStorage.setItem('usuarioDatos', JSON.stringify(usuario));
+  }
+
+  getUsuario(): Usuario { // obtiene el usuario del localstorage
+    return JSON.parse(localStorage.getItem('usuarioDatos') || '{}');
+  }
+
+  logout(): void { // elimina el usuario del localstorage
     this.token = '';
-    localStorage.removeItem('datosLogin');
+    localStorage.removeItem('usuarioDatos');
   }
 
 

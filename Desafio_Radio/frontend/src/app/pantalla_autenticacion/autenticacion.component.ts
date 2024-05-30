@@ -112,7 +112,6 @@ export class AutenticacionComponent implements OnInit {
     this.usuariosService.login(this.usuario.email, this.usuario.password).subscribe(
       (respuesta) => {
         if (respuesta && respuesta.token) {
-          this.usuariosService.setToken(respuesta.token); 
           this.mensaje = [{ severity: 'success', summary: 'Bienvenido', detail: `Usuario  ${this.usuario.email} logueado` }];
         } else {
           this.mensaje = [{ severity: 'error', summary: 'Error', detail: 'Login fallido' }];
