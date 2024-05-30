@@ -5,9 +5,6 @@ import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
-//---Servicios---
-import { AuthService } from '../servicios/auth.service';
-
 //---Interfaces---
 
 import {
@@ -28,7 +25,7 @@ import {
 export class UsuariosService {
   private baseUrl: string = environment.baseUrl
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
 
   // LOGIN
