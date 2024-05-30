@@ -22,7 +22,6 @@ import { InicioService } from './inicio.service';
 import { WebsocketService } from '../servicios/websocket.service';
 
 //---Helpers---
-import { esAdmin } from '../helpers/comun';
 import { validarNoticias } from '../helpers/validaciones';
 
 
@@ -68,11 +67,11 @@ export class InicioComponent implements OnInit {
     const usuario = localStorage.getItem('usuarioDatos');
     return usuario ? JSON.parse(usuario) : null;
   }
-  
+
   esAdmin(): boolean {
     const usuario = this.getUsuario();
     return usuario !== null && usuario !== undefined && usuario.rol !== null && usuario.rol !== undefined && usuario.rol.some(rol => rol.id_rol === 1);
-}
+  }
 
   // ELIMINAR NOTICIA
 

@@ -11,9 +11,8 @@ import {
   Noticia,
   RespuestaNoticias,
   UsuariosRespuesta
-} from "./inicio";
-
-
+}
+  from "./inicio";
 
 @Injectable({
   providedIn: 'root'

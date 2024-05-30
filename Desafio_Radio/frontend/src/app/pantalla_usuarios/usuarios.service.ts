@@ -254,8 +254,6 @@ export class UsuariosService {
 
   private token: string | number = '';
 
-  // TOKEN
-
   setToken(token: string | number): void { // guarda el token en el localstorage
     this.token = token;
     localStorage.setItem('token', token.toString());
