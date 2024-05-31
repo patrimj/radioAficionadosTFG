@@ -39,8 +39,7 @@ router.get('/perfil', [validarJWT], controladorPerfil.mostrarPerfil);
 
 // MODIFICAR PERFIL
 
-router.put('/usuario/perfil/:id', validarArchivoSubir, validarCampos, controladorPerfil.modificarPerfil
-);
+router.put('/usuario/perfil/:id', validarJWT, validarArchivoSubir, validarCampos, controladorPerfil.modificarPerfil);
 
 // CAMBIAR CONTRASEÑA
 
@@ -48,7 +47,7 @@ router.put('/cambiar-password',
     [
         check('email', 'El correo electrónico es obligatorio').isEmail(),
         check('password', 'La contraseña es obligatoria').not().isEmpty(),
-    ], 
+    ], validarJWT,
     validarCampos, 
     controladorPerfil.cambiarPassword
 );

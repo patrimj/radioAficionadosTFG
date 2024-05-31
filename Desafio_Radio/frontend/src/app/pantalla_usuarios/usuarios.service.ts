@@ -87,7 +87,7 @@ export class UsuariosService {
 
   mostrarUsuariosNombre(nombre: string): Observable<UsuariosRespuesta> {
 
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuario/buscarNombre/${nombre}`).pipe(
+    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuario/buscarNombre/${nombre}`, { responseType: 'json', params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Usuarios:', response)
@@ -106,7 +106,7 @@ export class UsuariosService {
 
   mostrarUsuariosIndicativo(indicativo: string): Observable<UsuariosRespuesta> {
 
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuario/buscarIndicativo/${indicativo}`).pipe(
+    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuario/buscarIndicativo/${indicativo}`, { responseType: 'json', params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Usuarios:', response)

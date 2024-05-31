@@ -8,15 +8,12 @@ import { tap } from 'rxjs/operators';
 //---Interfaces---
 
 import {
-  UsuariosRespuesta,
-  Usuario,
-  AsignarRolRespuesta,
-  LoginRespuesta,
-  UsuarioRespuesta,
-  RecuperacionPasswordRespuesta,
-  ModificarAltaUsuarioRespuesta
+  RespuestaActividades,
+  RespuestaTotalActividadesYconcursos,
+  RespuestaConcursos,
+  RespuestaPerfil
 
-} from "./usuarios";
+} from "./perfiles";
 
 
 @Injectable({
@@ -27,14 +24,139 @@ export class UsuariosService {
 
   constructor(private http: HttpClient) { }
 
+  // VER ACTIVIDADES DE UN UNICO CONTACTO (AFICIONADO)
 
-  // LOGIN
-
-  login(email: string, password: string): Observable<LoginRespuesta> {
-    return this.http.post<LoginRespuesta>(`${this.baseUrl}/login`, { email, password }).pipe(
+  getActividadesUnicoContactoAficionado(): Observable<RespuestaActividades> {
+    return this.http.get<RespuestaActividades>(`${this.baseUrl}/actividades/unicoContacto/aficionado`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
-          console.log('Usuario:', response)
+          console.log('Actividades:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar las actividades')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
+
+  // VER ACTIVIDADES DE VARIOS CONTACTOS Y CONCURSO (AFICIONADO)
+
+  getActividadesVariosContactosAficionado(): Observable<RespuestaActividades> {
+    return this.http.get<RespuestaActividades>(`${this.baseUrl}/actividades/variosContactos/aficionado`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Actividades:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar las actividades')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
+
+  // VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla concurso ***
+
+  getActividadesPorConcurso(idPrincipal: number): Observable<RespuestaActividades> {
+    return this.http.get<RespuestaActividades>(`${this.baseUrl}/perfil/actividades/${idPrincipal}`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Actividades:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar las actividades')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
+
+  // MOSTRAR TOTAL ACTIVIDADES EN LAS QUE HA PARTICIPADO UN USUARIO (AFICIONADO)
+
+  getTotalActividadesParticipado(): Observable<RespuestaTotalActividadesYconcursos> {
+    return this.http.get<RespuestaTotalActividadesYconcursos>(`${this.baseUrl}/actividades/total`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Total de actividades:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar el total de actividades')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
+  
+  // CONCURSOS DE UN USUARIO (AFICIONADO)
+
+  getConcursosAficionado(): Observable<RespuestaConcursos> {
+    return this.http.get<RespuestaConcursos>(`${this.baseUrl}/concursos/aficionado`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Concursos:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar los concursos')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
+
+  // MOSTRAR EL TOTAL DE CONCURSOS EN LOS QUE HA PARTICIPADO UN USUARIO (AFICIONADO)
+
+  getTotalConcursosParticipado(): Observable<RespuestaTotalActividadesYconcursos> {
+    return this.http.get<RespuestaTotalActividadesYconcursos>(`${this.baseUrl}/concursos/total`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Total de concursos:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar el total de concursos')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
+
+  // MOSTRAR PERFIL
+
+  getPerfil(): Observable<RespuestaPerfil> {
+    return this.http.get<RespuestaPerfil>(`${this.baseUrl}/perfil`, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Perfil:', response)
+        } else {
+          throw new Error('Error, no se pudo mostrar el perfil')
+        }
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
+    );
+  }
+
+  // MODIFICAR PERFIL
+
+  modificarPerfil(id: number, formData: FormData): Observable<RespuestaPerfil> {
+    return this.http.put<RespuestaPerfil>(`${this.baseUrl}/usuario/perfil/${id}`, formData, { params: { auth: 'true' } }).pipe(
+      tap(response => {
+        if (response) {
+          console.log('Perfil modificado:', response)
         } else {
           throw new Error('Error, datos incorrectos');
         }
@@ -46,15 +168,16 @@ export class UsuariosService {
     );
   }
 
-  // REGISTRO
+  // CAMBIAR CONTRASEÑA
 
-  registro(usuario: Usuario, formData: FormData): Observable<UsuarioRespuesta> {
-    return this.http.post<UsuarioRespuesta>(`${this.baseUrl}/registro`, formData).pipe(
+  cambiarPassword(email: string, password: string): Observable<RespuestaPerfil> {
+    const body = { email, password };
+    return this.http.put<RespuestaPerfil>(`${this.baseUrl}/cambiar-password`, body, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
-          console.log('Usuario:', response)
+          console.log('Contraseña cambiada:', response)
         } else {
-          throw new Error('Error, datos incorrectos');
+          throw new Error('Error, no se pudo cambiar la contraseña');
         }
       }),
       catchError((error) => {
@@ -64,15 +187,16 @@ export class UsuariosService {
     );
   }
 
-  // RECUPERAR CONTRASEÑA
+  // CREAR Y PEDIR DIPLOMA DE ACTIVIDAD 
 
-  recuperarPassword(email: string): Observable<RecuperacionPasswordRespuesta> {
-    return this.http.post<RecuperacionPasswordRespuesta>(`${this.baseUrl}/usuarios/recuperar`, { email }).pipe(
+  pedirDiploma(actividad: string, url: string): Observable<string> {
+
+    return this.http.post<string>(`${this.baseUrl}/diploma/enviar`, { actividad, url }, { params: { auth: 'true' }, responseType: 'text' as 'json' }).pipe(
       tap(response => {
         if (response) {
-          console.log('Usuario:', response)
+          console.log('Diploma:', response);
         } else {
-          throw new Error('Error, datos incorrectos');
+          throw new Error('Error, no se pudo pedir el diploma');
         }
       }),
       catchError((error) => {
@@ -82,193 +206,6 @@ export class UsuariosService {
     );
   }
 
-  // BUSCAR USUARIO POR NOMBRE
-
-  mostrarUsuariosNombre(nombre: string): Observable<UsuariosRespuesta> {
-
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuario/buscarNombre/${nombre}`).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuarios:', response)
-        } else {
-          throw new Error('Error, no se pudo mostrar los usuarios')
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // BUSCAR USUARIO POR INDICATIVO
-
-  mostrarUsuariosIndicativo(indicativo: string): Observable<UsuariosRespuesta> {
-
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuario/buscarIndicativo/${indicativo}`).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuarios:', response)
-        } else {
-          throw new Error('Error, no se pudo mostrar los usuarios')
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // ALTA COMPLETA DE USUARIO
-
-  altaUsuario(usuario: Usuario, formData: FormData): Observable<ModificarAltaUsuarioRespuesta | undefined> {
-    return this.http.post<ModificarAltaUsuarioRespuesta>(`${this.baseUrl}/usuario/alta/${usuario.id_rol}`, formData, { responseType: 'json', params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuario creado:', response)
-        } else {
-          throw new Error('Error, datos incorrectos');
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // BAJA DE USUARIOS
-
-  bajaUsuario(id: number): Observable<UsuarioRespuesta> {
-    return this.http.delete<UsuarioRespuesta>(`${this.baseUrl}/usuario/baja/${id}`, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuario eliminado:', response)
-        } else {
-          throw new Error('Error, datos incorrectos');
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // MODIFICAR USUARIOS
-
-  modificarUsuario(usuario: Usuario, formData: FormData): Observable<ModificarAltaUsuarioRespuesta | undefined> {
-
-    return this.http.put<ModificarAltaUsuarioRespuesta>(`${this.baseUrl}/usuario/modificar/${usuario.id}`, formData, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuario modificado:', response)
-        } else {
-          throw new Error('Error, datos incorrectos');
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // ASIGNAR ROL
-
-  asignarRol(id_rol: number, id_usuario: number): Observable<AsignarRolRespuesta | undefined> {
-    return this.http.post<AsignarRolRespuesta>(`${this.baseUrl}/usuario/asignar/${id_rol}/${id_usuario}`, {}, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Rol asignado:', response)
-        } else {
-          throw new Error('Error, no se pudo asignar el rol');
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // VER UN USUARIO CON DIPLOMA
-
-  mostrarUsuarioConDiploma(email: string): Observable<UsuarioRespuesta> {
-
-    return this.http.get<UsuarioRespuesta>(`${this.baseUrl}/usuario/diploma/${email}`, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuario con diploma:', response)
-        } else {
-          throw new Error('Error, no se pudo mostrar el usuario con diploma')
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // VER USUARIOS CON DIPLOMA
-
-  mostrarUsuariosConDiploma(): Observable<UsuariosRespuesta> {
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuarios/diploma`, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuarios con diploma:', response)
-        } else {
-          throw new Error('Error, no se pudo mostrar los usuarios con diplomas')
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // VER USUARIOS
-
-  mostrarUsuarios(): Observable<UsuariosRespuesta> {
-
-    return this.http.get<UsuariosRespuesta>(`${this.baseUrl}/usuarios`, { params: { auth: 'true' } }).pipe(
-      tap(response => {
-        if (response) {
-          console.log('Usuarios:', response)
-        } else {
-          throw new Error('Error, no se pudo mostrar los usuarios')
-        }
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    );
-  }
-
-  // TOKEN
-
-  private token: string | number = '';
-
-  setToken(token: string | number): void { // guarda el token en el localstorage
-    this.token = token;
-    localStorage.setItem('token', token.toString());
-  }
-
-  getToken(): string | number { // obtiene el token del localstorage
-    if (!this.token) {
-      this.token = JSON.parse( localStorage.getItem('datosLogin')!).token  || '';
-    }
-    return this.token;
-  }
-
-  logout(): void { // elimina el token del localstorage
-    this.token = '';
-    localStorage.removeItem('datosLogin');
-  }
 
 
 }

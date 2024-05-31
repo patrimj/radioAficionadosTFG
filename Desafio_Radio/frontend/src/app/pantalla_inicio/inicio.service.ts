@@ -27,7 +27,7 @@ export class InicioService {
 
   mostrarNoticias(): Observable<RespuestaNoticias> {
 
-    return this.http.get<RespuestaNoticias>(`${this.baseUrl}/noticias`, { params: { auth: 'true' } }).pipe(
+    return this.http.get<RespuestaNoticias>(`${this.baseUrl}/noticias`).pipe(
       tap(response => {
         if (response) {
           console.log('Noticias:', response)
