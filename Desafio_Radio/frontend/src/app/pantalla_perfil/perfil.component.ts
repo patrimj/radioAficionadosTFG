@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 //---Helpers---
-import { validarUsuario, validarDatosRol } from '../helpers/validaciones';
+import { validarUsuario, validarPasswordUsuario } from '../helpers/validaciones';
 
 //---PrimeNG---
 import { Message } from 'primeng/api';
@@ -67,7 +67,12 @@ export class PerfilComponent implements OnInit {
   constructor(private perfilService: PerfilService, private router: Router) { }
 
   ngOnInit(): void {
-
+    this.getPerfil();
+    this.getActividadesUnicoContactoAficionado();
+    this.getActividadesVariosContactosAficionado();
+    this.getTotalActividadesParticipado();
+    this.getConcursosAficionado();
+    this.getTotalConcursosParticipado();
   }
 
   imagen(event: Event) {
@@ -80,6 +85,10 @@ export class PerfilComponent implements OnInit {
 
   validarDatosUsuario(): string {
     return validarUsuario(this.usuario);
+  }
+
+  validarPassword(): string {
+    return validarPasswordUsuario(this.usuario.email, this.usuario.password);
   }
 
   // VER ACTIVIDADES DE UN UNICO CONTACTO (AFICIONADO)
@@ -177,8 +186,19 @@ export class PerfilComponent implements OnInit {
 
   // CAMBIAR CONTRASEÑA
 
+  cambiarPassword(email: string, passwordAntigua: string, passwordNueva: string) {
 
-  
+    const mensajeValidado = validarPasswordUsuario(passwordAntigua, passwordNueva);
+    if (mensajeValidado) {
+      this.mensaje = [{ severity: 'error', summary: 'Error', detail: mensajeValidado }];
+      return;
+    }
+
+    this.perfilService.cambiarPassword(email, passwordNueva).subscribe((respuesta) => {
+      this.mensaje = [{ severity: 'success', summary: `Contraseña cambiada`, detail: '' }];
+    });
+  }
+
   // CREAR Y PEDIR DIPLOMA DE ACTIVIDAD 
 
   pedirDiploma(actividad: string, url: string) {
@@ -186,9 +206,4 @@ export class PerfilComponent implements OnInit {
       this.mensaje = [{ severity: 'success', summary: `Diploma enviado a su correo electrónico`, detail: '' }];
     });
   }
-
-
-
-
-
 }

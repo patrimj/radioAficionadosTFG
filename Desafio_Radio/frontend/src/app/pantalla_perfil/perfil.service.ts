@@ -206,7 +206,4 @@ export class PerfilService {
       })
     );
   }
-
-
-
 }

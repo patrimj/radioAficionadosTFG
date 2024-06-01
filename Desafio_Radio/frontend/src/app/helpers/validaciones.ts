@@ -1,10 +1,9 @@
 //Patricia
 
-import { UsuarioRegistro } from "../interfaces/usuario";
-import { Noticias } from "../interfaces/noticias";
-import { Principales } from "../interfaces/principales";
+import { Usuario } from "../pantalla_usuarios/usuarios";
 
-export function validarUsuario(usuario: UsuarioRegistro): string {
+
+export function validarUsuario(usuario: Usuario): string {
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{5,}$/;
@@ -64,6 +63,13 @@ export function validarUsuario(usuario: UsuarioRegistro): string {
   return '';
 }
 
+export function validarPasswordUsuario(contraseñaVieja: string, contraseñaNueva: string): string {
+  if (contraseñaVieja === contraseñaNueva) {
+    return 'La nueva contraseña no puede ser igual a la antigua';
+  }
+  return '';
+}
+
 export function validarDatosRol(email: string): string {
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
@@ -74,38 +80,3 @@ export function validarDatosRol(email: string): string {
   return '';
 }
 
-export function validarPrincipal(principal: Principales): string {
-  if (!principal.nombre || !principal.descripcion || !principal.solucion) {
-    return 'Por favor, complete todos los campos';
-  }
-  if (principal.nombre.length < 3) {
-    return 'El nombre debe tener al menos 3 caracteres';
-  }
-  if (principal.descripcion.length < 3) {
-    return 'La descripción debe tener al menos 3 caracteres';
-  }
-  if (principal.solucion.length < 3) {
-    return 'La solución debe tener al menos 3 caracteres';
-  }
-
-  return '';
-}
-
-export function validarNoticias(noticia: Noticias): string {
-  if (!noticia.nombre || !noticia.descripcion) {
-    return 'Por favor, complete todos los campos';
-  }
-  if (noticia.nombre.length < 3) {
-    return 'El título debe tener al menos 3 caracteres';
-  }
-  if (noticia.descripcion.length < 3) {
-    return 'La descripción debe tener al menos 3 caracteres';
-  }
-  if (noticia.nombre.length > 20) {
-    return 'El título de la noticia no debe exceder los 50 caracteres';
-  }
-  if (noticia.descripcion.length > 200) {
-    return 'La descripción de la noticia no debe exceder los 500 caracteres';
-  }
-  return '';
-}
