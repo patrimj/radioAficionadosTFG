@@ -55,6 +55,7 @@ export interface ActPrincipalUsuario {
 }
 
 export interface Concurso {
+    id: number;
     nombre: string;
     descripcion: string;
     url_foto: string;

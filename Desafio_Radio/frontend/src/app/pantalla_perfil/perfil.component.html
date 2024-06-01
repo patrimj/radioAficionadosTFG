@@ -1,1 +1,268 @@
+<div class="container">
+    <div class="card-header text-center" style="background-color: #ffb062;">
+        <h2 class="mt-3" style="color: #fff5e6;">PERFIL</h2>
+    </div>
+    <div class="card-body mt-4">
+        <div class="row d-flex justify-content-center">
 
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
+                    style="background-color: #ffd4aa;">
+                    <div class="card-header" style="background-color: #dd5b4d;">
+                        <img src="{{usuario.url_foto}}" class="rounded-circle" style="width: 100px; height: 100px">
+                        <h2 class="mt-3" style="color: #fff5e6;">{{usuario.nombre | titlecase }} {{usuario.apellido_uno
+                            | titlecase }} {{usuario.apellido_dos | titlecase }}</h2>
+                        <p class="text-muted mb-0">{{usuario.email}}</p>
+                        <p>{{usuario.id_examen}}</p>
+                    </div>
+                    <div class="card-body px-1 pb-0 w-100">
+                        <div class="d-flex justify-content-center mt-2 mb-2">
+                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal" data-bs-target="#modalPerfil"
+                                (click)="getPerfil()"><i class="fas fa-edit"></i>Modificar
+                                Perfil</button>
+                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                data-bs-target="#modalNueva"><i class="fas fa-edit"></i>Cambiar Contraseña</button>
+                        </div>
+                        <p>Total concursos participado: {{ getTotalConcursosParticipado() }}</p>
+                        <p>Total actividades participado: {{ getTotalActividadesParticipado() }}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card-header text-center" style="background-color: #ffb062;">
+        <h2 class="mt-3" style="color: #fff5e6;">CONCURSOS EN LOS QUE HE PARTICIPADO</h2>
+    </div>
+    <div class="card-body mt-4">
+        <div class="row d-flex justify-content-center">
+            @for(concurso of concursos; track concurso.id) {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
+                    style="background-color: #ffd4aa;">
+                    <div class="position-relative w-100">
+                        <a class="d-inline shadow-xl border-radius-xl" style="width: 100%; height: auto; ">
+                            <img src="{{concurso.url_foto}}" alt="Fotografía de {{concurso.nombre}}"
+                                class="img-fluid shadow border-radius-xl">
+                        </a>
+                    </div>
+                    <div class="card-body px-1 pb-0 w-100">
+                        <a href="javascript:;" class="text-center">
+                            <h5 style="font-size: 30px; color: #dd5b4d;">
+                                {{concurso.nombre}}
+                            </h5>
+                            <h6>
+                                {{concurso.descripcion}}
+                            </h6>
+
+                        </a>
+
+                        <p class="mb-4 text-sm text-center">
+                            Solución: {{concurso.solucion}}
+                        </p>
+
+
+                        <button class="btn btn-warning" btn-lg data-bs-toggle="modal" data-bs-target="#modalActividades"
+                            (click)=" getActividadesPorConcurso(concurso.id)"><i class="fas fa-edit"></i>Ver
+                            actividades</button>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="card-header text-center" style="background-color: #ffb062;">
+        <h2 class="mt-3" style="color: #fff5e6;">ACTIVIDADES DE UN UNICO CONTACTO EN LAS QUE HE PARTICIPADO</h2>
+    </div>
+    <div class="card-body mt-4">
+        <div class="row d-flex justify-content-center">
+            @for(actividad of actividades; track actividad.id) {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
+                    style="background-color: #ffd4aa;">
+                    <div class="position-relative w-100">
+                        <a class="d-inline shadow-xl border-radius-xl" style="width: 100%; height: auto; ">
+                            <img src="{{actividad?.url_foto}}" alt="Fotografía de {{actividad?.nombre}}"
+                                class="img-fluid shadow border-radius-xl">
+                        </a>
+                    </div>
+                    <div class="card-body px-1 pb-0 w-100">
+                        <h5 style="font-size: 30px; color: #dd5b4d;">
+                            {{actividad?.nombre}}
+                        </h5>
+                        <p>Localización: {{actividad.localizacion}}</p>
+                        <p>Fecha: {{actividad.fecha}}</p>
+                        <p>Frecuencia: {{actividad.frecuencia}}</p>
+                        <p>Banda: {{actividad.banda}}</p>
+                        <p>Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
+                        <p>Modalidad: {{actividad.modalidad.descripcion}}</p>
+                        <p>Modo: {{actividad.modo.nombre}}</p>
+
+                        @for(act_primaria of actividad.act_primarias; track act_primaria.id) {
+                        <h6>Concurso: {{act_primaria.nombre}}</h6>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="card-header text-center" style="background-color: #ffb062;">
+        <h2 class="mt-3" style="color: #fff5e6;">ACTIVIDADES DE VARIOS CONTACTOS EN LAS QUE HE PARTICIPADO</h2>
+    </div>
+    <div class="card-body mt-4">
+        <div class="row d-flex justify-content-center">
+            @for(actividad of actividades; track actividad.id) {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
+                    style="background-color: #ffd4aa;">
+                    <div class="position-relative w-100">
+                        <a class="d-inline shadow-xl border-radius-xl" style="width: 100%; height: auto; ">
+                            <img src="{{actividad?.url_foto}}" alt="Fotografía de {{actividad?.nombre}}"
+                                class="img-fluid shadow border-radius-xl">
+                        </a>
+                    </div>
+                    <div class="card-body px-1 pb-0 w-100">
+                        <h5 style="font-size: 30px; color: #dd5b4d;">
+                            {{actividad?.nombre}}
+                        </h5>
+                        <p>Localización: {{actividad.localizacion}}</p>
+                        <p>Fecha: {{actividad.fecha}}</p>
+                        <p>Frecuencia: {{actividad.frecuencia}}</p>
+                        <p>Banda: {{actividad.banda}}</p>
+                        <p>Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
+                        <p>Modalidad: {{actividad.modalidad.descripcion}}</p>
+                        <p>Modo: {{actividad.modo.nombre}}</p>
+
+                        @for(act_primaria of actividad.act_primarias; track act_primaria.id) {
+                        <h6>Concurso: {{act_primaria.nombre}}</h6>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+
+    <!-- Modal para cambiar contraseña -->
+
+    <div class="modal fade" id="modalNueva" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Cambiar contraseña</h5>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+
+                    <p>
+                        Introduce tu correo electrónico para cambiar tu contraseña * : <input type="email"
+                            [(ngModel)]="email" class="form-control" />
+                    </p>
+
+                    <p>
+                        Introduce tu contraseña antigua * : <input type="password" [(ngModel)]="passwordAntigua"
+                            class="form-control" />
+                    </p>
+
+                    <p>
+                        Introduce tu nueva contraseña * : <input type="password" [(ngModel)]="passwordNueva"
+                            class="form-control" />
+                    </p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn btn-success mr-2"
+                        (click)="cambiarPassword(email, passwordAntigua, passwordNueva)"><i
+                            class="fa-solid fa-circle-check"></i></button>
+
+                    <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para modificar perfil  -->
+
+    <div class="modal fade" id="modalPerfil" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Crea y modifica los concursos</h5>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Nombre *:<input type="text" [(ngModel)]="usuario.nombre" class="form-control" />
+                    </p>
+                    <p>
+                        Apellido 1 *:<input type="text" [(ngModel)]="usuario.apellido_uno" class="form-control" />
+                    </p>
+                    <p>
+                        Apellido 2 *:<input type="text" [(ngModel)]="usuario.apellido_dos" class="form-control" />
+                    </p>
+                    <p>
+                        Foto : <input type="file" (change)="imagen($event)" />
+                    </p>
+
+                    <p>
+                        Indicativo: <input type="checkbox" [(ngModel)]="usuario.id_examen" />
+                    </p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn btn-warning mr-3" (click)="modificarPerfil()"><i
+                            class="fas fa-edit"></i></button>
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Mostrar las actividades de un concurso -->
+    
+    <div class="modal fade" id="modalActividades" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Actividades del Concurso</h5>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    @for(actividad of actividades; track actividad.id){
+                    <h5>{{actividad.nombre}}</h5>
+                    <img src="{{actividad.url_foto}}" alt="Foto de {{actividad.nombre}}">
+                    <p>Localización: {{actividad.localizacion}}</p>
+                    <p>Fecha: {{actividad.fecha}}</p>
+                    <p>Frecuencia: {{actividad.frecuencia}}</p>
+                    <p>Banda: {{actividad.banda}}</p>
+                    <p>Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
+                    <p>Modalidad: {{actividad.modalidad.descripcion}}</p>
+                    <p>Modo: {{actividad.modo.nombre}}</p>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

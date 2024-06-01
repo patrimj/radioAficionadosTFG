@@ -41,16 +41,15 @@ export class PerfilComponent implements OnInit {
     nombre: '',
     url_foto: '',
     fecha: '',
-    modalidad: {
-      descripcion: ''
-    },
-    modo: {
-      nombre: ''
-    }
+    modalidad: { descripcion: '' },
+    modo: { nombre: '' },
+    act_primarias: []
   };
+  
 
   concursos: Concurso[] = [];
   concruso: Concurso = {
+    id: 0,
     nombre: '',
     descripcion: '',
     url_foto: '',
@@ -59,8 +58,10 @@ export class PerfilComponent implements OnInit {
     act_principales_usuario: []
   };
 
-
   totalActividadesConcursos: number = 0;
+  email: string = '';
+  passwordAntigua: string = '';
+  passwordNueva: string = '';
 
   imagenSubir: File = new File([], '');
 
@@ -140,15 +141,19 @@ export class PerfilComponent implements OnInit {
   }
 
   // MOSTRAR PERFIL
-  getPerfil(){
+  getPerfil() {
     this.perfilService.getPerfil().subscribe((perfil) => {
       this.usuario = perfil.data;
     })
   }
 
+  seleccionarPerfil(usuario: Perfil) {
+    this.usuario = usuario;
+  }
+
   // MODIFICAR PERFIL
 
-  modificarPerfil(){
+  modificarPerfil() {
 
     const mensajeValidado = this.validarDatosUsuario();
     if (mensajeValidado) {
@@ -159,7 +164,6 @@ export class PerfilComponent implements OnInit {
     const formData = new FormData();
     formData.append('archivo', this.imagenSubir, this.imagenSubir.name);
     formData.append('nombre', this.usuario.nombre);
-    formData.append('email', this.usuario.email);
     formData.append('apellido_uno', this.usuario.apellido_uno);
     formData.append('apellido_dos', this.usuario.apellido_dos);
     formData.append('id_examen', this.usuario.id_examen);
