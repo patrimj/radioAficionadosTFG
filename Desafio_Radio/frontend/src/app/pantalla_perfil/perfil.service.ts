@@ -11,7 +11,8 @@ import {
   RespuestaActividades,
   RespuestaTotalActividadesYconcursos,
   RespuestaConcursos,
-  RespuestaPerfil
+  RespuestaPerfil,
+  Perfil
 
 } from "./perfiles";
 
@@ -19,7 +20,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class UsuariosService {
+export class PerfilService {
   private baseUrl: string = environment.baseUrl
 
   constructor(private http: HttpClient) { }
@@ -95,7 +96,7 @@ export class UsuariosService {
       })
     );
   }
-  
+
   // CONCURSOS DE UN USUARIO (AFICIONADO)
 
   getConcursosAficionado(): Observable<RespuestaConcursos> {
@@ -152,8 +153,8 @@ export class UsuariosService {
 
   // MODIFICAR PERFIL
 
-  modificarPerfil(id: number, formData: FormData): Observable<RespuestaPerfil> {
-    return this.http.put<RespuestaPerfil>(`${this.baseUrl}/usuario/perfil/${id}`, formData, { params: { auth: 'true' } }).pipe(
+  modificarPerfil(usuario: Perfil, formData: FormData): Observable<RespuestaPerfil> {
+    return this.http.put<RespuestaPerfil>(`${this.baseUrl}/usuario/perfil/${usuario.id}`, formData, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Perfil modificado:', response)

@@ -75,7 +75,7 @@ export interface Perfil {
     apellido_uno: string;
     apellido_dos: string;
     password: string;
-    url_foto: string;
+    url_foto: File;
     id_examen: string;
 }
 
