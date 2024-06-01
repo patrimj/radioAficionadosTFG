@@ -1,6 +1,6 @@
-//Patricia
 
 import { Usuario } from "../pantalla_usuarios/usuarios";
+import { Noticia } from "../pantalla_inicio/inicio";
 
 
 export function validarUsuario(usuario: Usuario): string {
@@ -80,3 +80,39 @@ export function validarDatosRol(email: string): string {
   return '';
 }
 
+
+export function validarNoticias(noticia:Noticia): string {
+  if (!noticia.nombre || !noticia.descripcion) {
+    return 'Por favor, complete todos los campos';
+  }
+
+  if (noticia.nombre === '') {
+    return 'Por favor, introduzca un nombre';
+  }
+
+  if (noticia.descripcion === '') {
+    return 'Por favor, introduzca una descripción';
+  }
+
+  return '';
+}
+
+export function validarConcurso(concurso: any): string {
+  if (!concurso.nombre || !concurso.descripcion || !concurso.url_foto || !concurso.solucion) {
+    return 'Por favor, complete todos los campos';
+  }
+
+  if (concurso.nombre === '') {
+    return 'Por favor, introduzca un nombre';
+  }
+
+  if (concurso.descripcion === '') {
+    return 'Por favor, introduzca una descripción';
+  }
+
+  if (concurso.solucion === '') {
+    return 'Por favor, introduzca una solución';
+  }
+
+  return '';
+}

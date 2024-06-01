@@ -36,7 +36,7 @@
                 <p style="font-size: 25px; color: #40a0ff; ">{{noticia.fecha | date:'shortDate'}}</p>
                 <h2 style="font-size: 30px; color: #ffd87e;">{{noticia.nombre | titlecase}}</h2>
                 <p style="font-size: 20px; color: #fff5e6; ">{{noticia.descripcion | titlecase}}</p>
-                @if (esAdmin) {
+                @if (esAdmin()) {
                 <button class="btn btn-outline-danger mr-2" (click)="eliminarNoticia(noticia.id)"><i
                         class="fas fa-trash"></i></button>
                 <button class="btn btn-outline-primary mr-2" (click)="seleccionarNoticia(noticia)"><i
@@ -59,7 +59,7 @@
 
     <!--PANEL DEL ADMINISTRADOR PARA CREAR O MODIFICAR NOTICIAS-->
 
-    @if (esAdmin){
+    @if (esAdmin()){
     <div class="container mb-3 mt-3">
         <div class="card shadow" style=" background-color: #dd5b4dbc;">
             <div class="card-header text-center" style="background-color: #ffb062;">
@@ -80,7 +80,7 @@
                     Descripción *:<input type="text" [(ngModel)]="noticia.descripcion" class="form-control" />
                 </p>
                 <p>
-                    <button class="btn btn-success mr-2" [disabled]="noticiaSeleccionada" (click)="agregarNoticia()"><i
+                    <button class="btn btn-success mr-2" [disabled]="noticiaSeleccionada" (click)="crearNoticia()"><i
                             class="fa-solid fa-circle-check"></i></button>
                     <button class="btn btn-warning  mr-3" (click)="modificarNoticia()"><i
                             class="fas fa-edit"></i></button>
@@ -104,7 +104,7 @@
     <div>
         <h1 class="text-center">NUESTROS ADMINISTRADORES</h1>
         <div class="row">
-            @for(admin of administradores; track admin.id) {
+            @for(adminOper of adminOpers; track adminOper.id) {
             <div class="col-md-4">
                 <div class="card shadow mb-4" style="background-color: #181a1d68;">
                     <div class="card-header text-center" style="background-color: #ffb062;">
@@ -113,14 +113,14 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color: #181a1d68;">
                             <div class="d-flex align-items-center justify-content-center">
-                                <img src="{{admin.url_foto}}" class="rounded-circle"
+                                <img src="{{adminOper.url_foto}}" class="rounded-circle"
                                     style="width: 100px; height: 100px">
                                 <div class="ms-3">
-                                    <p class="fw-bold mb-1">{{admin.nombre | titlecase }} {{admin.apellido_uno |
+                                    <p class="fw-bold mb-1">{{adminOper.nombre | titlecase }} {{adminOper.apellido_uno |
                                         titlecase
                                         }}
-                                        {{admin.apellido_dos | titlecase }}</p>
-                                    <p class="text-muted mb-0">{{admin.email}}</p>
+                                        {{adminOper.apellido_dos | titlecase }}</p>
+                                    <p class="text-muted mb-0">{{adminOper.email}}</p>
                                 </div>
                             </div>
                         </li>
@@ -135,7 +135,7 @@
     <div>
         <h1 class="text-center">NUESTROS OPERADORES</h1>
         <div class="row">
-            @for(oper of operadores; track oper.id) {
+            @for(adminOper of adminOpers; track adminOper.id) {
             <div class="col-md-4">
                 <div class="card shadow mb-4" style="background-color: #181a1d68;">
                     <div class="card-header text-center" style="background-color: #ffb062;">
@@ -144,12 +144,12 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="background-color: #181a1d68;">
                             <div class="d-flex align-items-center justify-content-center">
-                                <img src="{{oper.url_foto}}" class="rounded-circle" style="width: 100px; height: 100px">
+                                <img src="{{adminOper.url_foto}}" class="rounded-circle" style="width: 100px; height: 100px">
                                 <div class="ms-3">
-                                    <p class="fw-bold mb-1">{{oper.nombre | titlecase }} {{oper.apellido_uno | titlecase
+                                    <p class="fw-bold mb-1">{{adminOper.nombre | titlecase }} {{adminOper.apellido_uno | titlecase
                                         }}
-                                        {{oper.apellido_dos | titlecase }}</p>
-                                    <p class="text-muted mb-0">{{oper.email}}</p>
+                                        {{adminOper.apellido_dos | titlecase }}</p>
+                                    <p class="text-muted mb-0">{{adminOper.email}}</p>
                                 </div>
                             </div>
                         </li>

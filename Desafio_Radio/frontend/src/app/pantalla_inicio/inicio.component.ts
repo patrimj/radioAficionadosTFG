@@ -15,14 +15,12 @@ import {
   Noticia,
 } from "./inicio";
 
-
 //---Servicio---
 import { InicioService } from './inicio.service';
 import { WebsocketService } from '../servicios/websocket.service';
 
 //---Helpers---
 import { validarNoticias } from '../helpers/validaciones';
-
 
 @Component({
   selector: 'app-inicio',

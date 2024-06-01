@@ -281,7 +281,7 @@ class ConcursosConexion {
                             id: id_principal,
                             deleted_at: null
                         },
-                        attributes: ['nombre'],
+                        attributes: [],
                     }
                 ],
                 attributes: []
