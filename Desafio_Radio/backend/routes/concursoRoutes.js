@@ -12,15 +12,15 @@ const {validarCampos} = require("../middleware/validar-campos");
 
 // MUESTRA TODOS LOS CONCURSOS 
 
-router.get('/concursos', [validarJWT], controladorConcursos.mostrarConcursos); 
+router.get('/concursos', controladorConcursos.mostrarConcursos); 
 
 // MUESTRA TODS LOS CONCURSOS TERMINADOS
 
-router.get('/concursos/terminados', [validarJWT], controladorConcursos.mostrarConcursosTerminados); 
+router.get('/concursos/terminados',  controladorConcursos.mostrarConcursosTerminados); 
 
 // MUESTRA TODS LOS CONCURSOS PENDIENTES
 
-router.get('/concursos/pendientes', [validarJWT], controladorConcursos.mostrarConcursosPendientes); 
+router.get('/concursos/pendientes', controladorConcursos.mostrarConcursosPendientes); 
 
 //ALTA CONCURSO 
 
@@ -41,22 +41,22 @@ router.delete('/concurso/baja/:id', [validarJWT, esAdmin], controladorConcursos.
 
 //TERMINAR CONCURSO
 
-router.put('/concurso/terminar/:id', [validarJWT, esAdmin], controladorConcursos.terminarConcurso);
+router.put('/concurso/terminar/:id', controladorConcursos.terminarConcurso);
 
 // MOSTRAR CONCURSO ID
 
-router.get('/concurso/buscarId/:id', [validarJWT], controladorConcursos.mostrarConcursoId);
+router.get('/concurso/buscarId/:id',  controladorConcursos.mostrarConcursoId);
 
 // MOSTRAR CONCURSO NOMBRE
 
-router.get('/concurso/buscarNombre/:nombre', [validarJWT], controladorConcursos.mostrarConcursoNombre);
+router.get('/concurso/buscarNombre/:nombre',  controladorConcursos.mostrarConcursoNombre);
 
 // VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla Perfil (actividadRoutes) ***
 
-router.get('/concurso/actividades/:id_principal', [validarJWT], controladorConcursos.getActividadesPorConcurso);
+router.get('/concurso/actividades/:id_principal',  controladorConcursos.getActividadesPorConcurso);
 
 // VER PARTICIPANTES DE UN CONCURSO (MODAL) (AFICIONADO) 
 
-router.get('/participantesConcurso/:id_principal', [validarJWT], controladorConcursos.verParticipantesConcurso);
+router.get('/participantesConcurso/:id_principal', controladorConcursos.verParticipantesConcurso);
 
 module.exports = router;

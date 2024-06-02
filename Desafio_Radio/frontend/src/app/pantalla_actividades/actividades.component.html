@@ -81,8 +81,6 @@
                                 }
                             </p>
 
-
-
                             <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
                                 data-bs-target="#modalParticipantes"
                                 (click)=" verParticipantesActividad(actividad.id)">Ver
@@ -95,7 +93,8 @@
                                 <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarActividad(actividad)"><i
                                         class="fas fa-edit"></i></button>
-                                <button class="btn btn-warning" (click)="terminarActividad(actividad.id)">Finalizar</button>
+                                <button class="btn btn-warning"
+                                    (click)="terminarActividad(actividad.id)">Finalizar</button>
                             </div>
                             }
                         </div>
@@ -184,7 +183,8 @@
                                 <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarActividad(actividad)"><i
                                         class="fas fa-edit"></i></button>
-                                <button class="btn btn-warning" (click)="terminarActividad(actividad.id)">Finalizar</button>
+                                <button class="btn btn-warning"
+                                    (click)="terminarActividad(actividad.id)">Finalizar</button>
                             </div>
                             }
                         </div>
@@ -274,7 +274,8 @@
                                 <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarActividad(actividad)"><i
                                         class="fas fa-edit"></i></button>
-                                <button class="btn btn-warning" (click)="terminarActividad(actividad.id)">Finalizar</button>
+                                <button class="btn btn-warning"
+                                    (click)="terminarActividad(actividad.id)">Finalizar</button>
                             </div>
                             }
                         </div>
@@ -335,7 +336,7 @@
                         </p>
 
                         <p>
-                            Modalidad *:<select name="modalidad" [(ngModel)]="modalidad.id">
+                            Modalidad *:<select name="modalidad" [(ngModel)]="actividad.id_modalidad">
                                 class="form-select form-select-lg mb-3 rounded-pill"
                                 style="height: 35px; background-color: #ffce9d;">
                                 <option value="" disabled selected>Selecciona la modalidad</option>
@@ -347,7 +348,7 @@
                         </p>
 
                         <p>
-                            Modo *:<select name="modo" [(ngModel)]="modo.id"
+                            Modo *:<select name="modo" [(ngModel)]="actividad.id_modo"
                                 class="form-select form-select-lg mb-3 rounded-pill"
                                 style="height: 35px;  background-color: #ffce9d;">
                                 <option value="" disabled selected>Selecciona el modo</option>
@@ -361,9 +362,8 @@
                                 (click)="altaActividadUnico()"><i class="fa-solid fa-circle-check"></i></button>
                             <button class="btn btn-warning mr-3" (click)="modificarActividad()"><i
                                     class="fas fa-edit"></i></button>
-
                         </p>
-                        <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
+
                     </div>
 
                     <div class="card-footer text-muted" style="background-color: #ffb062;">
@@ -411,7 +411,7 @@
                             Foto *: <input type="file" (change)="imagen($event)" />
                         </p>
                         <p>
-                            Modalidad *:<select name="modalidad" [(ngModel)]="modalidad.id"
+                            Modalidad *:<select name="modalidad" [(ngModel)]="actividad.id_modalidad"
                                 class="form-select form-select-lg mb-3 rounded-pill"
                                 style="height: 35px;  background-color: #ffce9d;">
                                 <option value="" disabled selected>Selecciona la modalidad</option>
@@ -422,7 +422,7 @@
                         </p>
 
                         <p>
-                            Modo *:<select name="modo" [(ngModel)]="modo.id"
+                            Modo *:<select name="modo" [(ngModel)]="actividad.id_modo"
                                 class="form-select form-select-lg mb-3 rounded-pill"
                                 style="height: 35px;  background-color: #ffce9d;">
                                 <option value="" disabled selected>Selecciona el modo</option>
@@ -440,7 +440,7 @@
                         </p>
 
                         <p>
-                            Concursos *:<select name="concurso" [(ngModel)]="concurso.id"
+                            Concursos *:<select name="concurso" [(ngModel)]="actividad.act_primarias[0].PrincipalesSecundarias.id_principal"
                                 class="form-select form-select-lg mb-3 rounded-pill"
                                 style="height: 35px;  background-color: #ffce9d;">
                                 <option value="" disabled selected>Selecciona el concurso</option>
@@ -455,9 +455,7 @@
                                 (click)="altaActividadVarios()"><i class="fa-solid fa-circle-check"></i></button>
                             <button class="btn btn-warning mr-3" (click)="modificarActividad()"><i
                                     class="fas fa-edit"></i></button>
-
-                            <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
-
+                        </p>
                     </div>
 
                     <div class="card-footer text-muted" style="background-color: #ffb062;">
@@ -512,12 +510,10 @@
             </div>
         </div>
     </div>
-
-
-    <p-messages [(value)]="mensajeEliminado" class="messages-top-right" [enableService]="false"
-        [closable]="true"></p-messages>
-
-    <p-messages [(value)]="mensaje" class="messages-top-right" [enableService]="false" [closable]="true"></p-messages>
-    <p-messages [(value)]="mensajeModificado" class="messages-top-right" [enableService]="false"
-        [closable]="true"></p-messages>
 </div>
+
+<p-messages [(value)]="mensajeEliminado" class="messages-top-right" [enableService]="false"
+[closable]="true"></p-messages>
+<p-messages [(value)]="mensaje" class="messages-top-right" [enableService]="false" [closable]="true"></p-messages>
+<p-messages [(value)]="mensajeModificado" class="messages-top-right" [enableService]="false"
+[closable]="true"></p-messages>

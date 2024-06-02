@@ -77,6 +77,8 @@ export class ConcursosComponent implements OnInit {
 
   ngOnInit(): void {
     this.mostrarConcursos();
+    this.mostrarConcursoNombre(this.nombreConcurso);
+
   }
 
   imagen(event: Event) {
