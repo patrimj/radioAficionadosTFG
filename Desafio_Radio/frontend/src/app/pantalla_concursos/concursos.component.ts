@@ -18,7 +18,7 @@ import { PerfilService } from '../pantalla_perfil/perfil.service';
 
 import {
   Concurso,
-  Participante
+  Participantes
 } from "./concursos";
 
 import { Actividad } from "../pantalla_perfil/perfiles";
@@ -62,9 +62,16 @@ export class ConcursosComponent implements OnInit {
   };
 
   //---Participantes---
-  participantes: Participante[] = [];
-  participante: Participante = { id: 0, nombre: '', url_foto: '', id_examen: '' };
-
+  participantes: Participantes[] = [];
+  participante: Participantes = { 
+    usuario: {
+      id: 0,
+      nombre: '',
+      url_foto: '',
+      id_examen: ''
+    }
+  };
+  
   //---Recursos---
   tipoConcurso = 'todas'; // todas o terminadas
   actividadPrincipal = 0; //para el input
@@ -78,7 +85,6 @@ export class ConcursosComponent implements OnInit {
   ngOnInit(): void {
     this.mostrarConcursos();
     this.mostrarConcursoNombre(this.nombreConcurso);
-
   }
 
   imagen(event: Event) {
@@ -96,18 +102,18 @@ export class ConcursosComponent implements OnInit {
   // COMPROBAR SI EL USUARIO ES ADMIN
 
   esAdmin(): boolean {
-    let esAdmin = false; 
+    let esAdmin = false;
 
     if (this.datosLogin && this.datosLogin.roles) {
-        for (let i = 0; i < this.datosLogin.roles.length; i++) {
-            if (this.datosLogin.roles[i].RolAsignado && this.datosLogin.roles[i].RolAsignado.id_rol === 1) {
-                esAdmin = true;
-                break; 
-            }
+      for (let i = 0; i < this.datosLogin.roles.length; i++) {
+        if (this.datosLogin.roles[i].RolAsignado && this.datosLogin.roles[i].RolAsignado.id_rol === 1) {
+          esAdmin = true;
+          break;
         }
+      }
     }
-    return esAdmin; 
-}
+    return esAdmin;
+  }
 
   // VALIDAR CONCURSO
 
@@ -282,7 +288,7 @@ export class ConcursosComponent implements OnInit {
 
   verParticipantesConcurso(idPrincipal: number) {
     this.concursoService.verParticipantesConcurso(idPrincipal).subscribe((respuesta) => {
-      this.participantes = respuesta.data.map(data => data.usuario);
+      this.participantes = respuesta.data;
     })
   }
 

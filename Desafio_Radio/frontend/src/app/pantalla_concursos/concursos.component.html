@@ -74,7 +74,8 @@
                                 <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
                                         class="fas fa-edit"></i></button>
-                                <button class="btn btn-warning" (click)="terminarConcurso(concurso.id)">Finalizar</button>
+                                <button class="btn btn-warning"
+                                    (click)="terminarConcurso(concurso.id)">Finalizar</button>
                             </div>
                             }
                         </div>
@@ -144,7 +145,8 @@
                                 <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
                                         class="fas fa-edit"></i></button>
-                                <button class="btn btn-warning" (click)="terminarConcurso(concurso.id)">Finalizar</button>
+                                <button class="btn btn-warning"
+                                    (click)="terminarConcurso(concurso.id)">Finalizar</button>
                             </div>
                             }
                         </div>
@@ -214,7 +216,8 @@
                                 <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
                                         class="fas fa-edit"></i></button>
-                                <button class="btn btn-warning" (click)="terminarConcurso(concurso.id)">Finalizar</button>
+                                <button class="btn btn-warning"
+                                    (click)="terminarConcurso(concurso.id)">Finalizar</button>
                             </div>
                             }
                         </div>
@@ -272,7 +275,8 @@
                             class="fas fa-edit"></i></button>
 
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <p-messages [(value)]="mensaje" class="messages-top-right" [enableService]="false" [closable]="true"></p-messages>
+                    <p-messages [(value)]="mensaje" class="messages-top-right" [enableService]="false"
+                        [closable]="true"></p-messages>
                     <p-messages [(value)]="mensajeModificado" class="messages-top-right" [enableService]="false"
                         [closable]="true"></p-messages>
                 </div>
@@ -331,18 +335,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for(participante of participantes; track participante.id){
-                            <tr>
+                            @for(participante of participantes; track participante.usuario.id){
+                              <tr>
                                 <td style="display: flex; justify-content: center; align-items: center;">
-                                    <img src="{{participante.usuario_secundarias_secundarias.url_foto}}"
-                                        alt="Foto de {{participante.usuario_secundarias_secundarias.nombre}}"
-                                        style="border-radius: 50%; width: 50px; height: 50px;">
-                                </td>
-                                <td>{{participante.usuario_secundarias_secundarias.nombre}}</td>
-                                <td>{{participante.usuario_secundarias_secundarias.id_examen}}</td>
-                            </tr>
+                                  <img src="{{participante.usuario.url_foto}}" alt="Foto de {{participante.usuario.nombre}}"
+                                  style="border-radius: 50%; width: 50px; height: 50px;"></td>
+                                <td>{{participante.usuario.nombre}}</td>
+                                <td>{{participante.usuario.id_examen}}</td>
+                              </tr>
                             }
-                        </tbody>
+                          </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">

@@ -209,7 +209,7 @@ export class ConcursosService {
     // VER PARTICIPANTES DE UN CONCURSO (MODAL) (AFICIONADO) 
 
     verParticipantesConcurso(id_principal: number): Observable<ParticipantesConcursoRespuesta> {
-        return this.http.get<ParticipantesConcursoRespuesta>(`${this.baseUrl}/concurso/participantes/${id_principal}`, { params: { auth: 'true' } }).pipe(
+        return this.http.get<ParticipantesConcursoRespuesta>(`${this.baseUrl}/participantesConcurso/${id_principal}`, { params: { auth: 'true' } }).pipe(
             tap(response => {
                 if (response) {
                     console.log('Participantes:', response)
