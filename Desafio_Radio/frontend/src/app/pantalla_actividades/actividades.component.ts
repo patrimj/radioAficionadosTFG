@@ -85,6 +85,7 @@ export class ActividadesComponent implements OnInit {
 
   participantes: Participante[] = [];
   participante: Participante = {
+    id: 0,
     usuario_secundarias_secundarias: { nombre: '', email: '', apellido_uno: '', apellido_dos: '', url_foto: '', id_examen: '' },
     act_secundaria: { nombre: '' }
   };
@@ -279,9 +280,19 @@ export class ActividadesComponent implements OnInit {
             id_modalidad: 0,
             id_modo: 0,
             completada: false,
-            act_primarias: [],
-            modalidad: { id: 0, descripcion: '' },
-            modo: { id: 0, nombre: '' }
+            act_primarias: [{
+              id: 0,
+              nombre: '',
+              descripcion: '',
+              url_foto: '',
+              completada: false,
+              solucion: '',
+              PrincipalesSecundarias: {
+                id_principal: 0,
+                id_secundaria: 0,
+                premio: ''
+              }
+            }],
           };
         }
       },
@@ -334,9 +345,19 @@ export class ActividadesComponent implements OnInit {
             id_modalidad: 0,
             id_modo: 0,
             completada: false,
-            act_primarias: [],
-            modalidad: { id: 0, descripcion: '' },
-            modo: { id: 0, nombre: '' }
+            act_primarias: [{
+              id: 0,
+              nombre: '',
+              descripcion: '',
+              url_foto: '',
+              completada: false,
+              solucion: '',
+              PrincipalesSecundarias: {
+                id_principal: 0,
+                id_secundaria: 0,
+                premio: ''
+              }
+            }],
           };
         }
       },
@@ -394,9 +415,19 @@ export class ActividadesComponent implements OnInit {
             id_modalidad: 0,
             id_modo: 0,
             completada: false,
-            act_primarias: [],
-            modalidad: { id: 0, descripcion: '' },
-            modo: { id: 0, nombre: '' }
+            act_primarias: [{
+              id: 0,
+              nombre: '',
+              descripcion: '',
+              url_foto: '',
+              completada: false,
+              solucion: '',
+              PrincipalesSecundarias: {
+                id_principal: 0,
+                id_secundaria: 0,
+                premio: ''
+              }
+            }],
           };
         }
       },

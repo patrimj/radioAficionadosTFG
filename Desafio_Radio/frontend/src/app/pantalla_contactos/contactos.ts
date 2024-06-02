@@ -74,8 +74,8 @@ export interface ContactosConDetallesRespuesta {
 }
 
 export interface ContactosRegistrado {
-    id_usuario: string;
-    id_secundaria: string;
+    id_usuario: number;
+    id_secundaria: number;
     premio: string | null;
 }
 

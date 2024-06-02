@@ -42,7 +42,7 @@ export class ContactosComponent implements OnInit {
 
   //---Contactos---
   contactosRegistrados: ContactosRegistrado[] = [];
-  contactosRegistrado: ContactosRegistrado = { id_usuario: '', id_secundaria: '', premio: '' };
+  contactosRegistrado: ContactosRegistrado = { id_usuario: 0, id_secundaria: 0, premio: '' };
   contactoDetalles: ContactoDetalle[] = [];
   contactoDetalle: ContactoDetalle = { nombre: '', id_examen: '', email: '', usuario_secundarias: [] };
 
@@ -112,7 +112,7 @@ export class ContactosComponent implements OnInit {
 
   // MOSTRAR SOLUCIÓN CONCURSO
 
-  solucionConcurso(id_principal: string) {
+  solucionConcurso(id_principal: number) {
     this.contactosService.solucionConcurso(id_principal).subscribe((solucion) => {
       this.solucion = solucion.data;
     });
@@ -120,7 +120,7 @@ export class ContactosComponent implements OnInit {
 
   // MOSTRAR ACTIVIDADES QUE PERTENECEN A UN CONCURSO
 
-  actividadesVariosContactos(id_principal: string) {
+  actividadesVariosContactos(id_principal: number) {
     this.contactosService.actividadesVariosContactos(id_principal).subscribe((actividades) => {
       this.actividades = actividades.data;
     });
@@ -128,7 +128,7 @@ export class ContactosComponent implements OnInit {
 
   // MOSTRAR PREMIO DE LA ACTIVIDAD
 
-  premioActividad(id_secundaria: string) {
+  premioActividad(id_secundaria: number) {
     this.contactosService.premioActividad(id_secundaria).subscribe((premio) => {
       this.premio = premio.data;
     });
@@ -136,7 +136,7 @@ export class ContactosComponent implements OnInit {
 
   // MOSTRAR LOS PREMIOS DE UN USUARIO EN UN CONCURSO
 
-  premiosUsuarioConcurso(id_usuario: string, id_principal: string) {
+  premiosUsuarioConcurso(id_usuario: number, id_principal: number) {
     this.contactosService.premiosUsuarioConcurso(id_usuario, id_principal).subscribe((premios) => {
       this.premiosTotales = premios.data;
     });
@@ -154,7 +154,7 @@ export class ContactosComponent implements OnInit {
 
   // MOSTRAR LA MODALIDAD DE LA ACTIVIDAD
 
-  modalidadActividad(id_secundaria: string){
+  modalidadActividad(id_secundaria: number){
     this.contactosService.modalidadActividad(id_secundaria).subscribe((modalidad) => {
       this.modalidad = modalidad.data;
     });

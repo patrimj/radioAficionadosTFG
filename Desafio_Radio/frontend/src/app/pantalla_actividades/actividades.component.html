@@ -63,11 +63,11 @@
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Modalidad: {{actividad.modalidad.descripcion}}
+                                Modalidad: {{actividad.modalidad?.descripcion}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Modo: {{actividad.modo.nombre}}
+                                Modo: {{actividad.modo?.nombre}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
@@ -153,11 +153,11 @@
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Modalidad: {{actividad.modalidad.descripcion}}
+                                Modalidad: {{actividad.modalidad?.descripcion}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Modo: {{actividad.modo.nombre}}
+                                Modo: {{actividad.modo?.nombre}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
@@ -241,7 +241,7 @@
                             <p class="mb-4 text-sm text-center">
                                 Banda: {{actividad.banda}}
                             </p>
-
+<!--
                             <p class="mb-4 text-sm text-center">
                                 Modalidad: {{actividad.modalidad.descripcion}}
                             </p>
@@ -249,6 +249,7 @@
                             <p class="mb-4 text-sm text-center">
                                 Modo: {{actividad.modo.nombre}}
                             </p>
+                        -->
 
                             <p class="mb-4 text-sm text-center">
                                 Completada: {{actividad.completada ? 'Sí' : 'No'}}
@@ -347,7 +348,7 @@
                     <p>
                         Foto *: <input type="file" (change)="imagen($event)" />
                     </p>
-
+   <!--
                     <p>
                         Modalidad *:<select name="modalidad" [(ngModel)]="actividad.modalidad.id"
                             class="form-select form-select-lg mb-3 rounded-pill"
@@ -368,13 +369,13 @@
                             <option value="{{modo.id}}">{{modo.nombre}}</option>
                             }
                         </select>
-                    </p>
+                    </p>-->
 
                 </div>
 
                 <div class="modal-footer">
 
-                    <button class="btn btn-success mr-2" [disabled]="concursoSeleccionado"
+                    <button class="btn btn-success mr-2" [disabled]="actividadSeleccionada"
                         (click)="altaActividadUnico()"><i class="fa-solid fa-circle-check"></i></button>
                     <button class="btn btn-warning mr-3" (click)="modificarActividad()"><i
                             class="fas fa-edit"></i></button>
@@ -416,8 +417,8 @@
                     <p>
                         Foto *: <input type="file" (change)="imagen($event)" />
                     </p>
-                    <p>
-                        Modalidad *:<select name="modalidad" [(ngModel)]="actividad.modalidad.id"
+                    <!--<p>
+                        Modalidad *:<select name="modalidad" [(ngModel)]="actividad.modalidad?.id"
                             class="form-select form-select-lg mb-3 rounded-pill"
                             style="height: 35px;  background-color: #ffce9d;">
                             <option value="" disabled selected>Selecciona la modalidad</option>
@@ -425,10 +426,10 @@
                             <option value="{{modalidad.id}}">{{modalidad.descripcion}}</option>
                             }
                         </select>
-                    </p>
+                    </p>-->
 
-                    <p>
-                        Modo *:<select name="modo" [(ngModel)]="actividad.modo.id"
+                    <!--<p>
+                        Modo *:<select name="modo" [(ngModel)]="actividad.modo?.id"
                             class="form-select form-select-lg mb-3 rounded-pill"
                             style="height: 35px;  background-color: #ffce9d;">
                             <option value="" disabled selected>Selecciona el modo</option>
@@ -436,13 +437,13 @@
                             <option value="{{modo.id}}">{{modo.nombre}}</option>
                             }
                         </select>
-                    </p>
+                    </p>-->
                     <p>
-                        Premio *:<input type="text" [(ngModel)]="concurso.frecuencia" class="form-control" />
+                        <!--Premio *:<input type="text" [(ngModel)]="actividad.act_primarias[0]?.PrincipalesSecundarias.premio" class="form-control" />-->
                     </p>
 
                     <p>
-                        Concursos *:<select name="concurso" [(ngModel)]="concurso.concurso.id"
+                        Concursos *:<select name="concurso" [(ngModel)]="concurso.id"
                             class="form-select form-select-lg mb-3 rounded-pill"
                             style="height: 35px;  background-color: #ffce9d;">
                             <option value="" disabled selected>Selecciona el concurso</option>
@@ -455,7 +456,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button class="btn btn-success mr-2" [disabled]="concursoSeleccionado"
+                    <button class="btn btn-success mr-2" [disabled]="actividadSeleccionada"
                         (click)="altaActividadVarios()"><i class="fa-solid fa-circle-check"></i></button>
                     <button class="btn btn-warning mr-3" (click)="modificarActividad()"><i
                             class="fas fa-edit"></i></button>
@@ -465,68 +466,71 @@
                 }
             </div>
         </div>
+    </div>
+    }
 
-        <!-- Modal para Mostrar los participantes de una actividad -->
+    <!-- Modal para Mostrar los participantes de una actividad -->
 
-        <div class="modal fade" id="modalParticipantes" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Participantes de la actividad </h5>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
-                                class="fa-solid fa-xmark"></i></button>
-                    </div>
-                    <div class="modal-body">
-                        @for(participante of participantes; track participante.id){
-                        <h5>{{participante.nombre}}</h5>
-                        <img src="{{participante.url_foto}}" alt="Foto de {{participante.nombre}}">
-                        <h5>{{participante.id_examen}}</h5>
-                        }
+    <div class="modal fade" id="modalParticipantes" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Participantes de la actividad </h5>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    @for(participante of participantes; track participante.id){
+                    <td>{{participante.usuario_secundarias_secundarias.nombre}}</td>
+                    <td><img src="{{participante.usuario_secundarias_secundarias.url_foto}}"
+                            alt="Foto de {{participante.usuario_secundarias_secundarias.nombre}}"></td>
+                    <td>{{participante.usuario_secundarias_secundarias.id_examen}}</td>
 
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Foto</th>
-                                    <th>ID Examen</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for(participante of participantes; track participante.id){
-                                <tr>
-                                    <td>{{participante.nombre}}</td>
-                                    <td><img src="{{participante.url_foto}}" alt="Foto de {{participante.nombre}}"></td>
-                                    <td>{{participante.id_examen}}</td>
-                                </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Foto</th>
+                                <th>ID Examen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(participante of participantes; track participante.id){
+                            <tr>
+                                <td>{{participante.usuario_secundarias_secundarias.nombre}}</td>
+                                <td><img src="{{participante.usuario_secundarias_secundarias.url_foto}}"
+                                        alt="Foto de {{participante.usuario_secundarias_secundarias.nombre}}"></td>
+                                <td>{{participante.usuario_secundarias_secundarias.id_examen}}</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
-
-        <button data-bs-toggle="modal" data-bs-target="#modalNueva"
-            class="btn btn-success btn-flotante d-flex justify-content-center align-items-center">
-            <i class="fa-regular fa-square-plus"></i>
-        </button>
-
-        <button data-bs-toggle="modal" data-bs-target="#modalNueva"
-            class="btn-nuevo btn btn-outline-secondary  d-flex justify-content-center col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-4"
-            style="background-color: #F5DAAF;">
-            <i class="fa-solid fa-plus"></i>
-        </button>
-        }
-        
-        <p-messages [(value)]="mensajeEliminado" class="messages-top-right" [enableService]="false"
-            [closable]="true"></p-messages>
-
-        <p-messages [(value)]="mensaje" class="messages-top-right" [enableService]="false"
-            [closable]="true"></p-messages>
-        <p-messages [(value)]="mensajeModificado" class="messages-top-right" [enableService]="false"
-            [closable]="true"></p-messages>
     </div>
+
+
+    <button data-bs-toggle="modal" data-bs-target="#modalNueva"
+        class="btn btn-success btn-flotante d-flex justify-content-center align-items-center">
+        <i class="fa-regular fa-square-plus"></i>
+    </button>
+
+    <button data-bs-toggle="modal" data-bs-target="#modalNueva"
+        class="btn-nuevo btn btn-outline-secondary  d-flex justify-content-center col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-4"
+        style="background-color: #F5DAAF;">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+
+    <p-messages [(value)]="mensajeEliminado" class="messages-top-right" [enableService]="false"
+        [closable]="true"></p-messages>
+
+    <p-messages [(value)]="mensaje" class="messages-top-right" [enableService]="false" [closable]="true"></p-messages>
+    <p-messages [(value)]="mensajeModificado" class="messages-top-right" [enableService]="false"
+        [closable]="true"></p-messages>
 </div>

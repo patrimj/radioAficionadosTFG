@@ -18,10 +18,13 @@ import { AutenticacionComponent } from './pantalla_autenticacion/autenticacion.c
 // Pantalla de Gestión de Contactos
 import { ContactosComponent } from './pantalla_contactos/contactos.component';
 
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, UsuariosComponent, ActividadesComponent, ConcursosComponent, InicioComponent, PerfilComponent, AutenticacionComponent, ContactosComponent],
+  imports: [CommonModule, RouterOutlet, UsuariosComponent, ActividadesComponent, ConcursosComponent, InicioComponent, PerfilComponent, AutenticacionComponent, ContactosComponent, HeaderComponent, FooterComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

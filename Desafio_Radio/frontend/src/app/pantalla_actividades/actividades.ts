@@ -65,6 +65,7 @@ export interface ActSecundaria {
 }
 
 export interface Participante {
+    id: number;
     usuario_secundarias_secundarias: UsuarioSecundariasSecundarias;
     act_secundaria: ActSecundaria;
 }

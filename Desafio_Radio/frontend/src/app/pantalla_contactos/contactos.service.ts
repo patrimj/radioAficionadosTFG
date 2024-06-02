@@ -108,7 +108,7 @@ export class ContactosService {
 
   // MOSTRAR SOLUCIÓN CONCURSO
 
-  solucionConcurso(id_principal: string): Observable<SolucionConcursoRespuesta> {
+  solucionConcurso(id_principal: number): Observable<SolucionConcursoRespuesta> {
     return this.http.get<SolucionConcursoRespuesta>(`${this.baseUrl}/contacto/concurso/solucion/${id_principal}`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
@@ -126,7 +126,7 @@ export class ContactosService {
 
   // MOSTRAR ACTIVIDADES QUE PERTENECEN A UN CONCURSO
 
-  actividadesVariosContactos(id_principal: string): Observable<ActividadesVariosContactosRespuesta> {
+  actividadesVariosContactos(id_principal: number): Observable<ActividadesVariosContactosRespuesta> {
     return this.http.get<ActividadesVariosContactosRespuesta>(`${this.baseUrl}/contacto/concurso/actividades/${id_principal}`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
@@ -144,7 +144,7 @@ export class ContactosService {
 
   // MOSTRAR PREMIO DE LA ACTIVIDAD
 
-  premioActividad(id_secundaria: string): Observable<PremioActividadRespuesta> {
+  premioActividad(id_secundaria: number): Observable<PremioActividadRespuesta> {
     return this.http.get<PremioActividadRespuesta>(`${this.baseUrl}/contacto/actividad/premio/${id_secundaria}`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
@@ -163,7 +163,7 @@ export class ContactosService {
 
   // MOSTRAR LOS PREMIOS DE UN USUARIO EN UN CONCURSO
 
-  premiosUsuarioConcurso(id_usuario: string, id_principal: string): Observable<PremiosUsuarioConcursoRespuesta> {
+  premiosUsuarioConcurso(id_usuario: number, id_principal: number): Observable<PremiosUsuarioConcursoRespuesta> {
     return this.http.get<PremiosUsuarioConcursoRespuesta>(`${this.baseUrl}/contacto/usuario/premios/${id_usuario}/${id_principal}`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
@@ -202,7 +202,7 @@ export class ContactosService {
 
   // MOSTRAR LA MODALIDAD DE LA ACTIVIDAD
 
-  modalidadActividad(id_secundaria: string): Observable<ModalidadActividadRespuesta> {
+  modalidadActividad(id_secundaria: number): Observable<ModalidadActividadRespuesta> {
     return this.http.get<ModalidadActividadRespuesta>(`${this.baseUrl}/contacto/actividad/modalidad/${id_secundaria}`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {

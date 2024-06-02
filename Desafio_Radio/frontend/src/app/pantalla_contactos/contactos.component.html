@@ -11,7 +11,7 @@
     <!-- PARA REGISTRAR UN CONTACTO EN UNA ACTIVIDAD DE UN UNICO CONTACTO-->
 
     <div class="col">
-        <h2>REGISTRAR UN CONTACTO EN UNA ACTIVIDAD DE UN UNICO CONTACTO-/h2>
+        <div>REGISTRAR UN CONTACTO EN UNA ACTIVIDAD DE UN UNICO CONTACTO</div>h2>
             <select name="actividad" [(ngModel)]="contactosRegistrado.id_secundaria"
                 (change)="modalidadActividad(contactosRegistrado.id_secundaria)"
                 class="form-select form-select-lg mb-3 rounded-pill" style="height: 35px;  background-color: #ffce9d;">
@@ -75,10 +75,10 @@
             @for(usuario of usuarios; track usuario.id) {
             <tr>
                 <td>{{contactoDetalle.nombre | titlecase }}</td>
-                <td>{{usucontactoDetalleario.id_examen}}</td>
+                <td>{{contactoDetalle.id_examen}}</td>
                 <td>{{contactoDetalle.email}}</td>
-                <td>{{contactoDetalle.usuario_secundarias.premio}}</td>
-                <td>{{contactoDetalle.usuario_secundarias.act_secundaria.nombre}}</td>
+                <td>{{contactoDetalle.usuario_secundarias[0].premio}}</td>
+                <td>{{contactoDetalle.usuario_secundarias[0].act_secundaria.nombre}}</td>
             </tr>
             }
         </tbody>
