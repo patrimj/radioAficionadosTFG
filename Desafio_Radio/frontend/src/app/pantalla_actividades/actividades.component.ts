@@ -12,13 +12,12 @@ import { ToastModule } from "primeng/toast";
 
 //---Servicio---
 import { ActividadesService } from './actividades.service';
-import { PerfilService } from '../pantalla_perfil/perfil.service';
 
 //---Interfaces---
 
 import {
   Actividad,
-  UsuarioSecundariasSecundarias,
+  Participante,
   Modalidad, Modo
 } from "./actividades";
 
@@ -65,30 +64,47 @@ export class ActividadesComponent implements OnInit {
     id_modalidad: 0,
     id_modo: 0,
     completada: false,
-    act_primarias: [],
+    act_primarias: [{
+      id: 0,
+      nombre: '',
+      descripcion: '',
+      url_foto: '',
+      completada: false,
+      solucion: '',
+      PrincipalesSecundarias: {
+        id_principal: 0,
+        id_secundaria: 0,
+        premio: ''
+      }
+    }],
     modalidad: { id: 0, descripcion: '' },
     modo: { id: 0, nombre: '' }
   }
 
   //---Participantes---
 
-  participantes: UsuarioSecundariasSecundarias[] = [];
-  participante: UsuarioSecundariasSecundarias = { nombre: '', email: '', apellido_uno: '', apellido_dos: '', url_foto: '', id_examen: '' };
+  participantes: Participante[] = [];
+  participante: Participante = {
+    usuario_secundarias_secundarias: { nombre: '', email: '', apellido_uno: '', apellido_dos: '', url_foto: '', id_examen: '' },
+    act_secundaria: { nombre: '' }
+  };
 
   //---Modalidades y Modos ---
 
-  modalidades : Modalidad[] = [];
-  modos : Modo[] = [];
+  modalidades: Modalidad[] = [];
+  modos: Modo[] = [];
 
-  modalidad : Modalidad = { id: 0, descripcion: '' };
-  modo : Modo = { id: 0, nombre: '' };
+  modalidad: Modalidad = { id: 0, descripcion: '' };
+  modo: Modo = { id: 0, nombre: '' };
 
   //---Recursos---
   usuario: Usuario | null = null;
   tipoActividad = 'todas'; // todas o terminadas
+  tipoCrear = 'unico'; // unico o varios
   actividadPrincipal = 0; //para el input
   actividadSeleccionada: boolean = false;
   imagenSubir: File = new File([], ''); //para subir imagen
+  nombreActividad = '';
 
   constructor(private actividadesService: ActividadesService, private router: Router) { }
 
@@ -116,15 +132,19 @@ export class ActividadesComponent implements OnInit {
     return usuario ? JSON.parse(usuario) : null;
   }
 
-  esAdmin(): boolean {
+  esOper(): boolean {
     const usuario = this.getUsuario();
-    return usuario !== null && usuario !== undefined && usuario.rol !== null && usuario.rol !== undefined && usuario.rol.some(rol => rol.id_rol === 1);
+    return usuario !== null && usuario !== undefined && usuario.rol !== null && usuario.rol !== undefined && usuario.rol.some(rol => rol.id_rol === 2);
   }
 
   // VALIDAR CONCURSO
 
   validarActividad(): string {
-
+    let principalesSecundarias;
+    if (this.actividad.act_primarias && this.actividad.act_primarias[0]) {
+      principalesSecundarias = this.actividad.act_primarias[0].PrincipalesSecundarias;
+    }
+    return validarActividad(this.actividad, principalesSecundarias);
   }
 
   //---Métodos---
@@ -219,6 +239,7 @@ export class ActividadesComponent implements OnInit {
       }
     );
   }
+
   // MODIFICAR ACTIVIDAD (OPERADOR)
 
   modificarActividad() {
@@ -235,8 +256,8 @@ export class ActividadesComponent implements OnInit {
     formData.append('fecha', this.actividad.fecha);
     formData.append('frecuencia', this.actividad.frecuencia);
     formData.append('banda', this.actividad.banda);
-    formData.append('id_modalidad', this.actividad.id_modalidad.toString());
-    formData.append('id_modo', this.actividad.id_modo.toString());
+    formData.append('id_modalidad', (this.actividad.id_modalidad ?? '').toString());
+    formData.append('id_modo', (this.actividad.id_modo ?? '').toString());
 
     this.actividadesService.modificarActividad(this.actividad, formData).subscribe(
       data => {
@@ -290,8 +311,8 @@ export class ActividadesComponent implements OnInit {
     formData.append('fecha', this.actividad.fecha);
     formData.append('frecuencia', this.actividad.frecuencia);
     formData.append('banda', this.actividad.banda);
-    formData.append('id_modalidad', this.actividad.id_modalidad.toString());
-    formData.append('id_modo', this.actividad.id_modo.toString());
+    formData.append('id_modalidad', (this.actividad.id_modalidad ?? '').toString());
+    formData.append('id_modo', (this.actividad.id_modo ?? '').toString());
 
     this.actividadesService.altaActividadUnico(this.actividad, formData).subscribe(
       data => {
@@ -328,108 +349,139 @@ export class ActividadesComponent implements OnInit {
     );
   }
 
-// ALTA ACTIVIDAD DE VARIOS CONTACTOS (OPERADOR)
+  // ALTA ACTIVIDAD DE VARIOS CONTACTOS (OPERADOR)
 
-altaActividadVarios(){
+  altaActividadVarios() {
 
-  const mensajeValidado = validarActividad(this.actividad);
-  if (mensajeValidado) {
-    this.mensaje = [{ severity: 'error', summary: 'Error', detail: mensajeValidado }];
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('archivo', this.imagenSubir, this.imagenSubir.name);
-  formData.append('nombre', this.actividad.nombre);
-  formData.append('localizacion', this.actividad.localizacion);
-  formData.append('fecha', this.actividad.fecha);
-  formData.append('frecuencia', this.actividad.frecuencia);
-  formData.append('banda', this.actividad.banda);
-  formData.append('id_modalidad', this.actividad.id_modalidad.toString());
-  formData.append('id_modo', this.actividad.id_modo.toString());
-
-  this.actividadesService.altaActividadVarios(this.actividad, formData).subscribe(
-    data => {
-      if (data) {
-        this.mensajeModificado = [{ severity: 'success', summary: `Actividad ${this.actividad.nombre} creada`, detail: '' }];
-        this.mensaje = [];
-        this.mensajeEliminado = [];
-
-        this.mostrarActividades();
-
-        this.actividad = {
-          id: 0,
-          id_operador: 0,
-          nombre: '',
-          url_foto: '',
-          localizacion: '',
-          fecha: '',
-          frecuencia: '',
-          banda: '',
-          id_modalidad: 0,
-          id_modo: 0,
-          completada: false,
-          act_primarias: [],
-          modalidad: { id: 0, descripcion: '' },
-          modo: { id: 0, nombre: '' }
-        };
-      }
-    },
-    error => {
-      if (error) {
-        this.mensajeModificado = [{ severity: 'error', summary: 'Error', detail: 'Error' }];
-      }
+    const mensajeValidado = validarActividad(this.actividad);
+    if (mensajeValidado) {
+      this.mensaje = [{ severity: 'error', summary: 'Error', detail: mensajeValidado }];
+      return;
     }
-  );
-}
 
-// MOSTRAR MODALIDADES
-
-modalidadesActividad() {
-  this.actividadesService.modalidades().subscribe((modalidades) => {
-    this.modalidades = modalidades.data;
-  });
-
-}
-// MOSTRAR MODOS
-
-modosActividad() {
-  this.actividadesService.modos().subscribe((modos) => {
-    this.modos = modos.data;
-  });
-
-}
-//MOSTRAR CONCURSOS
-
-mostrarConcursosPendientes() {
-  this.actividadesService.mostrarConcursosPendientes().subscribe((concurso) => {
-    this.concursos = concurso.data;
-  });
-}
+    const formData = new FormData();
+    formData.append('archivo', this.imagenSubir, this.imagenSubir.name);
+    formData.append('nombre', this.actividad.nombre);
+    formData.append('localizacion', this.actividad.localizacion);
+    formData.append('fecha', this.actividad.fecha);
+    formData.append('frecuencia', this.actividad.frecuencia);
+    formData.append('banda', this.actividad.banda);
+    formData.append('id_modalidad', (this.actividad.id_modalidad ?? '').toString());
+    formData.append('id_modo', (this.actividad.id_modo ?? '').toString());
+    if (this.actividad.act_primarias && this.actividad.act_primarias[0] && this.actividad.act_primarias[0].PrincipalesSecundarias) {
+      formData.append('premio', (this.actividad.act_primarias[0].PrincipalesSecundarias.premio ?? '').toString());
+      formData.append('id_principal', (this.actividad.act_primarias[0].PrincipalesSecundarias.id_principal ?? '').toString());
+    }
 
 
+    this.actividadesService.altaActividadVarios(this.actividad, formData).subscribe(
+      data => {
+        if (data) {
+          this.mensajeModificado = [{ severity: 'success', summary: `Actividad ${this.actividad.nombre} creada`, detail: '' }];
+          this.mensaje = [];
+          this.mensajeEliminado = [];
 
-cargarActividades() {
-  switch (this.tipoActividad) {
-    case 'todas':
-      this.mostrarActividades();
-      break;
-    case 'terminadas':
-      this.mostrarActividadesTerminadas();
-      break;
-    case 'pendientes':
-      this.mostrarActividadesPendientes();
-      break;
+          this.mostrarActividades();
+
+          this.actividad = {
+            id: 0,
+            id_operador: 0,
+            nombre: '',
+            url_foto: '',
+            localizacion: '',
+            fecha: '',
+            frecuencia: '',
+            banda: '',
+            id_modalidad: 0,
+            id_modo: 0,
+            completada: false,
+            act_primarias: [],
+            modalidad: { id: 0, descripcion: '' },
+            modo: { id: 0, nombre: '' }
+          };
+        }
+      },
+      error => {
+        if (error) {
+          this.mensajeModificado = [{ severity: 'error', summary: 'Error', detail: 'Error' }];
+        }
+      }
+    );
   }
-}
 
-seleccionarPrincipal(concurso: Concurso) {
-  this.concurso = concurso;
-  this.actividadSeleccionada = true;
-}
+  // MOSTRAR MODALIDADES
 
-deseleccionarPrincipal() {
-  this.concurso = { id: 0, nombre: '', descripcion: '', url_foto: new File([], ''), completada: false, solucion: '' };
-  this.actividadSeleccionada = false;
-}
+  modalidadesActividad() {
+    this.actividadesService.modalidades().subscribe((modalidades) => {
+      this.modalidades = modalidades.data;
+    });
+
+  }
+  // MOSTRAR MODOS
+
+  modosActividad() {
+    this.actividadesService.modos().subscribe((modos) => {
+      this.modos = modos.data;
+    });
+
+  }
+
+  //MOSTRAR CONCURSOS
+
+  mostrarConcursosPendientes() {
+    this.actividadesService.mostrarConcursosPendientes().subscribe((concurso) => {
+      this.concursos = concurso.data;
+    });
+  }
+
+  cargarActividades() {
+    switch (this.tipoActividad) {
+      case 'todas':
+        this.mostrarActividades();
+        break;
+      case 'terminadas':
+        this.mostrarActividadesTerminadas();
+        break;
+      case 'pendientes':
+        this.mostrarActividadesPendientes();
+        break;
+    }
+  }
+
+  cargarCrear() {
+    switch (this.tipoCrear) {
+      case 'unico contacto':
+        this.altaActividadUnico();
+        break;
+      case 'varios contactos':
+        this.altaActividadVarios();
+
+        break;
+    }
+  }
+
+  seleccionarActividad(actividad: Actividad) {
+    this.actividad = actividad;
+    this.actividadSeleccionada = true;
+  }
+
+  deseleccionarActividad() {
+    this.actividad = {
+      id: 0,
+      id_operador: 0,
+      nombre: '',
+      url_foto: '',
+      localizacion: '',
+      fecha: '',
+      frecuencia: '',
+      banda: '',
+      id_modalidad: 0,
+      id_modo: 0,
+      completada: false,
+      act_primarias: [],
+      modalidad: { id: 0, descripcion: '' },
+      modo: { id: 0, nombre: '' }
+    }
+    this.actividadSeleccionada = false;
+  }
 }

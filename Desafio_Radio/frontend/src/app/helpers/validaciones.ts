@@ -119,7 +119,7 @@ export function validarConcurso(concurso: Concurso): string {
   return '';
 }
 
-export function validarActividad(actividad: Actividad, principalesSecundarias: PrincipalesSecundarias): string {
+export function validarActividad(actividad: Actividad, principalesSecundarias?: PrincipalesSecundarias): string {
   if (!actividad.nombre || !actividad.localizacion || !actividad.fecha || !actividad.frecuencia || !actividad.banda || !actividad.id_modo || !actividad.id_modalidad) {
     return 'Por favor, complete todos los campos';
   }
@@ -152,10 +152,13 @@ export function validarActividad(actividad: Actividad, principalesSecundarias: P
     return 'Por favor, introduzca una modalidad';
   }
 
-  if (principalesSecundarias.id_principal === 0) {
+  if (principalesSecundarias && principalesSecundarias.id_principal === 0) {
     return 'Por favor, introduzca un concurso';
   }
 
+  if (principalesSecundarias && principalesSecundarias.premio === '') {
+    return 'Por favor, introduzca un premio';
+  }
 
   return '';
 }
