@@ -1,7 +1,9 @@
 
 import { Usuario } from "../pantalla_usuarios/usuarios";
 import { Noticia } from "../pantalla_inicio/inicio";
-
+import { Actividad } from "../pantalla_actividades/actividades";
+import { Concurso } from "../pantalla_concursos/concursos";
+import { PrincipalesSecundarias } from "../pantalla_actividades/actividades";
 
 export function validarUsuario(usuario: Usuario): string {
 
@@ -97,7 +99,7 @@ export function validarNoticias(noticia:Noticia): string {
   return '';
 }
 
-export function validarConcurso(concurso: any): string {
+export function validarConcurso(concurso: Concurso): string {
   if (!concurso.nombre || !concurso.descripcion || !concurso.url_foto || !concurso.solucion) {
     return 'Por favor, complete todos los campos';
   }
@@ -113,6 +115,47 @@ export function validarConcurso(concurso: any): string {
   if (concurso.solucion === '') {
     return 'Por favor, introduzca una solución';
   }
+
+  return '';
+}
+
+export function validarActividad(actividad: Actividad, principalesSecundarias: PrincipalesSecundarias): string {
+  if (!actividad.nombre || !actividad.localizacion || !actividad.fecha || !actividad.frecuencia || !actividad.banda || !actividad.id_modo || !actividad.id_modalidad) {
+    return 'Por favor, complete todos los campos';
+  }
+
+  if (actividad.nombre === '') {
+    return 'Por favor, introduzca un nombre';
+  }
+
+  if (actividad.localizacion === '') {
+    return 'Por favor, introduzca una localización';
+  }
+
+  if (actividad.fecha === '') {
+    return 'Por favor, introduzca una fecha';
+  }
+
+  if (actividad.frecuencia === '') {
+    return 'Por favor, introduzca una frecuencia';
+  }
+
+  if (actividad.banda === '') {
+    return 'Por favor, introduzca una banda';
+  }
+
+  if (actividad.id_modo === 0) {
+    return 'Por favor, introduzca un modo';
+  }
+
+  if (actividad.id_modalidad === 0) {
+    return 'Por favor, introduzca una modalidad';
+  }
+
+  if (principalesSecundarias.id_principal === 0) {
+    return 'Por favor, introduzca un concurso';
+  }
+
 
   return '';
 }

@@ -69,6 +69,8 @@ router.post('/actividad/alta/variosContactos', validarArchivoSubir,
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
         check('id_modo', 'El modo de la actividad es obligatorio').not().isEmpty(),
         check('id_modalidad', 'La modalidad de la actividad es obligatoria').not().isEmpty(),
+        check('premio', 'El premio de la actividad es obligatorio').not().isEmpty(),
+        check('id_principal', 'El concurso de la actividad es obligatorio').not().isEmpty(),
     ], validarCampos, [validarJWT], controladorActividad.altaActividadVariosContactos);
 
 // MOSTRAR MODALIDADES

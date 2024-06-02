@@ -1,4 +1,4 @@
-//Patricia
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
@@ -67,10 +67,11 @@ export class ConcursosComponent implements OnInit {
 
   //---Recursos---
   usuario: Usuario | null = null;
-  tipoActividad = 'todas'; // todas o terminadas
+  tipoConcurso = 'todas'; // todas o terminadas
   actividadPrincipal = 0; //para el input
-  principalSeleccionada: boolean = false;
+  concursoSeleccionado: boolean = false;
   imagenSubir: File = new File([], ''); //para subir imagen
+  nombreConcurso: string = '';
 
   constructor(private concursoService: ConcursosService, private perfilService: PerfilService, private router: Router) { }
 
@@ -280,8 +281,8 @@ export class ConcursosComponent implements OnInit {
     })
   }
 
-  cargarActividades() {
-    switch (this.tipoActividad) {
+  cargarConcursos() {
+    switch (this.tipoConcurso) {
       case 'todas':
         this.mostrarConcursos();
         break;
@@ -296,12 +297,12 @@ export class ConcursosComponent implements OnInit {
 
   seleccionarPrincipal(concurso: Concurso) {
     this.concurso = concurso;
-    this.principalSeleccionada = true;
+    this.concursoSeleccionado = true;
   }
 
   deseleccionarPrincipal() {
     this.concurso = { id: 0, nombre: '', descripcion: '', url_foto: new File([], ''), completada: false, solucion: '' };
-    this.principalSeleccionada = false;
+    this.concursoSeleccionado = false;
   }
 
 

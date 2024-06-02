@@ -8,6 +8,22 @@ export interface Modo {
     nombre: string;
 }
 
+export interface PrincipalesSecundarias {
+    id_principal: number;
+    id_secundaria: number;
+    premio: string;
+}
+
+export interface ActPrimaria {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    url_foto: string;
+    completada: boolean;
+    solucion: string;
+    PrincipalesSecundarias: PrincipalesSecundarias;
+}
+
 export interface Actividad {
     id: number;
     id_operador: number | null;
@@ -20,10 +36,7 @@ export interface Actividad {
     id_modo: number | null;
     id_modalidad: number | null;
     completada: boolean | null;
-    created_at?: string;
-    updated_at?: string;
-    deleted_at?: string | null;
-    act_primarias?: any[];
+    act_primarias?: ActPrimaria[];
     modalidad?: Modalidad;
     modo?: Modo;
 }
@@ -71,19 +84,11 @@ export interface ModosRespuesta {
     data: Modo[];
 }
 
-export interface PrincipalSecundaria {
-    id_principal: string;
-    id_secundaria: number;
-    premio: string;
-    updated_at: string;
-    created_at: string;
-}
-
 export interface ActividadVariosContactosRespuesta {
     message: string;
     data: {
         actividad: Actividad;
-        principal_secundaria: PrincipalSecundaria;
+        principal_secundaria: PrincipalesSecundarias;
     };
 }
 
