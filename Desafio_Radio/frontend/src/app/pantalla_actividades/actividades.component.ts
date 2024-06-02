@@ -101,7 +101,6 @@ export class ActividadesComponent implements OnInit {
   usuario: Usuario | null = null;
   tipoActividad = 'todas'; // todas o terminadas
   tipoCrear = 'unico'; // unico o varios
-  actividadPrincipal = 0; //para el input
   actividadSeleccionada: boolean = false;
   imagenSubir: File = new File([], ''); //para subir imagen
   nombreActividad = '';
