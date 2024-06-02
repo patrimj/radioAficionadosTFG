@@ -11,31 +11,31 @@ const {validarCampos} = require("../middleware/validar-campos");
 
 // VER TODAS LAS ACTIVIDADES Y SUS CONCURSOS (SI TIENE) 
 
-router.get('/actividades', [validarJWT], controladorActividad.mostrarActividades);
+router.get('/actividades', controladorActividad.mostrarActividades);
 
 // VER TODAS LAS ACTIVIDADES TERMINADAS
 
-router.get('/actividades/terminadas', [validarJWT], controladorActividad.mostrarActividadesTerminadas);
+router.get('/actividades/terminadas',  controladorActividad.mostrarActividadesTerminadas);
 
 //VER TODAS LAS ACTIVIDADES PENDIENTES 
 
-router.get('/actividades/pendientes', [validarJWT], controladorActividad.mostrarActividadesPendientes);
+router.get('/actividades/pendientes',  controladorActividad.mostrarActividadesPendientes);
 
 // TERMINAR ACTIVIDAD (BOTÓN) (OPERADOR)
 
-router.put('/actividad/terminar/:id', [validarJWT, esOperador], controladorActividad.terminarActividad);
+router.put('/actividad/terminar/:id', controladorActividad.terminarActividad);
 
 // BUSCAR ACTIVIDAD POR ID (AFICIONADO)
 
-router.get('/actividad/buscarId/:id', [validarJWT], controladorActividad.mostrarActividadId);
+router.get('/actividad/buscarId/:id', controladorActividad.mostrarActividadId);
 
 // BUSCAR ACTIVIDAD POR NOMBRE (AFICIONADO)
 
-router.get('/actividad/buscarNombre/:nombre', [validarJWT], controladorActividad.mostrarActividadNombre);
+router.get('/actividad/buscarNombre/:nombre', controladorActividad.mostrarActividadNombre);
 
 // VER PARTICIPANTES ACTIVIDAD (MODAL) (AFICIONADO)
 
-router.get('/participantes/:id', [validarJWT], controladorActividad.verParticipantesActividad);
+router.get('/participantes/:id', controladorActividad.verParticipantesActividad);
 
 // ELIMINAR ACTIVIDAD (OPERADOR)
 
@@ -43,7 +43,7 @@ router.delete('/actividad/baja/:id', [validarJWT, esOperador], controladorActivi
 
 // MODIFICAR ACTIVIDAD (OPERADOR)
 
-router.put('/actividad/modificar/:id', [validarJWT], controladorActividad.modificarActividad);
+router.put('/actividad/modificar/:id', [validarJWT, esOperador], controladorActividad.modificarActividad);
 
 // ALTA ACTIVIDAD DE UN UNICO CONTACTO (OPERADOR)
 
@@ -56,7 +56,7 @@ router.post('/actividad/alta/unicoContacto', validarArchivoSubir,
         check('banda', 'La banda de la actividad es obligatoria').not().isEmpty(),
         check('id_modo', 'El modo de la actividad es obligatorio').not().isEmpty(),
         check('id_modalidad', 'La modalidad de la actividad es obligatoria').not().isEmpty(),
-    ], validarCampos, [validarJWT ], controladorActividad.altaActividadUnicoContacto);
+    ], validarCampos, [validarJWT, esOperador ], controladorActividad.altaActividadUnicoContacto);
 
 // ALTA ACTIVIDAD DE VARIOS CONTACTOS (OPERADOR)
 
@@ -71,14 +71,14 @@ router.post('/actividad/alta/variosContactos', validarArchivoSubir,
         check('id_modalidad', 'La modalidad de la actividad es obligatoria').not().isEmpty(),
         check('premio', 'El premio de la actividad es obligatorio').not().isEmpty(),
         check('id_principal', 'El concurso de la actividad es obligatorio').not().isEmpty(),
-    ], validarCampos, [validarJWT], controladorActividad.altaActividadVariosContactos);
+    ], validarCampos, [validarJWT, esOperador], controladorActividad.altaActividadVariosContactos);
 
 // MOSTRAR MODALIDADES
 
-router.get('/actividades/modalidades', [validarJWT], controladorActividad.getModalidades);
+router.get('/actividades/modalidades', [validarJWT, esOperador], controladorActividad.getModalidades);
 
 // MOSTRAR MODOS
 
-router.get('/actividades/modos', [validarJWT], controladorActividad.getModos);
+router.get('/actividades/modos', [validarJWT, esOperador], controladorActividad.getModos);
 
 module.exports = router;

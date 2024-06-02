@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
     let idRol = 0;
 
     if (this.datosLogin != null) {
-      idRol = this.datosLogin.usuario.roles[0].id;
+      idRol = this.datosLogin.roles[0].RolAsignado.id_rol;
     }
 
     switch (idRol) {

@@ -30,7 +30,7 @@ router.put('/noticia/modificar/:id',
 router.post('/noticia/crear',
     [
         check('nombre', 'El nombre de la noticia es obligatorio').not().isEmpty(),
-        check('fecha', 'La fecha debe completarse').not().isDate(),
+        check('fecha', 'La fecha debe completarse').isDate(),
         check('descripcion', 'La descripción de la noticia es obligatoria').not().isEmpty(),
     ], validarCampos, [validarJWT,  esAdmin], controladorInicio.crearNoticia);
 

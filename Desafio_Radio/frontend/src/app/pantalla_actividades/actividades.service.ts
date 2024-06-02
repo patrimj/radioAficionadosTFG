@@ -35,7 +35,7 @@ export class ActividadesService {
   // VER TODAS LAS ACTIVIDADES Y SUS CONCURSOS (SI TIENE) 
 
   mostrarActividades(): Observable<ActividadesRespuesta> {
-    return this.http.get<ActividadesRespuesta>(`${this.baseUrl}/actividades`, { params: { auth: 'true' } }).pipe(
+    return this.http.get<ActividadesRespuesta>(`${this.baseUrl}/actividades`).pipe(
       tap(response => {
         if (response) {
           console.log('Usuarios:', response)
@@ -53,7 +53,7 @@ export class ActividadesService {
   // VER TODAS LAS ACTIVIDADES TERMINADAS
 
   mostrarActividadesTerminadas(): Observable<ActividadesRespuesta> {
-    return this.http.get<ActividadesRespuesta>(`${this.baseUrl}/actividades/terminadas`, { params: { auth: 'true' } }).pipe(
+    return this.http.get<ActividadesRespuesta>(`${this.baseUrl}/actividades/terminadas`).pipe(
       tap(response => {
         if (response) {
           console.log('Usuarios:', response)
@@ -71,7 +71,7 @@ export class ActividadesService {
   //VER TODAS LAS ACTIVIDADES PENDIENTES 
 
   mostrarActividadesPendientes(): Observable<ActividadesRespuesta> {
-    return this.http.get<ActividadesRespuesta>(`${this.baseUrl}/actividades/pendientes`, { params: { auth: 'true' } }).pipe(
+    return this.http.get<ActividadesRespuesta>(`${this.baseUrl}/actividades/pendientes`).pipe(
       tap(response => {
         if (response) {
           console.log('Usuarios:', response)
@@ -107,7 +107,7 @@ export class ActividadesService {
   // BUSCAR ACTIVIDAD POR ID (AFICIONADO)
 
   mostrarActividadId(id: number): Observable<ActividadRespuesta> {
-    return this.http.get<ActividadRespuesta>(`${this.baseUrl}/actividad/buscarId/${id}`, { params: { auth: 'true' } }).pipe(
+    return this.http.get<ActividadRespuesta>(`${this.baseUrl}/actividad/buscarId/${id}`).pipe(
       tap(response => {
         if (response) {
           console.log('Usuarios:', response)
@@ -125,10 +125,10 @@ export class ActividadesService {
     // BUSCAR ACTIVIDAD POR NOMBRE (AFICIONADO)
 
     mostrarActividadNombre(nombre: string): Observable<ActividadRespuesta> {
-      return this.http.get<ActividadRespuesta>(`${this.baseUrl}/actividad/buscarNombre/${nombre}`, { params: { auth: 'true' } }).pipe(
+      return this.http.get<ActividadRespuesta>(`${this.baseUrl}/actividad/buscarNombre/${nombre}`).pipe(
         tap(response => {
           if (response) {
-            console.log('Usuarios:', response)
+            console.log('Actividades:', response)
           } else {
             throw new Error('Error, no se pudo mostrar la actividad')
           }

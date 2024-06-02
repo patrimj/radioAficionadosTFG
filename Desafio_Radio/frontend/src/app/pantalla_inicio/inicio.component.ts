@@ -48,12 +48,15 @@ export class InicioComponent implements OnInit {
   usuario: Usuario | null = null;
   noticiaSeleccionada: boolean = false;
 
+  datosLogin = JSON.parse(localStorage.getItem('usuarioDatos')!) || null;
+
 
   constructor(private inicioService: InicioService, private router: Router, private webSocketService: WebsocketService) { }
 
   ngOnInit(): void {
-    this.usuario = this.getUsuario();
     this.mostrarNoticias();
+    this.administradores();
+    this.mostrarOperadores();
   }
 
   hayRegistros() {
@@ -62,15 +65,21 @@ export class InicioComponent implements OnInit {
 
   // COMPROBAR SI EL USUARIO ES ADMIN
 
-  getUsuario(): Usuario | null {
-    const usuario = localStorage.getItem('usuarioDatos');
-    return usuario ? JSON.parse(usuario) : null;
-  }
-
   esAdmin(): boolean {
-    const usuario = this.getUsuario();
-    return usuario !== null && usuario !== undefined && usuario.rol !== null && usuario.rol !== undefined && usuario.rol.some(rol => rol.id_rol === 1);
-  }
+    let esAdmin = false; 
+
+    if (this.datosLogin && this.datosLogin.roles) {
+        for (let i = 0; i < this.datosLogin.roles.length; i++) {
+            if (this.datosLogin.roles[i].RolAsignado && this.datosLogin.roles[i].RolAsignado.id_rol === 1) {
+                esAdmin = true;
+                break; 
+            }
+        }
+    }
+    return esAdmin; 
+}
+
+
 
   // ELIMINAR NOTICIA
 

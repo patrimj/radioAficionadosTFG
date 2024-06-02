@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
@@ -79,7 +78,8 @@ export class ActividadesComponent implements OnInit {
     }],
     modalidad: { id: 0, descripcion: '' },
     modo: { id: 0, nombre: '' }
-  }
+  };
+
 
   //---Participantes---
 
@@ -99,19 +99,25 @@ export class ActividadesComponent implements OnInit {
   modo: Modo = { id: 0, nombre: '' };
 
   //---Recursos---
-  usuario: Usuario | null = null;
   tipoActividad = 'todas'; // todas o terminadas
   tipoCrear = 'unico'; // unico o varios
   actividadSeleccionada: boolean = false;
   imagenSubir: File = new File([], ''); //para subir imagen
   nombreActividad = '';
+  datosLogin = JSON.parse(localStorage.getItem('usuarioDatos')!) || null;
 
   constructor(private actividadesService: ActividadesService, private router: Router) { }
 
   ngOnInit(): void {
-    this.usuario = this.getUsuario();
+
     this.mostrarActividades();
+    this.mostrarActividadNombre(this.nombreActividad);
+    this.modalidadesActividad();
+    this.modosActividad();
+    this.mostrarConcursosPendientes();
   }
+
+  
 
   imagen(event: Event) {
     const eventTarget = event.target as HTMLInputElement;
@@ -125,19 +131,22 @@ export class ActividadesComponent implements OnInit {
     return this.actividades.length > 0;
   }
 
-  // COMPROBAR SI EL USUARIO ES ADMIN
-
-  getUsuario(): Usuario | null {
-    const usuario = localStorage.getItem('usuarioDatos');
-    return usuario ? JSON.parse(usuario) : null;
-  }
+  // COMPROBAR SI EL USUARIO ES OPERADOR
 
   esOper(): boolean {
-    const usuario = this.getUsuario();
-    return usuario !== null && usuario !== undefined && usuario.rol !== null && usuario.rol !== undefined && usuario.rol.some(rol => rol.id_rol === 2);
-  }
+    let esOper = false; 
 
-  // VALIDAR CONCURSO
+    if (this.datosLogin && this.datosLogin.roles) {
+        for (let i = 0; i < this.datosLogin.roles.length; i++) {
+            if (this.datosLogin.roles[i].RolAsignado && this.datosLogin.roles[i].RolAsignado.id_rol === 2) {
+              esOper = true;
+                break; 
+            }
+        }
+    }
+    return esOper; 
+}
+  // VALIDAR ACTIVIDAD
 
   validarActividad(): string {
     let principalesSecundarias;
@@ -207,7 +216,11 @@ export class ActividadesComponent implements OnInit {
 
   mostrarActividadNombre(nombre: string) {
     this.actividadesService.mostrarActividadNombre(nombre).subscribe((respuesta) => {
-      this.actividad = respuesta.data;
+      if (Array.isArray(respuesta.data)) {
+        this.actividades = respuesta.data;
+      } else {
+        this.actividades = [respuesta.data];
+      }
     })
   }
 
@@ -293,6 +306,8 @@ export class ActividadesComponent implements OnInit {
                 premio: ''
               }
             }],
+            modalidad: { id: 0, descripcion: '' },
+            modo: { id: 0, nombre: '' }
           };
         }
       },
@@ -303,7 +318,6 @@ export class ActividadesComponent implements OnInit {
       }
     );
   }
-
 
   // ALTA ACTIVIDAD DE UN UNICO CONTACTO (OPERADOR)
 
@@ -358,6 +372,8 @@ export class ActividadesComponent implements OnInit {
                 premio: ''
               }
             }],
+            modalidad: { id: 0, descripcion: '' },
+            modo: { id: 0, nombre: '' }
           };
         }
       },
@@ -428,6 +444,8 @@ export class ActividadesComponent implements OnInit {
                 premio: ''
               }
             }],
+            modalidad: { id: 0, descripcion: '' },
+            modo: { id: 0, nombre: '' }
           };
         }
       },

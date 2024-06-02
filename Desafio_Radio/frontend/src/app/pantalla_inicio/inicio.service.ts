@@ -81,7 +81,8 @@ export class InicioService {
   // CREAR NOTICIAS
 
   crearNoticia(noticia: Noticia): Observable<Noticia> {
-    return this.http.post<Noticia>(`${this.baseUrl}/noticia/crear`, noticia, { params: { auth: 'true' } }).pipe(
+
+return this.http.post<Noticia>(`${this.baseUrl}/noticia/crear`, noticia,  { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Noticia creada:', response)

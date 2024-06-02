@@ -29,6 +29,7 @@ import { Usuario } from "../pantalla_usuarios/usuarios";
 export class AutenticacionComponent implements OnInit {
 
   //---Mensajes---
+  mensajeLogin: Message[] = [];
   mensaje: Message[] = [];
   mensajePassword: Message[] = [];
 
@@ -112,14 +113,15 @@ export class AutenticacionComponent implements OnInit {
     this.usuariosService.login(this.usuario.email, this.usuario.password).subscribe(
       (respuesta) => {
         if (respuesta && respuesta.token) {
-          this.mensaje = [{ severity: 'success', summary: 'Bienvenido', detail: `Usuario  ${this.usuario.email} logueado` }];
+          this.mensajeLogin = [{ severity: 'success', summary: 'Bienvenido', detail: `Usuario  ${this.usuario.email} logueado` }];
+          this.router.navigate(['/inicio']); 
         } else {
-          this.mensaje = [{ severity: 'error', summary: 'Error', detail: 'Login fallido' }];
+          this.mensajeLogin = [{ severity: 'error', summary: 'Error', detail: 'Login fallido' }];
         }
       },
       (error) => {
         console.error(error);
-        this.mensaje = [{ severity: 'error', summary: 'Error', detail: 'Error en el servidor' }];
+        this.mensajeLogin = [{ severity: 'error', summary: 'Error', detail: 'Error en el servidor' }];
       }
     );
   }

@@ -36,9 +36,9 @@ export interface Actividad {
     id_modo: number | null;
     id_modalidad: number | null;
     completada: boolean | null;
-    act_primarias?: ActPrimaria[];
-    modalidad?: Modalidad;
-    modo?: Modo;
+    act_primarias: ActPrimaria[];
+    modalidad: Modalidad | null;
+    modo: Modo | null;
 }
 
 export interface ActividadesRespuesta {

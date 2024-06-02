@@ -66,17 +66,16 @@ export class ConcursosComponent implements OnInit {
   participante: Participante = { id: 0, nombre: '', url_foto: '', id_examen: '' };
 
   //---Recursos---
-  usuario: Usuario | null = null;
   tipoConcurso = 'todas'; // todas o terminadas
   actividadPrincipal = 0; //para el input
   concursoSeleccionado: boolean = false;
   imagenSubir: File = new File([], ''); //para subir imagen
   nombreConcurso: string = '';
+  datosLogin = JSON.parse(localStorage.getItem('usuarioDatos')!) || null;
 
   constructor(private concursoService: ConcursosService, private perfilService: PerfilService, private router: Router) { }
 
   ngOnInit(): void {
-    this.usuario = this.getUsuario();
     this.mostrarConcursos();
   }
 
@@ -94,15 +93,19 @@ export class ConcursosComponent implements OnInit {
 
   // COMPROBAR SI EL USUARIO ES ADMIN
 
-  getUsuario(): Usuario | null {
-    const usuario = localStorage.getItem('usuarioDatos');
-    return usuario ? JSON.parse(usuario) : null;
-  }
-
   esAdmin(): boolean {
-    const usuario = this.getUsuario();
-    return usuario !== null && usuario !== undefined && usuario.rol !== null && usuario.rol !== undefined && usuario.rol.some(rol => rol.id_rol === 1);
-  }
+    let esAdmin = false; 
+
+    if (this.datosLogin && this.datosLogin.roles) {
+        for (let i = 0; i < this.datosLogin.roles.length; i++) {
+            if (this.datosLogin.roles[i].RolAsignado && this.datosLogin.roles[i].RolAsignado.id_rol === 1) {
+                esAdmin = true;
+                break; 
+            }
+        }
+    }
+    return esAdmin; 
+}
 
   // VALIDAR CONCURSO
 

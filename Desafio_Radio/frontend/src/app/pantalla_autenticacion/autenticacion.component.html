@@ -17,12 +17,12 @@
                     <!-- FORMULARIO -->
 
                     <p style="font-size: 20px; color: #fff5e6;">
-                        Correo electrónico *:<input type="text" [(ngModel)]="usuario.email" class="form-control"
+                        Correo electrónico *<input type="text" [(ngModel)]="usuario.email" class="form-control"
                             placeholder="Correo electrónico" required />
                     </p>
 
                     <p style="font-size: 20px; color: #fff5e6;">
-                        Contraseña *:<input type="password" [(ngModel)]="usuario.password" class="form-control"
+                        Contraseña *<input type="password" [(ngModel)]="usuario.password" class="form-control"
                             placeholder="Contraseña" required />
                     </p>
 
@@ -39,7 +39,7 @@
                     </div>
 
                     <!-- MENSAJE -->
-                    <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
+                    <p-messages [(value)]="mensajeLogin" [enableService]="false" [closable]="true"></p-messages>
 
                 </div>
             </div>
@@ -51,7 +51,7 @@
         <div class="col-6">
 
             <div class="card shadow mb-3 mb-md-0 mr-md-3 flex-grow-1 flex-md-grow-0"
-                style="width: 100%; max-width: 65%; background-color: #dd5b4dbc;">
+            style="width: 100%; max-width: 80%; background-color: #dd5b4dbc;">
 
                 <div class="card-header text-center" style="background-color: #ffb062a4;">
                     <h2 style="color: #fff5e6;">REGISTRARSE</h2>
@@ -66,44 +66,43 @@
                     <!-- FORMULARIO -->
 
                     <p style="font-size: 20px; color: #fff5e6;">
-                        Nombre *:<input type="text" [(ngModel)]="usuario.nombre" class="form-control"
+                        Nombre *<input type="text" [(ngModel)]="usuario.nombre" class="form-control"
                             placeholder="Nombre" required />
                     </p>
 
                     <p style="font-size: 20px; color: #fff5e6;">
-                        Primer apellido *:<input type="text" [(ngModel)]="usuario.apellido_uno" class="form-control"
+                        Primer apellido *<input type="text" [(ngModel)]="usuario.apellido_uno" class="form-control"
                             placeholder="Primer apellido" required />
                     </p>
 
                     <p style="font-size: 20px; color: #fff5e6;">
-                        Segundo apellido *:<input type="text" [(ngModel)]="usuario.apellido_dos" class="form-control"
+                        Segundo apellido *<input type="text" [(ngModel)]="usuario.apellido_dos" class="form-control"
                             placeholder="Segundo apellido" required />
                     </p>
 
                     <p style="font-size: 20px; color: #fff5e6;">
-                        Correo electrónico *:<input type="email" [(ngModel)]="usuario.email" class="form-control"
+                        Correo electrónico *<input type="email" [(ngModel)]="usuario.email" class="form-control"
                             placeholder="Correo electrónico" required />
                     </p>
 
                     <p style="font-size: 20px; color: #fff5e6;">
-                        Contraseña *:<input type="password" [(ngModel)]="usuario.password" class="form-control"
-                            placeholder="Contraseña" required />
+                        Contraseña *<input type="password" [(ngModel)]="usuario.password" class="form-control"
+                            placeholder="Ejempl0@" required />
                     </p>
 
                     <p style="font-size: 20px; color: #fff5e6;">
-                        Indicativo *:<input type="text" [(ngModel)]="usuario.id_examen" class="form-control"
+                        Indicativo *<input type="text" [(ngModel)]="usuario.id_examen" class="form-control"
                             placeholder="Indicativo" required />
                     </p>
 
                     <p>
-                        Foto de perfil *: <input type="file" (change)="imagen($event)" />
+                        Foto de perfil * <input type="file" (change)="imagen($event)" />
                     </p>
 
                     <!-- BOTÓN DE REGISTRO -->
 
                     <div class="d-flex justify-content-center mt-2 mb-2">
-                        <button class="btn btn-danger btn-lg mr-3 " (click)="registro()"><i
-                                class="fas fa-trash"></i>Registrarse</button>
+                        <button class="btn btn-danger btn-lg mr-3 " (click)="registro()">Registrarse</button>
                     </div>
                 </div>
             </div>
@@ -116,14 +115,14 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Recuperar contraseá</h5>
+                        <h5 class="modal-title" id="modalLabel">Recuperar contraseña</h5>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
                                 class="fa-solid fa-xmark"></i></button>
                     </div>
                     <div class="modal-body">
 
                         <p>
-                            Introduce tu correo electrónico para recuperar tu contraseña * : <input type="email"
+                            Introduce tu correo electrónico para recuperar tu contraseña: <input type="email"
                                 [(ngModel)]="emailRecuperacion" class="form-control" />
                         </p>
 
@@ -132,10 +131,9 @@
 
                         <button class="btn btn-success mr-2" (click)="recuperarPassword(emailRecuperacion)"><i
                                 class="fa-solid fa-circle-check"></i></button>
-
-                        <p-messages [(value)]="mensajePassword" [enableService]="false" [closable]="true"></p-messages>
-
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <p></p>
+                        <p-messages [(value)]="mensajePassword" [enableService]="false" [closable]="true"></p-messages>
                     </div>
                 </div>
             </div>
