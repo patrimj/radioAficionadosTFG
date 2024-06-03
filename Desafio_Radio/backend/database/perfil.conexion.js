@@ -446,7 +446,7 @@ class PerfilConexion {
     /************************************************************************************************************************************
      * Nombre consulta: enviarDiplomaPorCorreo                                                                                          *
      * Descripción: Esta función se encarga de enviar el diploma por correo electrónico.                                                *
-     * Pantalla: Perfil                                                                                                                *
+     * Pantalla: Perfil                                                                                                                 *
      * Rol: aficionado                                                                                                                  *
      * *********************************************************************************************************************************/
 
@@ -486,9 +486,9 @@ class PerfilConexion {
 
     /************************************************************************************************************************************
      * Nombre consulta: generarYEnviarDiploma                                                                                           *
-     * Descripción: Esta función se encarga de generar un diploma y enviarlo por correo electrónico.                                   *
-     * Pantalla: Perfil                                                                                                                  *
-     * Rol: aficionado                                                                                                                   *
+     * Descripción: Esta función se encarga de generar un diploma y enviarlo por correo electrónico.                                    *
+     * Pantalla: Perfil                                                                                                                 *
+     * Rol: aficionado                                                                                                                  *
      * *********************************************************************************************************************************/
 
     generarYEnviarDiploma = async (identificador, actividad, url, email) => {
@@ -503,10 +503,10 @@ class PerfilConexion {
     }
 
     /************************************************************************************************************************************
-     * Nombre consulta: ajustarDimensionesImagen                                                                                       *
+     * Nombre consulta: ajustarDimensionesImagen                                                                                        *
      * Descripción: Esta función se encarga de ajustar las dimensiones de la imagen al pdf.                                             *
-     * Pantalla: Perfil                                                                                                                  *
-     * Rol: aficionado                                                                                                                   *
+     * Pantalla: Perfil                                                                                                                 *
+     * Rol: aficionado                                                                                                                  *
      * *********************************************************************************************************************************/
 
     ajustarDimensionesImagen(imagen, anchoPdf, altoPdf) {

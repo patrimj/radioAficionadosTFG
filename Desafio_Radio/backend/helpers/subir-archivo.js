@@ -52,29 +52,6 @@ const subirArchivo = async (files, extensionesValidas = ['png', 'jpg', 'jpeg', '
 
 }
 
-/***********************************************************************
- * Nombre: subirCSV                                                    *
- * Descripción: Función que sube un archivo CSV a Cloudinary           *
- **********************************************************************/
-
-const subirCSV = (file, carpeta = '') => {
-
-    return new Promise((resolve, reject) => {
-
-        const uploadPath = path.join(__dirname, '../temp/', 'fichero.csv');
-
-        file.mv(uploadPath, (err) => {
-            if (err) {
-                reject(err);
-            }
-
-            resolve(uploadPath);
-        });
-
-    });
-
-}
-
 module.exports = {
     subirArchivo,
     subirCSV

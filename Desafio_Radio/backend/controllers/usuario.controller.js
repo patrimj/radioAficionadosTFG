@@ -167,7 +167,7 @@ const altaUsuarioCompleto = async (req, res = response) => {
 
         const usuarioNuevo = await conx.altaUsuarioCompleto(req.body, id_rol);
         if (usuarioNuevo) {
-            res.status(200).json({ message: 'Usuario dado de alta correctamente', data: usuarioNuevo});
+            res.status(200).json({ message: 'Usuario dado de alta correctamente', data: usuarioNuevo });
         } else {
             throw new Error('Error al crear el usuario');
         }
@@ -362,7 +362,7 @@ const recuperarContrasena = async (req, res) => {
             } else {
                 res.status(403).json({ msg: false });
             }
-            
+
         } catch (e) {
             return res.status(500).json({ msg: e.message });
         }
