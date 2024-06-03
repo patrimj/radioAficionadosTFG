@@ -89,7 +89,7 @@ Esto abrirá automáticamente la aplicación en tu navegador.
     - Datos de Inicio de Sesión de un `Administrador`
       ```
       email: administrador@gmail.com
-      contraseña: Administrador1@`
+      contraseña: Administrador1@
       ```
 
   - ### Operador
@@ -103,7 +103,7 @@ Esto abrirá automáticamente la aplicación en tu navegador.
     - Datos de Inicio de Sesión de un `Operador`
       ```
       email: operador@gmail.com
-      contraseña: Operador1@`
+      contraseña: Operador1@
       ```
 
   - ### Aficionado
@@ -121,7 +121,7 @@ Esto abrirá automáticamente la aplicación en tu navegador.
     - Datos de Inicio de Sesión de un `Aficionado`
       ```
       email: aficionado@gmail.com
-      contraseña: Aficionado1@`
+      contraseña: Aficionado1@
       ```
      
   - ### Usuario no logueado
