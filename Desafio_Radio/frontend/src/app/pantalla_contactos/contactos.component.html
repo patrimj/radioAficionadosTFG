@@ -27,7 +27,7 @@
 
         <div class="col">
             <h2>Registrar un contacto en una actividad de varios contactos</h2>
-            <select name="concurso" [(ngModel)]="concurso.id" (change)="solucionConcurso(concurso.id)"
+            <select name="concurso" [(ngModel)]="concurso.id"     (change)="solucionConcurso(concurso.id); actividadesVariosContactos(concurso.id); premiosUsuarioConcurso(contactosRegistrado.id_usuario,concurso.id)"
                 class="form-control form-select-lg mb-3 rounded-pill">
                 <option value="" disabled selected>Selecciona el concurso</option>
                 @for(concurso of concursos; track concurso.id){
@@ -36,7 +36,7 @@
             </select>
             <p>Su solución es: {{solucion.solucion}}</p>
             <select name="actividad" [(ngModel)]="actividadVarios.id"
-                (change)="actividadesVariosContactos(actividadVarios.id)"
+                (change)="premioActividad(actividadVarios.id)"
                 class="form-control form-select-lg mb-3 rounded-pill">
                 <option value="" disabled selected>Selecciona la actividad</option>
                 @for(actividadVarios of actividadesVarios; track actividadVarios.id){
@@ -52,34 +52,46 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-striped align-middle mb-0">
-
+        <table class="table table-striped align-middle mb-0 text-center">
             <thead class="text-center bg-light">
                 <tr>
                     <th>Nombre</th>
                     <th>Indicativo</th>
                     <th>Email</th>
-                    <th>Premio</th>
-                    <th>Actividad</th>
+                    <th>Actividades y sus premios</th>
+
                 </tr>
             </thead>
-
             <tbody class="text-center bg-light">
                 @for(contactoDetalle of contactoDetalles; track contactoDetalle.id) {
                 <tr>
-                    @for(usuario_secundaria of contactoDetalles.usuario_secundaria; track contactoDetalle.id) {
                     <td>{{contactoDetalle.nombre | titlecase }}</td>
                     <td>{{contactoDetalle.id_examen}}</td>
                     <td>{{contactoDetalle.email}}</td>
-                    @if (contactoDetalle.usuario_secundarias.length > 0) {
-                    <td>{{contactoDetalle.usuario_secundarias[0].premio}}</td>
-                    <td>{{contactoDetalle.usuario_secundarias[0].act_secundaria.nombre}}</td>
-                    }
-                }
+                    <td>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Actividad</th>
+                                    <th>Premio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
+                                @for(usuario_secundaria of contactoDetalle.usuario_secundarias; track
+                                usuario_secundaria.id) {
+                                <tr>
+                                    <td>{{usuario_secundaria.act_secundaria.nombre}}</td>
+                                    <td>{{usuario_secundaria.premio || 'N/A'}}</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
                 }
             </tbody>
         </table>
     </div>
+
 </div>

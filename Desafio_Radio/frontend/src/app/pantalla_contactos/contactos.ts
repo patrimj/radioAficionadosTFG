@@ -63,15 +63,16 @@ export interface ContactoDetalle {
     nombre: string;
     id_examen: string;
     email: string;
-    usuario_secundarias: {
-        premio: string;
-        act_secundaria: {
-            nombre: string;
-        };
-        principales_secundarias: null;
-    }[];
-
+    usuario_secundarias: UsuarioSecundaria[];
 }
+interface UsuarioSecundaria {
+    id:number;
+    premio: string | null;
+    act_secundaria: {
+      nombre: string;
+    };
+    principales_secundarias: null;
+  }
 
 export interface ContactosConDetallesRespuesta {
     message: string;

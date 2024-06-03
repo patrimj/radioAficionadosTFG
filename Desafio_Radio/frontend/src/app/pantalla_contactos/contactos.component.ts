@@ -76,7 +76,7 @@ export class ContactosComponent implements OnInit {
     this.mostrarUsuarios();
     this.mostrarContactosConDetalles();
     this.mostrarConcursosContacto();
-    this.mostrarActividades();
+    this.mostrarActividades();    
   }
 
   //---Métodos---
@@ -112,7 +112,7 @@ export class ContactosComponent implements OnInit {
   mostrarContactosConDetalles() {
     this.contactosService.mostrarContactosConDetalles().subscribe((contacto) => {
       this.contactoDetalles = contacto.data;
-      console.log('aquiiii', this.contactoDetalles);
+    
     });
   }
 
@@ -138,8 +138,14 @@ export class ContactosComponent implements OnInit {
   // MOSTRAR ACTIVIDADES QUE PERTENECEN A UN CONCURSO
 
   actividadesVariosContactos(id_principal: number) {
+    console.log('concurso.id:', this.concurso.id);
+    if (id_principal === 0) {
+      console.log('No se ha seleccionado un concurso');
+      return;
+  }
     this.contactosService.actividadesVariosContactos(id_principal).subscribe((actividades) => {
       this.actividadesVarios = actividades.data;
+
     });
   }
 
