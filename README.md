@@ -134,6 +134,12 @@ Esto abrirá automáticamente la aplicación en tu navegador.
       - Conocer a los participantes de las actividades
       - Ver todas las noticias, administradores y operadores
 
+  - ### Usuario con todos los roles
+    ```
+      email: taylorswift@gmail.com
+      contraseña: Taylorswift22@
+    ```
+
 
 ## RUTAS PERFIL
 
