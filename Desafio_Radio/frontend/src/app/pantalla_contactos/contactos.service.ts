@@ -185,7 +185,7 @@ export class ContactosService {
   // MOSTRAR TODAS LAS ACTIVIDADES
 
   mostrarActividades(): Observable<ActividadesContactoRespuesta> {
-    return this.http.get<ActividadesContactoRespuesta>(`${this.baseUrl}/actividades`, { params: { auth: 'true' } }).pipe(
+    return this.http.get<ActividadesContactoRespuesta>(`${this.baseUrl}/contacto/actividades`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Usuarios:', response)

@@ -7,7 +7,7 @@ export interface ModalidadActividadRespuesta {
 
 export interface ActividadesContactoRespuesta {
     message: string;
-    data: Actividades[];
+    data: ActividadesUnico[];
 }
 
 export interface PremiosUsuarioConcursoRespuesta {
@@ -24,7 +24,11 @@ export interface PremioActividadRespuesta {
     data: PremioActividad;
 }
 
-export interface Actividades {
+export interface ActividadesUnico {
+    id: number;
+    nombre: string;
+};
+export interface ActividadesVarios {
     id: number;
     nombre: string;
 };
@@ -32,7 +36,7 @@ export interface Actividades {
 
 export interface ActividadesVariosContactosRespuesta {
     message: string;
-    data: Actividades[];
+    data: ActividadesVarios[];
 }
 
 export interface SolucionConcurso {
@@ -55,6 +59,7 @@ export interface ConcursoContactoRespuesta {
 }
 
 export interface ContactoDetalle {
+    id: number;
     nombre: string;
     id_examen: string;
     email: string;

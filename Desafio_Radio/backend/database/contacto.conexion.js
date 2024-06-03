@@ -353,7 +353,7 @@ class ContactoConexion {
                     deleted_at: null
                 },
                 attributes: ['nombre', 'id_examen', 'email'],
-                order: [[{ model: models.Usuario_secundarias, as: 'usuario_secundarias' }, { model: models.PrincipalesSecundarias, as: 'principales_secundarias' }, 'id_principal', 'ASC']]
+
             });
             this.desconectar();
             return contactos;

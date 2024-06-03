@@ -19,11 +19,12 @@ import {
   Usuario,
   ContactosRegistrado,
   ContactoDetalle,
-  Concurso, 
+  Concurso,
   SolucionConcurso,
-  Actividades,
+  ActividadesUnico,
+  ActividadesVarios,
   PremioActividad,
-
+  ModalidadActividadRespuesta
 
 } from "./contactos";
 
@@ -44,7 +45,7 @@ export class ContactosComponent implements OnInit {
   contactosRegistrados: ContactosRegistrado[] = [];
   contactosRegistrado: ContactosRegistrado = { id_usuario: 0, id_secundaria: 0, premio: '' };
   contactoDetalles: ContactoDetalle[] = [];
-  contactoDetalle: ContactoDetalle = { nombre: '', id_examen: '', email: '', usuario_secundarias: [] };
+  contactoDetalle: ContactoDetalle = { id: 0, nombre: '', id_examen: '', email: '', usuario_secundarias: [] };
 
   //---Concursos
   concursos: Concurso[] = [];
@@ -54,12 +55,14 @@ export class ContactosComponent implements OnInit {
 
   //---Actividades
 
-  actividades: Actividades[] = [];
-  actividad: Actividades = { id: 0, nombre: '' };
+  actividadesUnico: ActividadesUnico[] = [];
+  actividadUnico: ActividadesUnico = { id: 0, nombre: '' };
+  actividadesVarios: ActividadesVarios[] = [];
+  actividadVarios: ActividadesVarios = { id: 0, nombre: '' };
   premios: PremioActividad[] = [];
   premio: PremioActividad = { premio: '' };
   premiosTotales: string[] = [];
-  modalidad:  string = '';
+  modalidad: string = '';
 
   //---Usuario---
   usuarios: Usuario[] = [];
@@ -70,7 +73,10 @@ export class ContactosComponent implements OnInit {
 
   ngOnInit(): void {
 
-
+    this.mostrarUsuarios();
+    this.mostrarContactosConDetalles();
+    this.mostrarConcursosContacto();
+    this.mostrarActividades();
   }
 
   //---Métodos---
@@ -78,9 +84,19 @@ export class ContactosComponent implements OnInit {
   // REGISTRAR CONTACTO (Botón final)
 
   registrarContacto() {
-    this.contactosService.registrarContacto(this.contactosRegistrado).subscribe((registro) => {
-      this.contactosRegistrado = registro.data;
-    })
+    this.contactosService.registrarContacto(this.contactosRegistrado).subscribe(
+      data => {
+        if (data) {
+          this.mensaje = [{ severity: 'success', summary: `Contacto registrado`, detail: '' }];
+        }
+        this.mostrarContactosConDetalles();
+      },
+      error => {
+        if (error) {
+          this.mensaje = [{ severity: 'error', summary: 'Error, asegúrate de haber completado todos los campos', detail: '' }];
+        }
+      }
+    );
   }
 
   // LISTAR USUARIOS 
@@ -96,6 +112,7 @@ export class ContactosComponent implements OnInit {
   mostrarContactosConDetalles() {
     this.contactosService.mostrarContactosConDetalles().subscribe((contacto) => {
       this.contactoDetalles = contacto.data;
+      console.log('aquiiii', this.contactoDetalles);
     });
   }
 
@@ -122,7 +139,7 @@ export class ContactosComponent implements OnInit {
 
   actividadesVariosContactos(id_principal: number) {
     this.contactosService.actividadesVariosContactos(id_principal).subscribe((actividades) => {
-      this.actividades = actividades.data;
+      this.actividadesVarios = actividades.data;
     });
   }
 
@@ -148,14 +165,14 @@ export class ContactosComponent implements OnInit {
 
   mostrarActividades() {
     this.contactosService.mostrarActividades().subscribe((actividad) => {
-      this.actividades = actividad.data;
+      this.actividadesUnico = actividad.data;
     });
   }
 
   // MOSTRAR LA MODALIDAD DE LA ACTIVIDAD
 
-  modalidadActividad(id_secundaria: number){
-    this.contactosService.modalidadActividad(id_secundaria).subscribe((modalidad) => {
+  modalidadActividad(id_secundaria: number) {
+    this.contactosService.modalidadActividad(id_secundaria).subscribe((modalidad: ModalidadActividadRespuesta) => {
       this.modalidad = modalidad.data;
     });
   }
