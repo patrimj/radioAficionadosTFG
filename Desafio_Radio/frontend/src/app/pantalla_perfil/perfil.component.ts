@@ -35,6 +35,7 @@ export class PerfilComponent implements OnInit {
   usuarios: Perfil[] = [];
   usuario: Perfil = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', password: '', url_foto: new File([], ''), id_examen: '' };
 
+  //---Actividades de un unico contacto---
   actividadesUnico: ActividadUnico[] = [];
   actividadUnico: ActividadUnico = {
     id: 0,
@@ -46,6 +47,7 @@ export class PerfilComponent implements OnInit {
     act_primarias: []
   };
 
+  //---Actividades de varios contactos---
   actividadesVarios: ActividadVarios[] = [];
   actividadVarios: ActividadVarios = {
     id: 0,
@@ -104,6 +106,8 @@ export class PerfilComponent implements OnInit {
       console.log('imagen:', this.imagenSubir);
     }
   }
+
+  //---Validaciones---
 
   validarDatosUsuario(): string {
     return validarUsuarioPerfil(this.usuario);

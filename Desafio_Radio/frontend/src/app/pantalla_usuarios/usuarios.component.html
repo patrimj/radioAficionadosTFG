@@ -89,7 +89,7 @@
                 </table>
             </div>
 
-         <!--MENSAJES DE ADVERTENCIA-->
+            <!--MENSAJES DE ADVERTENCIA-->
 
             <p-messages [(value)]="mensajeEliminado" [enableService]="false" [closable]="true"></p-messages>
 
@@ -98,10 +98,10 @@
     </div>
 
     } @else {
-        <p class="alert alert-warning">No hay usuarios que mostrar.</p>
+    <p class="alert alert-warning">No hay usuarios que mostrar.</p>
     }
 
-    
+
     <div class="container mb-3 mt-3 d-flex flex-column flex-md-row justify-content-between ">
 
         <!--PANEL PARA CREAR O MODIFICAR USUARIOS-->
@@ -118,10 +118,12 @@
                             class="fas fa-times-circle"></i></button>
                 </div>
                 <p style="font-size: 20px; color: #fff5e6;">
-                    Email aficionado *:<input type="text" [(ngModel)]="usuario.email" class="form-control" placeholder="Email aficionado" />
+                    Email aficionado *:<input type="text" [(ngModel)]="usuario.email" class="form-control"
+                        placeholder="Email aficionado" />
                 </p>
                 <p style="font-size: 20px; color: #fff5e6;">
-                    Nombre aficionado *:<input type="text" [(ngModel)]="usuario.nombre" class="form-control" placeholder="Nombre aficionado" />
+                    Nombre aficionado *:<input type="text" [(ngModel)]="usuario.nombre" class="form-control"
+                        placeholder="Nombre aficionado" />
                 </p>
 
                 <p style="font-size: 20px; color: #fff5e6;">
@@ -134,7 +136,8 @@
                 </p>
                 <p style="font-size: 20px; color: #fff5e6;">
                     Contraseña aficionado *:
-                    <input type="password" [(ngModel)]="usuario.password" class="form-control" disabled  placeholder="La contraseña se enviará por correo electrónico."/>
+                    <input type="password" [(ngModel)]="usuario.password" class="form-control" disabled
+                        placeholder="La contraseña se enviará por correo electrónico." />
                 </p>
 
                 <p style="font-size: 20px; color: #fff5e6;">
@@ -142,8 +145,8 @@
 
                 </p>
                 <p style="font-size: 20px; color: #fff5e6;">
-                    Identificador aficionado *:<input type="text" [(ngModel)]="usuario.id_examen"
-                        class="form-control" placeholder="Identificador aficionado" />
+                    Identificador aficionado *:<input type="text" [(ngModel)]="usuario.id_examen" class="form-control"
+                        placeholder="Identificador aficionado" />
                 </p>
                 <p style="font-size: 20px; color: #fff5e6;"> Seleccione un rol:</p>
                 <div>
@@ -182,7 +185,8 @@
             </div>
             <div class="card-body">
                 <p style="font-size: 20px; color: #fff5e6;">
-                    Email aficionado:<input type="text" [(ngModel)]="usuario.email" class="form-control" placeholder="Email aficionado" />
+                    Email aficionado:<input type="text" [(ngModel)]="usuario.email" class="form-control"
+                        placeholder="Email aficionado" />
                 </p>
 
                 <p style="font-size: 20px; color: #fff5e6;">Asignar un rol:</p>

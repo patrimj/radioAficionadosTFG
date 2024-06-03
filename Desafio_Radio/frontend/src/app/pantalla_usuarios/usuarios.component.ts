@@ -65,6 +65,8 @@ export class UsuariosComponent implements OnInit {
     return this.usuarios.length > 0;
   }
 
+  //---Validaciones---
+
   validarDatosUsuario(): string {
     return validarUsuarioAdmin(this.usuario);
   }

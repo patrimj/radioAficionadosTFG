@@ -1,4 +1,4 @@
-const models = require('../models/index.js'); //Esto tiene acceso a todos los modelos., lo genera solo el sequelize-cli
+const models = require('../models/index.js'); 
 const {Op} = require("sequelize");
 
 const esAdmin = async (req, res, next) => {

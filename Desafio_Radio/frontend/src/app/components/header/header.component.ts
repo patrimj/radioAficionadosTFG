@@ -42,6 +42,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.rutasRol = [...this.rutasRol, ...this.rutas.filter(
+      ruta => ruta.label != 'Insertar contacto' && ruta.label != 'Gestion Usuarios'
+        && ruta.label != 'Cerrar Sesión' && ruta.label != 'Mi perfil'
+    )];
+    
     if (this.datosLogin != null) {
       this.rutasRol = [];
 
@@ -65,13 +70,6 @@ export class HeaderComponent implements OnInit {
           case 3: // Usuario
             this.rutasRol = [...this.rutasRol, ...this.rutas.filter(
               ruta => ruta.label != 'Insertar contacto' && ruta.label != 'Gestion Usuarios' && ruta.label != 'Iniciar sesión'
-            )];
-            break;
-
-          default: // No logueado
-            this.rutasRol = [...this.rutasRol, ...this.rutas.filter(
-              ruta => ruta.label != 'Insertar contacto' && ruta.label != 'Gestion Usuarios'
-                && ruta.label != 'Cerrar Sesión' && ruta.label != 'Mi perfil'
             )];
             break;
         }

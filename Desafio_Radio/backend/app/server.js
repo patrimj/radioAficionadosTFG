@@ -51,7 +51,6 @@ class Server {
         this.app.use(this.usuariosPath, require('../routes/concursoRoutes'));
         this.app.use(this.usuariosPath, require('../routes/contactoRoutes'));
         this.app.use(this.usuariosPath, require('../routes/usuarioRoutes'));
-        this.app.use(this.usuariosPath, require('../routes/csvRoutes'));
         this.app.use(this.usuariosPath, require('../routes/perfilRoutes'));
         this.app.use(this.usuariosPath, require('../routes/inicioRoutes'));
     }

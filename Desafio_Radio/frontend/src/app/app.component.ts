@@ -17,8 +17,9 @@ import { PerfilComponent } from './pantalla_perfil/perfil.component';
 import { AutenticacionComponent } from './pantalla_autenticacion/autenticacion.component';
 // Pantalla de Gestión de Contactos
 import { ContactosComponent } from './pantalla_contactos/contactos.component';
-
+// Header
 import { HeaderComponent } from './components/header/header.component';
+// Footer
 import { FooterComponent } from './components/footer/footer.component';
 
 @Component({

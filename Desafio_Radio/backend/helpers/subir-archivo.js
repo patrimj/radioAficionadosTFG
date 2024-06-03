@@ -54,5 +54,4 @@ const subirArchivo = async (files, extensionesValidas = ['png', 'jpg', 'jpeg', '
 
 module.exports = {
     subirArchivo,
-    subirCSV
 }
