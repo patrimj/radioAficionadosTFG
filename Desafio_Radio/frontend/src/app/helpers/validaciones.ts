@@ -120,6 +120,53 @@ export function validarUsuarioAdmin(usuario: Usuario): string {
   return '';
 }
 
+export function validarUsuarioPerfil(usuario: Usuario): string {
+
+
+  if (!usuario.nombre || !usuario.apellido_uno || !usuario.apellido_dos  || !usuario.id_examen) {
+    return 'Por favor, complete todos los campos';
+  }
+
+  if (/[^a-zA-Z ]/.test(usuario.nombre)) {
+    return 'El nombre no debe contener números ni caracteres especiales';
+  }
+  if (/[^a-zA-Z ]/.test(usuario.apellido_uno)) {
+    return 'El primer apellido no debe contener números ni caracteres especiales';
+  }
+  if (/[^a-zA-Z ]/.test(usuario.apellido_dos)) {
+    return 'El segundo apellido no debe contener números ni caracteres especiales';
+  }
+
+  if (usuario.nombre.length < 3) {
+    return 'El nombre debe tener al menos 3 caracteres';
+  }
+
+  if (usuario.apellido_uno.length < 3) {
+    return 'El primer apellido debe tener al menos 3 caracteres';
+  }
+  if (usuario.apellido_dos.length < 3) {
+    return 'El segundo apellido debe tener al menos 3 caracteres';
+  }
+
+  if (usuario.id_examen === '') {
+    return 'El ID del examen no puede estar vacío';
+  }
+
+  if (usuario.nombre === '') {
+    return 'Por favor, introduzca un nombre';
+  }
+
+  if (usuario.apellido_uno === '') {
+    return 'Por favor, introduzca un apellido';
+  }
+
+  if (usuario.apellido_dos === '') {
+    return 'Por favor, introduzca un apellido';
+  }
+
+  return '';
+}
+
 export function validarPasswordUsuario(contraseñaVieja: string, contraseñaNueva: string): string {
   if (contraseñaVieja === contraseñaNueva) {
     return 'La nueva contraseña no puede ser igual a la antigua';

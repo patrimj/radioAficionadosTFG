@@ -23,6 +23,33 @@ export interface Modo {
     nombre: string;
 }
 
+export interface ActividadUnico {
+    id: number;
+    nombre: string;
+    url_foto: string;
+    localizacion?: string;
+    fecha: string;
+    frecuencia?: string;
+    banda?: string;
+    completada?: boolean;
+    modalidad: Modalidad;
+    act_primarias?: ActPrimaria[];
+    modo: Modo;
+}
+export interface ActividadVarios {
+    id: number;
+    nombre: string;
+    url_foto: string;
+    localizacion?: string;
+    fecha: string;
+    frecuencia?: string;
+    banda?: string;
+    completada?: boolean;
+    modalidad: Modalidad;
+    act_primarias?: ActPrimaria[];
+    modo: Modo;
+}
+
 export interface Actividad {
     id: number;
     nombre: string;
@@ -37,9 +64,14 @@ export interface Actividad {
     modo: Modo;
 }
 
-export interface RespuestaActividades {
+export interface RespuestaActividadesUnico {
     message: string;
-    data: Actividad[];
+    data: ActividadUnico[];
+}
+
+export interface RespuestaActividadesVarios {
+    message: string;
+    data: ActividadVarios[];
 }
 
 export interface RespuestaTotalActividadesYconcursos {

@@ -8,7 +8,8 @@ import { tap } from 'rxjs/operators';
 //---Interfaces---
 
 import {
-  RespuestaActividades,
+  RespuestaActividadesUnico,
+  RespuestaActividadesVarios,
   RespuestaTotalActividadesYconcursos,
   RespuestaConcursos,
   RespuestaPerfil,
@@ -27,8 +28,8 @@ export class PerfilService {
 
   // VER ACTIVIDADES DE UN UNICO CONTACTO (AFICIONADO)
 
-  getActividadesUnicoContactoAficionado(): Observable<RespuestaActividades> {
-    return this.http.get<RespuestaActividades>(`${this.baseUrl}/actividades/unicoContacto/aficionado`, { params: { auth: 'true' } }).pipe(
+  getActividadesUnicoContactoAficionado(): Observable<RespuestaActividadesUnico> {
+    return this.http.get<RespuestaActividadesUnico>(`${this.baseUrl}/actividades/unicoContacto/aficionado`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Actividades:', response)
@@ -45,8 +46,8 @@ export class PerfilService {
 
   // VER ACTIVIDADES DE VARIOS CONTACTOS Y CONCURSO (AFICIONADO)
 
-  getActividadesVariosContactosAficionado(): Observable<RespuestaActividades> {
-    return this.http.get<RespuestaActividades>(`${this.baseUrl}/actividades/variosContactos/aficionado`, { params: { auth: 'true' } }).pipe(
+  getActividadesVariosContactosAficionado(): Observable<RespuestaActividadesVarios> {
+    return this.http.get<RespuestaActividadesVarios>(`${this.baseUrl}/actividades/variosContactos/aficionado`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Actividades:', response)
@@ -63,8 +64,8 @@ export class PerfilService {
 
   // VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla concurso ***
 
-  getActividadesPorConcurso(idPrincipal: number): Observable<RespuestaActividades> {
-    return this.http.get<RespuestaActividades>(`${this.baseUrl}/perfil/actividades/${idPrincipal}`, { params: { auth: 'true' } }).pipe(
+  getActividadesPorConcurso(idPrincipal: number): Observable<RespuestaActividadesVarios> {
+    return this.http.get<RespuestaActividadesVarios>(`${this.baseUrl}/perfil/actividades/${idPrincipal}`, { params: { auth: 'true' } }).pipe(
       tap(response => {
         if (response) {
           console.log('Actividades:', response)

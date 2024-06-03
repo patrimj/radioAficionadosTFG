@@ -21,10 +21,10 @@
                                 (click)="getPerfil()"><i class="fas fa-edit"></i>Modificar
                                 Perfil</button>
                             <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
-                                data-bs-target="#modalNueva"><i class="fas fa-edit"></i>Cambiar Contraseña</button>
+                                data-bs-target="#modalNueva">Cambiar Contraseña</button>
                         </div>
-                        <p>Total concursos participado: {{ getTotalConcursosParticipado() }}</p>
-                        <p>Total actividades participado: {{ getTotalActividadesParticipado() }}</p>
+                        <!--<p>Total concursos participado: {{ getTotalConcursosParticipado() }}</p>
+                        <p>Total actividades participado: {{ getTotalActividadesParticipado() }}</p>-->
                     </div>
                 </div>
             </div>
@@ -78,37 +78,40 @@
     </div>
     <div class="card-body mt-4">
         <div class="row d-flex justify-content-center">
-            @for(actividad of actividades; track actividad.id) {
+            @for(actividadUnico of actividadesUnico; track actividadUnico.id) {
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
                     style="background-color: #ffd4aa;">
                     <div class="position-relative w-100">
                         <a class="d-inline shadow-xl border-radius-xl" style="width: 100%; height: auto; ">
-                            <img src="{{actividad?.url_foto}}" alt="Fotografía de {{actividad?.nombre}}"
+                            <img src="{{actividadUnico?.url_foto}}" alt="Fotografía de {{actividadUnico?.nombre}}"
                                 class="img-fluid shadow border-radius-xl">
                         </a>
                     </div>
                     <div class="card-body px-1 pb-0 w-100">
                         <h5 style="font-size: 30px; color: #dd5b4d;">
-                            {{actividad?.nombre}}
+                            {{actividadUnico?.nombre}}
                         </h5>
-                        <p>Localización: {{actividad.localizacion}}</p>
-                        <p>Fecha: {{actividad.fecha}}</p>
-                        <p>Frecuencia: {{actividad.frecuencia}}</p>
-                        <p>Banda: {{actividad.banda}}</p>
-                        <p>Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
-                        <p>Modalidad: {{actividad.modalidad.descripcion}}</p>
-                        <p>Modo: {{actividad.modo.nombre}}</p>
+                        <p>Localización: {{actividadUnico.localizacion}}</p>
+                        <p>Fecha: {{actividadUnico.fecha}}</p>
+                        <p>Frecuencia: {{actividadUnico.frecuencia}}</p>
+                        <p>Banda: {{actividadUnico.banda}}</p>
+                        <p>Completada: {{actividadUnico.completada ? 'Sí' : 'No'}}</p>
+                        <p>Modalidad: {{actividadUnico.modalidad.descripcion}}</p>
+                        <p>Modo: {{actividadUnico.modo.nombre}}</p>
 
-                        @for(act_primaria of actividad.act_primarias; track act_primaria.id) {
+                        @for(act_primaria of actividadUnico.act_primarias; track act_primaria.id) {
                         <h6>Concurso: {{act_primaria.nombre}}</h6>
                         }
-
+                        <button class="btn btn-danger mr-2"
+                            (click)="pedirDiploma(actividadUnico.nombre, actividadUnico.url_foto)">Pedir
+                            diploma</button>
                     </div>
                 </div>
             </div>
             }
         </div>
+        <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
     </div>
 
     <div class="card-header text-center" style="background-color: #ffb062;">
@@ -116,37 +119,41 @@
     </div>
     <div class="card-body mt-4">
         <div class="row d-flex justify-content-center">
-            @for(actividad of actividades; track actividad.id) {
+            @for(actividadVarios of actividadesVarios; track actividadVarios.id) {
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
                     style="background-color: #ffd4aa;">
                     <div class="position-relative w-100">
                         <a class="d-inline shadow-xl border-radius-xl" style="width: 100%; height: auto; ">
-                            <img src="{{actividad?.url_foto}}" alt="Fotografía de {{actividad?.nombre}}"
+                            <img src="{{actividadVarios?.url_foto}}" alt="Fotografía de {{actividadVarios?.nombre}}"
                                 class="img-fluid shadow border-radius-xl">
                         </a>
                     </div>
                     <div class="card-body px-1 pb-0 w-100">
                         <h5 style="font-size: 30px; color: #dd5b4d;">
-                            {{actividad?.nombre}}
+                            {{actividadVarios?.nombre}}
                         </h5>
-                        <p>Localización: {{actividad.localizacion}}</p>
-                        <p>Fecha: {{actividad.fecha}}</p>
-                        <p>Frecuencia: {{actividad.frecuencia}}</p>
-                        <p>Banda: {{actividad.banda}}</p>
-                        <p>Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
-                        <p>Modalidad: {{actividad.modalidad.descripcion}}</p>
-                        <p>Modo: {{actividad.modo.nombre}}</p>
+                        <p>Localización: {{actividadVarios.localizacion}}</p>
+                        <p>Fecha: {{actividadVarios.fecha}}</p>
+                        <p>Frecuencia: {{actividadVarios.frecuencia}}</p>
+                        <p>Banda: {{actividadVarios.banda}}</p>
+                        <p>Completada: {{actividadVarios.completada ? 'Sí' : 'No'}}</p>
+                        <p>Modalidad: {{actividadVarios.modalidad.descripcion}}</p>
+                        <p>Modo: {{actividadVarios.modo.nombre}}</p>
 
-                        @for(act_primaria of actividad.act_primarias; track act_primaria.id) {
+                        @for(act_primaria of actividadVarios.act_primarias; track act_primaria.id) {
                         <h6>Concurso: {{act_primaria.nombre}}</h6>
                         }
+                        <button class="btn btn-danger mr-2"
+                            (click)="pedirDiploma(actividadVarios.nombre, actividadVarios.url_foto)">Pedir
+                            diploma</button>
 
                     </div>
                 </div>
             </div>
             }
         </div>
+        <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
     </div>
 
 
@@ -181,8 +188,8 @@
                 <div class="modal-footer">
 
                     <button class="btn btn-success mr-2"
-                        (click)="cambiarPassword(email, passwordAntigua, passwordNueva)"><i
-                            class="fa-solid fa-circle-check"></i></button>
+                        (click)="cambiarPassword(email, passwordAntigua, passwordNueva)">
+                    </button>
 
                     <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
 
@@ -217,7 +224,7 @@
                     </p>
 
                     <p>
-                        Indicativo: <input type="checkbox" [(ngModel)]="usuario.id_examen" />
+                        Indicativo: <input type="text" [(ngModel)]="usuario.id_examen" class="form-control" />
                     </p>
 
                 </div>
@@ -227,13 +234,15 @@
                             class="fas fa-edit"></i></button>
 
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <p-messages [(value)]="mensajeModificado" class="messages-top-right" [enableService]="false"
+                        [closable]="true"></p-messages>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Modal para Mostrar las actividades de un concurso -->
-    
+
     <div class="modal fade" id="modalActividades" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -243,17 +252,34 @@
                             class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="modal-body">
-                    @for(actividad of actividades; track actividad.id){
-                    <h5>{{actividad.nombre}}</h5>
-                    <img src="{{actividad.url_foto}}" alt="Foto de {{actividad.nombre}}">
-                    <p>Localización: {{actividad.localizacion}}</p>
-                    <p>Fecha: {{actividad.fecha}}</p>
-                    <p>Frecuencia: {{actividad.frecuencia}}</p>
-                    <p>Banda: {{actividad.banda}}</p>
-                    <p>Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
-                    <p>Modalidad: {{actividad.modalidad.descripcion}}</p>
-                    <p>Modo: {{actividad.modo.nombre}}</p>
-                    }
+                    <div class="row">
+                        <div class="col-12">
+                            @for(actividadVarios of actividadesVarios; track actividadVarios.id){
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{{actividadVarios.url_foto}}" alt="Foto de {{actividadVarios.nombre}}" style="width: 50px; height: 50px; object-fit: cover;">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{actividadVarios.nombre}}</h5>
+                                            <p class="card-text">Localización: {{actividadVarios.localizacion}}</p>
+                                            <p class="card-text"> Fecha: {{actividadVarios.fecha}}</p>
+                                            <p class="card-text">Frecuencia: {{actividadVarios.frecuencia}}</p>
+                                            <p class="card-text">Banda: {{actividadVarios.banda}}</p>
+                                            <p class="card-text">Completada: {{actividadVarios.completada ? 'Sí' :
+                                                'No'}}</p>
+                                            <p class="card-text">Modalidad: {{actividadVarios.modalidad.descripcion}}
+                                            </p>
+                                            <p class="card-text">Modo: {{actividadVarios.modo.nombre}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -261,5 +287,3 @@
             </div>
         </div>
     </div>
-
-</div>

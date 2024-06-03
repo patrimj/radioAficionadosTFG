@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 //---Helpers---
-import { validarUsuario, validarPasswordUsuario } from '../helpers/validaciones';
+import { validarUsuarioPerfil, validarPasswordUsuario } from '../helpers/validaciones';
 
 //---PrimeNG---
 import { Message } from 'primeng/api';
@@ -15,7 +15,7 @@ import { MessagesModule } from 'primeng/messages';
 import { PerfilService } from './perfil.service';
 
 //---Interfaces---
-import { Perfil, Actividad, Concurso } from "./perfiles";
+import { Perfil, ActividadVarios, ActividadUnico, Concurso, Actividad } from "./perfiles";
 
 
 @Component({
@@ -34,6 +34,28 @@ export class PerfilComponent implements OnInit {
   //---Usuarios---
   usuarios: Perfil[] = [];
   usuario: Perfil = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', password: '', url_foto: new File([], ''), id_examen: '' };
+
+  actividadesUnico: ActividadUnico[] = [];
+  actividadUnico: ActividadUnico = {
+    id: 0,
+    nombre: '',
+    url_foto: '',
+    fecha: '',
+    modalidad: { descripcion: '' },
+    modo: { nombre: '' },
+    act_primarias: []
+  };
+
+  actividadesVarios: ActividadVarios[] = [];
+  actividadVarios: ActividadVarios = {
+    id: 0,
+    nombre: '',
+    url_foto: '',
+    fecha: '',
+    modalidad: { descripcion: '' },
+    modo: { nombre: '' },
+    act_primarias: []
+  };
 
   actividades: Actividad[] = [];
   actividad: Actividad = {
@@ -84,7 +106,7 @@ export class PerfilComponent implements OnInit {
   }
 
   validarDatosUsuario(): string {
-    return validarUsuario(this.usuario);
+    return validarUsuarioPerfil(this.usuario);
   }
 
   validarPassword(): string {
@@ -95,7 +117,7 @@ export class PerfilComponent implements OnInit {
 
   getActividadesUnicoContactoAficionado() {
     this.perfilService.getActividadesUnicoContactoAficionado().subscribe((actividad) => {
-      this.actividades = actividad.data;
+      this.actividadesUnico = actividad.data;
     })
   }
 
@@ -103,7 +125,7 @@ export class PerfilComponent implements OnInit {
 
   getActividadesVariosContactosAficionado() {
     this.perfilService.getActividadesVariosContactosAficionado().subscribe((actividad) => {
-      this.actividades = actividad.data;
+      this.actividadesVarios = actividad.data;
     })
   }
 
@@ -197,9 +219,13 @@ export class PerfilComponent implements OnInit {
       return;
     }
 
-    this.perfilService.cambiarPassword(email, passwordNueva).subscribe((respuesta) => {
+    this.perfilService.cambiarPassword(this.usuario.email, passwordNueva).subscribe((respuesta) => {
       this.mensaje = [{ severity: 'success', summary: `Contraseña cambiada`, detail: '' }];
+      this.email = '';
+      this.passwordAntigua = '';
+      this.passwordNueva = '';
     });
+    
   }
 
   // CREAR Y PEDIR DIPLOMA DE ACTIVIDAD 

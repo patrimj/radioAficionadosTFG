@@ -23,7 +23,7 @@ router.get('/perfil/actividades/:id_principal', [validarJWT], controladorPerfil.
 
 // MOSTRAR TOTAL ACTIVIDADES EN LAS QUE HA PARTICIPADO UN USUARIO (AFICIONADO)
 
-router.get('/actividades/total', [validarJWT], controladorPerfil.getTotalActividadesParticipado);
+//router.get('/actividades/total', [validarJWT], controladorPerfil.getTotalActividadesParticipado);
 
 // CONCURSOS DE UN USUARIO (AFICIONADO)
 
@@ -31,7 +31,7 @@ router.get('/concursos/aficionado', [validarJWT], controladorPerfil.getConcursos
 
 // MOSTRAR EL TOTAL DE CONCURSOS EN LOS QUE HA PARTICIPADO UN USUARIO (AFICIONADO)
 
-router.get('/concursos/total', [validarJWT], controladorPerfil.getTotalConcursosParticipado);
+//router.get('/concursos/total', [validarJWT], controladorPerfil.getTotalConcursosParticipado);
 
 // MOSTRAR PERFIL
 
