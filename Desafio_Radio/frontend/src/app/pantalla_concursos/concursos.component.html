@@ -62,11 +62,6 @@
                                     class="fas fa-edit"></i>Ver
                                 actividades</button>
 
-                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
-                                data-bs-target="#modalActividades" (click)=" verParticipantesConcurso(concurso.id)"><i
-                                    class="fas fa-edit"></i>Ver
-                                participantes</button>
-
                             @if (esAdmin()) {
                             <div class="d-flex justify-content-center mt-2 mb-2">
                                 <button class="btn btn-danger btn-lg mr-3 " (click)="bajaConcurso(concurso.id)"><i
@@ -133,11 +128,6 @@
                                     class="fas fa-edit"></i>Ver
                                 actividades</button>
 
-                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
-                                data-bs-target="#modalActividades" (click)=" verParticipantesConcurso(concurso.id)"><i
-                                    class="fas fa-edit"></i>Ver
-                                participantes</button>
-
                             @if (esAdmin()) {
                             <div class="d-flex justify-content-center mt-2 mb-2">
                                 <button class="btn btn-danger btn-lg mr-3 " (click)="bajaConcurso(concurso.id)"><i
@@ -203,11 +193,6 @@
                                 data-bs-target="#modalActividades" (click)=" getActividadesPorConcurso(concurso.id)"><i
                                     class="fas fa-edit"></i>Ver
                                 actividades</button>
-
-                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
-                                data-bs-target="#modalParticipantes" (click)=" verParticipantesConcurso(concurso.id)"><i
-                                    class="fas fa-edit"></i>Ver
-                                participantes</button>
 
                             @if (esAdmin()) {
                             <div class="d-flex justify-content-center mt-2 mb-2">
@@ -284,8 +269,8 @@
         </div>
     </div>
 
-    <!-- Modal para Mostrar las actividades de un concurso -->
 
+    <!-- Modal para Mostrar las actividades de un concurso -->
     <div class="modal fade" id="modalActividades" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -295,57 +280,33 @@
                             class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="modal-body">
-                    @for(actividad of actividades; track actividad.id){
-                    <h5>{{actividad.nombre}}</h5>
-                    <img src="{{actividad.url_foto}}" alt="Foto de {{actividad.nombre}}">
-                    <p>Localización: {{actividad.localizacion}}</p>
-                    <p>Fecha: {{actividad.fecha}}</p>
-                    <p>Frecuencia: {{actividad.frecuencia}}</p>
-                    <p>Banda: {{actividad.banda}}</p>
-                    <p>Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
-                    <p>Modalidad: {{actividad.modalidad.descripcion}}</p>
-                    <p>Modo: {{actividad.modo.nombre}}</p>
-                    }
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Mostrar los participantes de un concurso -->
-
-    <div class="modal fade" id="modalParticipantes" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Participantes del Concurso</h5>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
-                            class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div class="modal-body">
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Aficionado</th>
-                                <th>Indicativo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for(participante of participantes; track participante.usuario.id){
-                              <tr>
-                                <td style="display: flex; justify-content: center; align-items: center;">
-                                  <img src="{{participante.usuario.url_foto}}" alt="Foto de {{participante.usuario.nombre}}"
-                                  style="border-radius: 50%; width: 50px; height: 50px;"></td>
-                                <td>{{participante.usuario.nombre}}</td>
-                                <td>{{participante.usuario.id_examen}}</td>
-                              </tr>
+                    <div class="row">
+                        <div class="col-12">
+                            @for(actividad of actividades; track actividad.id){
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{{actividad.url_foto}}" alt="Foto de {{actividad.nombre}}"
+                                            class="img-fluid">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{actividad.nombre}}</h5>
+                                            <p class="card-text">Localización: {{actividad.localizacion}}</p>
+                                            <p class="card-text">Fecha: {{actividad.fecha}}</p>
+                                            <p class="card-text">Frecuencia: {{actividad.frecuencia}}</p>
+                                            <p class="card-text">Banda: {{actividad.banda}}</p>
+                                            <p class="card-text">Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
+                                            <p class="card-text">Modalidad: {{actividad.modalidad.descripcion}}</p>
+                                            <p class="card-text">Modo: {{actividad.modo.nombre}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             }
-                          </tbody>
-                    </table>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -353,17 +314,13 @@
             </div>
         </div>
     </div>
+
 
     <button data-bs-toggle="modal" data-bs-target="#modalNueva"
         class="btn btn-success btn-flotante d-flex justify-content-center align-items-center">
         <i class="fa-regular fa-square-plus"></i>
     </button>
 
-    <button data-bs-toggle="modal" data-bs-target="#modalNueva"
-        class="btn-nuevo btn btn-outline-secondary  d-flex justify-content-center col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-4"
-        style="background-color: #F5DAAF;">
-        <i class="fa-solid fa-plus"></i>
-    </button>
     }
     <p-messages [(value)]="mensajeEliminado" class="messages-top-right" [enableService]="false"
         [closable]="true"></p-messages>

@@ -21,59 +21,68 @@ export class HeaderComponent implements OnInit {
   datosLogin = JSON.parse(localStorage.getItem('usuarioDatos')!) || null;
   isMenuVisible = false;
   urlFoto = '';
-  
+
   usuario: Usuario | null = null;
   rol: Rol | null = null;
-  
+
   rutas: MenuItem[] = [
-    { label: 'Inicio', command: () => this.router.navigate(['inicio'])},
-    { label: 'Concursos', command: () => this.router.navigate(['concursos'])},
-    { label: 'Actividades', command: () => this.router.navigate(['actividades'])},
-    { label: 'Gestion Usuarios', command: () => this.router.navigate(['usuarios'])},
-    { label: 'Insertar contacto', command: () => this.router.navigate(['contactos'])},
-    { label: 'Mi perfil', command: () => this.router.navigate(['perfil'])},
-    { label: 'Iniciar sesión', command: () => this.router.navigate(['autenticacion'])},
+    { label: 'Inicio', command: () => this.router.navigate(['inicio']) },
+    { label: 'Concursos', command: () => this.router.navigate(['concursos']) },
+    { label: 'Actividades', command: () => this.router.navigate(['actividades']) },
+    { label: 'Gestion Usuarios', command: () => this.router.navigate(['usuarios']) },
+    { label: 'Insertar contacto', command: () => this.router.navigate(['contactos']) },
+    { label: 'Mi perfil', command: () => this.router.navigate(['perfil']) },
+    { label: 'Iniciar sesión', command: () => this.router.navigate(['autenticacion']) },
     { label: 'Cerrar Sesión', command: () => this.cerrarSesion() }
   ];
   rutasRol: MenuItem[] = [];
-
-
 
   constructor(private location: Location, private router: Router, private usuariosService: UsuariosService) {
     this.rutaActual = this.location.path();
   }
 
   ngOnInit() {
-
-    let idRol = 0;
-
     if (this.datosLogin != null) {
-      idRol = this.datosLogin.roles[0].RolAsignado.id_rol;
-    }
+      this.rutasRol = [];
 
-    switch (idRol) {
-      case 1: // Administrador
-        this.rutasRol = this.rutas.filter(
-          ruta => ruta.label != 'Insertar contacto' && ruta.label != 'Iniciar sesión'
-        )
-        break;
-      case 2: // Operador
-        this.rutasRol = this.rutas.filter(
-          ruta => ruta.label != 'Gestion Usuarios' && ruta.label != 'Iniciar sesión'
-        );
-        break;
-      case 3: // Usuario
-        this.rutasRol = this.rutas.filter(
-          ruta => ruta.label != 'Insertar contacto' && ruta.label != 'Gestion Usuarios' && ruta.label != 'Iniciar sesión'
-        )
-        break;
-      default: // No logueado
-        this.rutasRol = this.rutas.filter(
-          ruta => ruta.label != 'Insertar contacto' && ruta.label != 'Gestion Usuarios'
-            && ruta.label != 'Cerrar Sesión' && ruta.label != 'Mi perfil'
-      
-        )
-        break;
+      this.datosLogin.roles.forEach((rol: { RolAsignado: { id_rol: number } }) => {
+        let idRol = rol.RolAsignado.id_rol;
+
+        switch (idRol) {
+
+          case 1: // Administrador
+            this.rutasRol = [...this.rutasRol, ...this.rutas.filter(
+              ruta => ruta.label != 'Insertar contacto' && ruta.label != 'Iniciar sesión'
+            )];
+            break;
+
+          case 2: // Operador
+            this.rutasRol = [...this.rutasRol, ...this.rutas.filter(
+              ruta => ruta.label != 'Gestion Usuarios' && ruta.label != 'Iniciar sesión'
+            )];
+            break;
+
+          case 3: // Usuario
+            this.rutasRol = [...this.rutasRol, ...this.rutas.filter(
+              ruta => ruta.label != 'Insertar contacto' && ruta.label != 'Gestion Usuarios' && ruta.label != 'Iniciar sesión'
+            )];
+            break;
+
+          default: // No logueado
+            this.rutasRol = [...this.rutasRol, ...this.rutas.filter(
+              ruta => ruta.label != 'Insertar contacto' && ruta.label != 'Gestion Usuarios'
+                && ruta.label != 'Cerrar Sesión' && ruta.label != 'Mi perfil'
+            )];
+            break;
+        }
+      });
+
+      // eliminmos duplicados 
+      this.rutasRol = this.rutasRol.filter((ruta, index, self) =>
+        index === self.findIndex((t) => (
+          t.label === ruta.label
+        ))
+      );
     }
   }
 

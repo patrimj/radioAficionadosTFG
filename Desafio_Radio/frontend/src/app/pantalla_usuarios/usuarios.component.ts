@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 //---Helpers---
-import { validarUsuario, validarDatosRol } from '../helpers/validaciones';
+import { validarUsuarioAdmin, validarDatosRol } from '../helpers/validaciones';
 
 //---PrimeNG---
 import { Message } from 'primeng/api';
@@ -49,6 +49,8 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.mostrarUsuarios();
+    this.buscarUsuarioIndicativo(this.indicativoUsuario);
+    this.buscarUsuarioNombre(this.nombreUsuario);
   }
 
   imagen(event: Event) {
@@ -64,7 +66,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   validarDatosUsuario(): string {
-    return validarUsuario(this.usuario);
+    return validarUsuarioAdmin(this.usuario);
   }
 
   validarDatosRol(): string {

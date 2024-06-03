@@ -17,7 +17,7 @@ import { AutenticacionComponent } from './pantalla_autenticacion/autenticacion.c
 // Pantalla de Gestión de Contactos
 import { ContactosComponent } from './pantalla_contactos/contactos.component';
 
-//-----Guards-----\\
+//-----Guards-----\\ (No los utilizo, problemas con la cabecera)
 
 import {adminGuard} from "./guard/admin.guard";
 import {authGuard} from "./guard/auth.guard";
@@ -27,12 +27,12 @@ import {operadorGuard} from "./guard/operador.guard";
 
 export const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/inicio'},
-  {path: 'usuarios', component: UsuariosComponent, canActivate: [adminGuard]},
+  {path: 'usuarios', component: UsuariosComponent},
   {path: 'actividades', component: ActividadesComponent},
   {path: 'concursos', component: ConcursosComponent},
   {path: 'inicio', component: InicioComponent},
-  {path: 'perfil', component: PerfilComponent, canActivate: [authGuard]},
+  {path: 'perfil', component: PerfilComponent},
   {path: 'autenticacion', component: AutenticacionComponent},
-  {path: 'contactos', component: ContactosComponent, canActivate: [operadorGuard]},
+  {path: 'contactos', component: ContactosComponent},
 
 ];

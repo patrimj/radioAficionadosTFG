@@ -245,16 +245,17 @@ export class ConcursosComponent implements OnInit {
     this.concursoService.terminarConcurso(id).subscribe(
       data => {
         if (data) {
-          this.mensaje = [{ severity: 'success', summary: '', detail: `Concurso ${this.concurso.nombre} terminado` }];
+          this.mensajeEliminado = [{ severity: 'success', summary: '', detail: `Concurso ${this.concurso.nombre} terminado` }];
           this.mensajeModificado = [];
-          this.mensajeEliminado = [];
+          this.mensaje = [];
+  
 
           this.mostrarConcursos();
         }
       },
       error => {
         if (error) {
-          this.mensaje = [{ severity: 'error', summary: 'Error', detail: 'Error' }];
+          this.mensajeEliminado = [{ severity: 'error', summary: 'Error', detail: 'Error' }];
         }
       }
     );

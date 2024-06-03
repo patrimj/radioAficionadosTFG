@@ -212,7 +212,7 @@ const modificarUsuario = async (req, res = response) => {
 
     if (!req.files || !req.files.archivo) {
         return res.status(400).json({ msg: 'No se subió ninguna imagen' });
-    }
+    } //en cliente deberá estar subiendo la img, sino da error (solucionar futuro)
 
     try {
         const resultadoSubida = await subirArchivo(req.files.archivo, undefined, 'usuario');

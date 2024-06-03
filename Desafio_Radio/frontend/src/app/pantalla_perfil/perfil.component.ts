@@ -46,7 +46,6 @@ export class PerfilComponent implements OnInit {
     act_primarias: []
   };
   
-
   concursos: Concurso[] = [];
   concruso: Concurso = {
     id: 0,
@@ -71,9 +70,9 @@ export class PerfilComponent implements OnInit {
     this.getPerfil();
     this.getActividadesUnicoContactoAficionado();
     this.getActividadesVariosContactosAficionado();
-    this.getTotalActividadesParticipado();
+    //this.getTotalActividadesParticipado();
     this.getConcursosAficionado();
-    this.getTotalConcursosParticipado();
+    //this.getTotalConcursosParticipado();
   }
 
   imagen(event: Event) {
