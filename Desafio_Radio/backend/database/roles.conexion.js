@@ -1,6 +1,6 @@
 const Conexion = require('./ConexionSequelize');
-const { Sequelize, Op } = require('sequelize'); // Op es para los operadores de sequelize
-const models = require('../models/index.js'); //Esto tiene acceso a todos los modelos., lo genera solo el sequelize-cli
+const { Sequelize, Op } = require('sequelize');
+const models = require('../models/index.js'); 
 
 const COD_INCORRECTO = 0;
 

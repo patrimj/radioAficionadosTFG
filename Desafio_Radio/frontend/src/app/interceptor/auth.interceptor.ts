@@ -1,5 +1,3 @@
-// JuanNavarrete
-
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
@@ -8,12 +6,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const param = req.params.get('auth');
 
   if (param) {
-    const token = JSON.parse(localStorage.getItem('datosLogin')!).token;
+    const token = localStorage.getItem('token');
 
-    console.log(token)
-    peticion = req.clone({
-      headers : req.headers.set('x-token', token)
-    })
+    if (token) {
+      peticion = req.clone({
+        headers : req.headers.set('x-token', token)
+      })
+    }
   }
 
   return next(peticion) ;

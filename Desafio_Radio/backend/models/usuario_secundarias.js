@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
           as: 'act_secundaria',
           foreignKey: 'id_secundaria'
         });
+        this.belongsTo(models.PrincipalesSecundarias, {
+          as: 'principales_secundarias',
+          foreignKey: 'id_secundaria'
+         });
       }
     }
     Usuario_secundarias.init({

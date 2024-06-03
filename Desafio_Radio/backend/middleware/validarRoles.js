@@ -1,4 +1,4 @@
-const models = require('../models/index.js'); //Esto tiene acceso a todos los modelos., lo genera solo el sequelize-cli
+const models = require('../models/index.js'); 
 const {Op} = require("sequelize");
 
 const esAdmin = async (req, res, next) => {
@@ -37,7 +37,7 @@ const esOperador = async (req, res, next) => {
         );
 
         if (!esOperador) {
-            return res.status(403).json({ 'msg': 'Acceso denegado. No tienes permisos de administrador.' });
+            return res.status(403).json({ 'msg': 'Acceso denegado. No tienes permisos de operador.' });
         }
 
         next();

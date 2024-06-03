@@ -1,0 +1,10 @@
+.btn-flotante {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    border-radius: 100%;
+    width: 5rem;
+    aspect-ratio: 1;
+    font-size: 2rem;
+    z-index: 1000;
+}

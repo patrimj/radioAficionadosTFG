@@ -1,0 +1,327 @@
+<div class="container" style="width: 90%;">
+
+    <select name="tipoConcurso" id="tipoConsulta" [(ngModel)]="tipoConcurso" (change)="cargarConcursos()"
+        class="form-select form-select-lg mb-3 rounded-pill" style="height: 35px;  background-color: #ffce9d;">
+        <option value="" disabled selected>Selecciona los concursos que desees ver</option>
+        <option value="todas" style="text-align: center;">Concursos</option>
+        <option value="terminadas" style="text-align: center;">Concursos finalizados</option>
+        <option value="pendientes" style="text-align: center;">Concursos activos</option>
+    </select>
+
+    @if (hayRegistros()) {
+
+    <!--BUSCADOR POR NOMBRE DEL CONCURSO -->
+
+    <div class="input-group d-flex justify-content-center mt-4">
+        <div class="form-outline" data-mdb-input-init>
+            <input type="text" placeholder="Buscar por nombre" [(ngModel)]="nombreConcurso" class="form-control" />
+        </div>
+        <button (click)="mostrarConcursoNombre(nombreConcurso)" class="btn btn-primary mb-3">Buscar
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+
+    <!--TODOS LOS CONCURSOS (TERMINADOS Y PENDIENTES) -->
+
+    <div class="card shadow mr-3" style="background-color: #dd5b4dbc;">
+        @if (tipoConcurso === 'todas') {
+        <div class="card-header text-center" style="background-color: #ffb062;">
+            <h2 class="mt-3" style="color: #fff5e6;">CONCURSOS</h2>
+        </div>
+        <div class="card-body mt-4">
+            <div class="row d-flex justify-content-center">
+                @for(concurso of concursos; track concurso.id) {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
+                        style="background-color: #ffd4aa;">
+                        <div class="position-relative w-100">
+                            <a class="d-inline shadow-xl border-radius-xl" style="width: 100%; height: auto; ">
+                                <img src="{{concurso.url_foto}}" alt="Fotografía de {{concurso.nombre}}"
+                                    class="img-fluid shadow border-radius-xl">
+                            </a>
+                        </div>
+                        <div class="card-body px-1 pb-0 w-100">
+                            <a href="javascript:;" class="text-center">
+                                <h5 style="font-size: 30px; color: #dd5b4d;">
+                                    {{concurso.nombre}}
+                                </h5>
+                                <h6>
+                                    {{concurso.descripcion}}
+                                </h6>
+                            </a>
+
+                            <p class="mb-4 text-sm text-center">
+                                Solución: {{concurso.solucion}}
+                            </p>
+                            <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
+                                Completada: {{concurso.completada ? 'Terminada' : 'Activa'}}
+                            </p>
+
+                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                data-bs-target="#modalActividades" (click)=" getActividadesPorConcurso(concurso.id)"><i
+                                    class="fas fa-edit"></i>Ver
+                                actividades</button>
+
+                            @if (esAdmin()) {
+                            <div class="d-flex justify-content-center mt-2 mb-2">
+                                <button class="btn btn-danger btn-lg mr-3 " (click)="bajaConcurso(concurso.id)"><i
+                                        class="fas fa-trash"></i></button>
+                                <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                    data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="btn btn-warning"
+                                    (click)="terminarConcurso(concurso.id)">Finalizar</button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        <div class="card-footer text-muted" style=" background-color: #ffb062;">
+            <h6 style="color: aliceblue; text-align: center;">Asociación de Radioaficionados CB ALARCOS</h6>
+        </div>
+        }
+    </div>
+
+    <!--TODOS LOS CONCURSOS FINALIZADOS -->
+
+    <div class="card shadow mr-3" style="background-color: #dd5b4dbc;">
+        @if (tipoConcurso === 'terminadas') {
+        <div class="card-header text-center" style="background-color: #ffb062;">
+            <h2 class="mt-3" style="color: #fff5e6;">CONCURSOS FINALIZADOS</h2>
+        </div>
+        <div class="card-body mt-4">
+            <div class="row d-flex justify-content-center">
+                @for(concurso of concursos; track concurso.id) {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
+                        style="background-color: #ffd4aa;">
+                        <div class="position-relative w-100">
+                            <a class="d-inline shadow-xl border-radius-xl">
+                                <img src="{{concurso.url_foto}}" alt="Fotografía de {{concurso.nombre}}"
+                                    class="img-fluid shadow border-radius-xl">
+                            </a>
+                        </div>
+                        <div class="card-body px-1 pb-0 w-100">
+                            <a href="javascript:;" class="text-center">
+                                <h5 style="font-size: 30px; color: #dd5b4d;">
+                                    {{concurso.nombre}}
+                                </h5>
+                                <h6>
+                                    {{concurso.descripcion}}
+                                </h6>
+                            </a>
+
+                            <p class="mb-4 text-sm text-center">
+                                Solución: {{concurso.solucion}}
+                            </p>
+
+                            <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
+                                Completada: {{concurso.completada ? 'Terminada' : 'Activa'}}
+                            </p>
+
+
+                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                data-bs-target="#modalActividades" (click)=" getActividadesPorConcurso(concurso.id)"><i
+                                    class="fas fa-edit"></i>Ver
+                                actividades</button>
+
+                            @if (esAdmin()) {
+                            <div class="d-flex justify-content-center mt-2 mb-2">
+                                <button class="btn btn-danger btn-lg mr-3 " (click)="bajaConcurso(concurso.id)"><i
+                                        class="fas fa-trash"></i></button>
+                                <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                    data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="btn btn-warning"
+                                    (click)="terminarConcurso(concurso.id)">Finalizar</button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        <div class="card-footer text-muted" style=" background-color: #ffb062;">
+            <h6 style="color: aliceblue; text-align: center;">Asociación de Radioaficionados CB ALARCOS</h6>
+        </div>
+        }
+    </div>
+
+    <!--TODOS LOS CONCURSOS PENDIENTES -->
+
+    <div class="card shadow mr-3" style="background-color: #dd5b4dbc;">
+        @if (tipoConcurso === 'pendientes') {
+        <div class="card-header text-center" style="background-color: #ffb062;">
+            <h2 class="mt-3" style="color: #fff5e6;">CONCURSOS PENDIENTES</h2>
+        </div>
+        <div class="card-body mt-4">
+            <div class="row d-flex justify-content-center">
+                @for(concurso of concursos; track concurso.id) {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
+                        style="background-color: #ffd4aa;">
+                        <div class="position-relative w-100">
+                            <a class="d-inline shadow-xl border-radius-xl">
+                                <img src="{{concurso.url_foto}}" alt="Fotografía de {{concurso.nombre}}"
+                                    class="img-fluid shadow border-radius-xl">
+                            </a>
+                        </div>
+                        <div class="card-body px-1 pb-0 w-100">
+                            <a href="javascript:;" class="text-center">
+                                <h5 style="font-size: 30px; color: #dd5b4d;">
+                                    {{concurso.nombre}}
+                                </h5>
+                                <h6>
+                                    {{concurso.descripcion}}
+                                </h6>
+                            </a>
+
+                            <p class="mb-4 text-sm text-center">
+                                Solución: {{concurso.solucion}}
+                            </p>
+
+                            <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
+                                Completada: {{concurso.completada ? 'Terminada' : 'Activa'}}
+                            </p>
+
+
+                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                data-bs-target="#modalActividades" (click)=" getActividadesPorConcurso(concurso.id)"><i
+                                    class="fas fa-edit"></i>Ver
+                                actividades</button>
+
+                            @if (esAdmin()) {
+                            <div class="d-flex justify-content-center mt-2 mb-2">
+                                <button class="btn btn-danger btn-lg mr-3 " (click)="bajaConcurso(concurso.id)"><i
+                                        class="fas fa-trash"></i></button>
+                                <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                    data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="btn btn-warning"
+                                    (click)="terminarConcurso(concurso.id)">Finalizar</button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="card-footer text-muted" style=" background-color: #ffb062;">
+            <h6 style="color: #fff5e6; text-align: center;">Asociación de Radioaficionados CB ALARCOS</h6>
+        </div>
+        }
+    </div>
+    } @else {
+    <p class="alert alert-warning">No hay actividades que mostrar.</p>
+    }
+
+    <!-- Modal para Crear o modificar Concursos -->
+
+    @if (esAdmin()){
+    <div class="modal fade" id="modalNueva" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Crea y modifica los concursos</h5>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-info" (click)="deseleccionarPrincipal()"><i
+                                class="fas fa-times-circle"></i></button>
+                    </div>
+
+                    <p>
+                        Nombre *:<input type="text" [(ngModel)]="concurso.nombre" class="form-control" />
+                    </p>
+                    <p>
+                        Descripcion *:<input type="text" [(ngModel)]="concurso.descripcion" class="form-control" />
+                    </p>
+                    <p>
+                        Solucion *:<input type="text" [(ngModel)]="concurso.solucion" class="form-control" />
+                    </p>
+                    <p>
+                        Foto *: <input type="file" (change)="imagen($event)" />
+                    </p>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn btn-success mr-2" [disabled]="concursoSeleccionado" (click)="altaConcurso()"><i
+                            class="fa-solid fa-circle-check"></i></button>
+                    <button class="btn btn-warning mr-3" (click)="modificarConcurso()"><i
+                            class="fas fa-edit"></i></button>
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <p-messages [(value)]="mensaje" class="messages-top-right" [enableService]="false"
+                        [closable]="true"></p-messages>
+                    <p-messages [(value)]="mensajeModificado" class="messages-top-right" [enableService]="false"
+                        [closable]="true"></p-messages>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para Mostrar las actividades de un concurso -->
+    <div class="modal fade" id="modalActividades" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Actividades del Concurso</h5>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            @for(actividad of actividades; track actividad.id){
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{{actividad.url_foto}}" alt="Foto de {{actividad.nombre}}" style="width: 50px; height: 50px; object-fit: cover;">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{actividad.nombre}}</h5>
+                                            <p class="card-text">Localización: {{actividad.localizacion}}</p>
+                                            <p class="card-text">Fecha: {{actividad.fecha}}</p>
+                                            <p class="card-text">Frecuencia: {{actividad.frecuencia}}</p>
+                                            <p class="card-text">Banda: {{actividad.banda}}</p>
+                                            <p class="card-text">Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
+                                            <p class="card-text">Modalidad: {{actividad.modalidad.descripcion}}</p>
+                                            <p class="card-text">Modo: {{actividad.modo.nombre}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <button data-bs-toggle="modal" data-bs-target="#modalNueva"
+        class="btn btn-success btn-flotante d-flex justify-content-center align-items-center">
+        <i class="fa-regular fa-square-plus"></i>
+    </button>
+
+    }
+    <p-messages [(value)]="mensajeEliminado" class="messages-top-right" [enableService]="false"
+        [closable]="true"></p-messages>
+
+</div>

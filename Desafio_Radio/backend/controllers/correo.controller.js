@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
 
+// Configuración del servicio de correo
+
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -13,9 +15,14 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-/**
- * @author JuanNavarrete
- */
+/**********************************************************************************************************************************
+ * Nombre consulta: enviarCorreo                                                                                                  *
+ * Descripción: Esta función se encarga de enviar un correo electrónico a un usuario para la recuperación de su contraseña        *
+ * Parametros: email                                                                                                              *
+ * Pantalla: Recuperar contraseña                                                                                                 *
+ * Rol: aficionado, admin, operador                                                                                               *
+ *********************************************************************************************************************************/
+
 const enviarCorreo = async (req, res) => {
     const mailOptions = {
         from: process.env.MAIL_USER,
@@ -25,16 +32,15 @@ const enviarCorreo = async (req, res) => {
         html: req.cuerpoCorreo
     };
 
-    await transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.error('Error al enviar el correo electrónico:', error);
-            return false
-        }
-    });
-
-    return true
-
-}
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log('Correo enviado con éxito a:', req.body.email);
+        return true;
+    } catch (error) {
+        console.error('Error al enviar el correo electrónico:', error);
+        return false;
+    }
+};
 
 module.exports = {
     enviarCorreo

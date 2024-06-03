@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'actividad_principal',
         foreignKey: 'id_principal'
       });
+      this.hasMany(models.PrincipalesSecundarias, {
+        as: 'principales_secundarias',
+        foreignKey: 'id_principal'
+      });
     }
   }
   usuario_principal.init({

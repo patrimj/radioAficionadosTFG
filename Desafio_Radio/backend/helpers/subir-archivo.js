@@ -3,6 +3,11 @@ const { v4: uuidv4 } = require('uuid');  //Este paquete nos permitirá crear un 
 const cloudinary = require('cloudinary').v2;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
+/***********************************************************************
+ * Nombre: subirArchivo                                                *
+ * Descripción: Función que sube un archivo a Cloudinary               *
+ **********************************************************************/
+
 const subirArchivo = async (files, extensionesValidas = ['png', 'jpg', 'jpeg', 'gif'], carpeta = '') => {
 
     return new Promise(async (resolve, reject) => {
@@ -47,25 +52,6 @@ const subirArchivo = async (files, extensionesValidas = ['png', 'jpg', 'jpeg', '
 
 }
 
-const subirCSV = (file, carpeta = '') => {
-
-    return new Promise((resolve, reject) => {
-
-        const uploadPath = path.join(__dirname, '../temp/', 'fichero.csv');
-
-        file.mv(uploadPath, (err) => {
-            if (err) {
-                reject(err);
-            }
-
-            resolve(uploadPath);
-        });
-
-    });
-
-}
-
 module.exports = {
     subirArchivo,
-    subirCSV
 }

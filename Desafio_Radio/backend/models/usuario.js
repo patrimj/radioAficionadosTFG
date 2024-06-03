@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'usuario_secundarias',
         foreignKey: 'id_usuario'
       });
+
+      this.hasMany(models.RolAsignado, { 
+        as: 'rol', 
+        foreignKey: 'id_usuario' });
     }
   }
   Usuario.init({

@@ -1,0 +1,97 @@
+<div class="container">
+
+
+    <div class="row">
+
+        <select name="usuario" [(ngModel)]="contactosRegistrado.id_usuario"
+            class="form-control form-select-lg mb-3 rounded-pill">
+            <option value="" disabled selected>Selecciona el usuario</option>
+            @for(usuario of usuarios; track usuario.id){
+            <option value="{{usuario.id}}">{{usuario.id_examen}}</option>
+            }
+        </select>
+
+        <div class="col">
+            <h2>Registrar un contacto en una actividad de un único contacto</h2>
+            <select name="actividad" [(ngModel)]="contactosRegistrado.id_secundaria"
+                (change)="modalidadActividad(contactosRegistrado.id_secundaria)"
+                class="form-control form-select-lg mb-3 rounded-pill">
+                <option value="" disabled selected>Selecciona la actividad</option>
+                @for(actividadUnico of actividadesUnico; track actividadUnico.id){
+                <option value="{{actividadUnico.id}}">{{actividadUnico.nombre}}</option>
+                }
+            </select>
+            <p>Su modalidad es: {{modalidad}}</p>
+            <button class="btn btn-primary" (click)="registrarContacto()">Registrar Contacto</button>
+        </div>
+
+        <div class="col">
+            <h2>Registrar un contacto en una actividad de varios contactos</h2>
+            <select name="concurso" [(ngModel)]="concurso.id"     (change)="solucionConcurso(concurso.id); actividadesVariosContactos(concurso.id); premiosUsuarioConcurso(contactosRegistrado.id_usuario,concurso.id)"
+                class="form-control form-select-lg mb-3 rounded-pill">
+                <option value="" disabled selected>Selecciona el concurso</option>
+                @for(concurso of concursos; track concurso.id){
+                <option value="{{concurso.id}}">{{concurso.nombre}}</option>
+                }
+            </select>
+            <p>Su solución es: {{solucion.solucion}}</p>
+            <select name="actividad" [(ngModel)]="contactosRegistrado.id_secundaria"
+                (change)="premioActividad(actividadVarios.id)"
+                class="form-control form-select-lg mb-3 rounded-pill">
+                <option value="" disabled selected>Selecciona la actividad</option>
+                @for(actividadVarios of actividadesVarios; track actividadVarios.id){
+                <option value="{{actividadVarios.id}}">{{actividadVarios.nombre}}</option>
+                }
+            </select>
+            <p>Premio de la actividad: {{premio.premio}}</p>
+            <p>El aficionado lleva los siguientes premios: {{premiosTotales}}</p>
+            <button class="btn btn-primary" (click)="registrarContacto()">Registrar Contacto</button>
+        </div>
+        <p-messages [(value)]="mensaje" class="messages-top-right" [enableService]="false"
+            [closable]="true"></p-messages>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle mb-0 text-center">
+            <thead class="text-center bg-light">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Indicativo</th>
+                    <th>Email</th>
+                    <th>Actividades y sus premios</th>
+
+                </tr>
+            </thead>
+            <tbody class="text-center bg-light">
+                @for(contactoDetalle of contactoDetalles; track contactoDetalle.id) {
+                <tr>
+                    <td>{{contactoDetalle.nombre | titlecase }}</td>
+                    <td>{{contactoDetalle.id_examen}}</td>
+                    <td>{{contactoDetalle.email}}</td>
+                    <td>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Actividad</th>
+                                    <th>Premio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @for(usuario_secundaria of contactoDetalle.usuario_secundarias; track
+                                usuario_secundaria.id) {
+                                <tr>
+                                    <td>{{usuario_secundaria.act_secundaria.nombre}}</td>
+                                    <td>{{usuario_secundaria.premio || 'N/A'}}</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

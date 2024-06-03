@@ -1,12 +1,7 @@
 const Conexion = require('./ConexionSequelize');
-const { Sequelize, Op } = require('sequelize'); // Op es para los operadores de sequelize
-const models = require('../models/index.js'); //Esto tiene acceso a todos los modelos., lo genera solo el sequelize-cli
+const { Sequelize, Op } = require('sequelize');
+const models = require('../models/index.js');
 const bcrypt = require("bcrypt");
-const ConexionActividades = require("./actividades.conexion");
-
-const { subirArchivo} = require('../helpers/subir-archivo');
-
-const COD_INCORRECTO = 0;
 
 class UsuarioConexion {
 
@@ -22,22 +17,20 @@ class UsuarioConexion {
         this.conexion.desconectar();
     }
 
-    // ---------------------------- RUTAS CUALQUIER USUARIO ----------------------------
+    /************************************************************************************************************************************
+     * Nombre consulta: login                                                                                                           *                                                                                                  
+     * Descripción: Esta consulta permite iniciar sesión si el usuario está registrado en la base de datos                              *                                                      
+     * Parametros: email y password                                                                                                     *            
+     * Pantalla: Login                                                                                                                  *                                                                                                            
+     * Rol: aficionado, admin, operador                                                                                                 *                                                                                                                   
+     ***********************************************************************************************************************************/
 
-    //LOGIN
-
-    /**
-     *
-     * @param email
-     * @param password
-     * @returns
-     * @author JuanNavarrete
-     */
     login = async (email, password) => {
         try {
             this.conectar();
 
             const usuario = await models.Usuario.findOne({
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: { email: email },
                 include: {
                     model: models.Rol,
@@ -45,273 +38,157 @@ class UsuarioConexion {
                 }
             });
 
-            this.desconectar();
-
-            if (!usuario) return 0;
             const passwordCorrecta = await bcrypt.compare(password, usuario.password)
 
-            if (!passwordCorrecta) return COD_INCORRECTO
-
-            console.log('LOGIN', usuario);
-
-            return usuario;
-        } catch (e) {
-            console.log(e.message)
-            return false;
-        }
-    }
-
-    // REGISTRO
-
-    // CAMBIAR CONTRASEÑA
-    cambiarContrasena = async (req) => {
-        try {
-            this.conectar();
-
-            const contrasenaHasheada = await bcrypt.hash(req.body.password, 10);
-
-            const actualizados = await models.Usuario.update(
-                {password: contrasenaHasheada},
-                {where: { id: req.params.id }}
-            );
-
-            this.desconectar();
-
-            if (!actualizados) return false;
-
-            return actualizados.length > 0;
-        } catch (e) {
-            console.log(e.message)
-            return false;
-        }
-    }
-
-
-    // VER PERFIL
-    verPerfil = async (req) => {
-        try {
-            this.conectar();
-
-            const usuario = await models.Usuario.findOne({where: { id: req.params.id }});
-
-            this.desconectar();
-
-            if (!usuario) return false;
-
-            return usuario;
-        } catch (e) {
-            console.log(e.message)
-            return false;
-        }
-    }
-
-    // MODIFICAR PERFIL 
-    modificarPerfil = async (req) => {
-        try {
-            this.conectar();
-
-            const usuario = await models.Usuario.update(req.body, {where: {id: req.params.id}});
-
-            this.desconectar();
-
-            if (!usuario) return false;
-
-            return usuario;
-        } catch (e) {
-            console.error(e.message)
-            return false;
-        }
-    }
-
-    // NOTICIAS
-
-    mostrarNoticias = async () => {
-        let resultados = [];
-        this.conectar();
-        resultados = await models.Noticias.findAll({
-            order: [
-                ['fecha', 'ASC']
-            ]
-        });
-        this.desconectar();
-        return resultados;
-    }
-
-    // ---------------------------- RUTAS ADMINISTRADOR ----------------------------
-
-    // ELIMINAR NOTICIAS
-
-    eliminarNoticia = async (id) => {
-        try {
-            this.conectar();
-            let resultado = await models.Noticias.findByPk(id);
-            if (!resultado) {
+            if (!passwordCorrecta) {
                 this.desconectar();
-                throw error;
-            }
-            await resultado.destroy();
-            this.desconectar();
-            return resultado;
-        } catch (error) {
-            this.desconectar();
-            console.error('Error al eliminar una noticia', error);
-            throw error;
-        }
-    }
-
-    // MODIFICAR NOTICIAS
-
-    modificarNoticia = async (id, body) => {
-        try {
-            this.conectar();
-            let resultado = await models.Noticias.findByPk(id);
-            if (!resultado) {
+                console.error('La contraseña es incorrecta');
+                throw new Error("Contraseña incorrecta");
+            } else {
                 this.desconectar();
-                throw error;
+                console.log('LOGIN', usuario);
+                return usuario;
             }
-            await resultado.update(body);
-            this.desconectar();
-            return resultado;
+
         } catch (error) {
             this.desconectar();
-            console.error('Error al modificar una noticia', error);
+            console.error('Error al iniciar sesión', error);
             throw error;
         }
     }
 
-    // CREAR NOTICIAS
+    /************************************************************************************************************************************
+     * Nombre consulta: registro                                                                                                        *
+     * Descripción: Esta consulta permite registrar un usuario en la base de datos                                                      *
+     * Parametros: email, password, nombre, apellido_uno, apellido_dos, url_foto, id_examen                                             *
+     * Pantalla: Registro                                                                                                               *
+     * Rol: aficionado, admin, operador                                                                                                 *
+     * Nota: El id_rol siempre será 3, ya que es el rol "aficionado"                                                                    *
+     ***********************************************************************************************************************************/
 
-    crearNoticia = async (body) => {
+    registro = async (usuario) => {
         try {
             this.conectar();
-            let resultado = await models.Noticias.create(body);
+
+            const contrasenaHasheada = await bcrypt.hash(usuario.password, 10);
+
+            const nuevoUsuario = await models.Usuario.create({
+                email: usuario.email,
+                password: contrasenaHasheada,
+                nombre: usuario.nombre,
+                apellido_uno: usuario.apellido_uno,
+                apellido_dos: usuario.apellido_dos,
+                url_foto: usuario.url_foto,
+                id_examen: usuario.id_examen
+            });
+
+            const rolAsignado = await models.RolAsignado.create({
+                id_rol: usuario.id_rol,
+                id_usuario: nuevoUsuario.id
+            });
+
             this.desconectar();
-            return resultado;
+            return nuevoUsuario;
+
         } catch (error) {
             this.desconectar();
-            console.error('Error al crear la noticia:', error);
+            if (error instanceof Sequelize.UniqueConstraintError) {
+                console.error(`El email ${usuario.email} ya existe en la base de datos.`);
+            } else {
+                console.error('Error al registrar el usuario', error);
+            }
             throw error;
         }
     }
 
-    // VER USUARIOS CON SU ROL
+    /************************************************************************************************************************************
+    * Nombre consulta: buscarUsuario                                                                                                    *
+    * Descripción: Esta consulta permite buscar un usuario en la base de datos por su nombre                                            *
+    * Parametros: nombre                                                                                                                *
+    * Pantalla: Gestion de Usuarios                                                                                                     *
+    * Rol: administrador                                                                                                                *
+    ************************************************************************************************************************************/
 
-    mostrarUsuarios = async () => {
+    buscarUsuario = async (nombre) => {
         try {
-            let resultados = [];
             this.conectar();
-            resultados = await models.Usuario.findAll({
+
+            const usuarios = await models.Usuario.findAll({
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
                     nombre: {
-                        [Op.ne]: '' 
-                    }
-                },
-                include: [{
-                    model: models.Rol,
-                    through: {
-                        model: models.RolAsignado,
-                        attributes: [],
+                        [models.Sequelize.Op.like]: `%${nombre}%` 
                     },
-                    as: 'roles',
-                    attributes: ['nombre']
-                }]
+                    deleted_at: null
+                }
             });
             this.desconectar();
-            return resultados;
+            return usuarios;
         } catch (error) {
             this.desconectar();
-            console.error('Error al mostrar los usuarios:', error);
+            console.error('Error al buscar el usuario', error);
             throw error;
         }
     }
-    // VER UN USUARIO
 
-    /**
-     *
-     * @param {Request} req
-     * @returns {Promise<Model|null|number|boolean>} - Devuelve `Object` si hay coincidencias, `0` si no hay coincidencias, `false` si ha ocurrido un error.
-     * @author JuanNavarrete
-     */
-    mostrarUsuario = async (req) => {
+    /************************************************************************************************************************************
+    * Nombre consulta: mostrarIdUsuarioPorIndicativo                                                                                    *
+    * Descripción: Esta consulta permite buscar a un usuario por su indicativo en la base de datos                                      *
+    * Parametros: id_examen                                                                                                             *
+    * Pantalla: Gestion de Usuarios                                                                                                     *
+    * Rol: administrador                                                                                                                *
+    ************************************************************************************************************************************/
+
+    mostrarIdUsuarioPorIndicativo = async (id_examen) => {
         try {
             this.conectar();
-
-            const resultados = await models.Usuario.findByPk(req.params.id);
-
-            this.desconectar();
-
-            if (!resultados) return COD_INCORRECTO;
-
-            return resultados;
-        } catch (error) {
-            console.log(error)
-
-            return false;
-        }
-    }
-
-    //VER UN USUARIO POR EMAIL
-
-    mostrarUsuarioPorEmail = async (email) => {
-        try {
-            this.conectar();
-            const usuario = await models.Usuario.findOne({
+            const usuario = await models.Usuario.findAll({
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
                 where: {
-                    email: email
-                },
-                include: [{
-                    model: models.Rol,
-                    through: {
-                        model: models.RolAsignado,
-                        attributes: [],
+                    id_examen: {
+                        [models.Sequelize.Op.like]: `%${id_examen}%` 
                     },
-                    as: 'roles',
-                    attributes: ['nombre']
-                }]
+                    deleted_at: null
+                }
             });
             this.desconectar();
             return usuario;
         } catch (error) {
             this.desconectar();
-            console.error('Error al mostrar el usuario por email:', error);
+            console.error('Error al buscar el usuario', error);
             throw error;
         }
     }
 
-    /**
-     * 
-     * @author ElenaRgC 
-     */
-    // VER USUARIO POR INDICATIVO
+    /************************************************************************************************************************************
+    * Nombre consulta: altaUsuarioCompleto                                                                                              *
+    * Descripción: Esta consulta permite dar de alta a un usuario en la base de datos con roles asignados                               *
+    * Parametros: email, nombre, apellido_uno, apellido_dos, url_foto, id_examen, id_rol                                                * 
+    * Pantalla: Gestion de Usuarios                                                                                                     *
+    * Rol: administrador                                                                                                                *
+    * Nota: la contraseña se manda por correo                                                                                           *
+    ************************************************************************************************************************************/
 
-    mostrarIdUsuarioPorIndicativo = async (indicativo) => {
-        try {
-            this.conectar();
-            const usuario = await models.Usuario.findOne({
-                where: {
-                    id_examen: indicativo
-                },
-                attributes: ['id']
-            });
-            this.desconectar();
-            return usuario ? usuario.id : null;
-        } catch (error) {
-            this.desconectar();
-            throw error;
-        }
-    }
+    altaUsuarioCompleto = async (usuario, id_rol = 3) => {
 
-    // ALTA USUARIO
-
-    altaUsuario = async (body) => {
-        let resultado = 0;
         this.conectar();
+        let resultado;
         try {
-            const usuarioNuevo = await models.Usuario.create(body);
-            resultado = usuarioNuevo;
+            const usuarioNuevo = await models.Usuario.create(usuario);
+            let rolAsignado;
+            if (usuarioNuevo) {
+                rolAsignado = await models.RolAsignado.create({
+                    id_rol: id_rol,
+                    id_usuario: usuarioNuevo.id
+                });
+                if (!rolAsignado) {
+                    throw new Error('Error al asignar el rol');
+                }
+            }
+            resultado = { usuario: usuarioNuevo, rol: rolAsignado };
         } catch (error) {
             if (error instanceof Sequelize.UniqueConstraintError) {
-                console.log(`El email ${body.email} ya existe en la base de datos.`);
+                console.log(`El email ${usuario.email} ya existe en la base de datos.`);
             } else {
                 console.log('Ocurrió un error desconocido: ', error);
             }
@@ -322,7 +199,13 @@ class UsuarioConexion {
         return resultado;
     }
 
-    // BAJA USUARIO
+    /************************************************************************************************************************************
+    * Nombre consulta: bajaUsuario                                                                                                      *
+    * Descripción: Esta consulta permite dar de baja a un usuario en la base de datos                                                   *
+    * Parametros: id                                                                                                                    * 
+    * Pantalla: Gestion de Usuarios                                                                                                     *
+    * Rol: administrador                                                                                                                *
+    ************************************************************************************************************************************/
 
     bajaUsuario = async (id) => {
         try {
@@ -336,7 +219,7 @@ class UsuarioConexion {
             if (rolAsignado) {
                 await rolAsignado.destroy();
             }
-            
+
             await resultado.destroy();
             this.desconectar();
             return resultado;
@@ -347,7 +230,13 @@ class UsuarioConexion {
         }
     }
 
-    // MODIFICAR USUARIO
+    /************************************************************************************************************************************
+    * Nombre consulta: modificarUsuario                                                                                                 *
+    * Descripción: Esta consulta permite modificar a un usuario en la base de datos                                                     *
+    * Parametros: id, email, nombre, apellido_uno, apellido_dos, url_foto, id_examen, id_rol                                            *
+    * Pantalla: Gestion de Usuarios                                                                                                     *
+    * Rol: administrador                                                                                                                *  
+    ************************************************************************************************************************************/
 
     modificarUsuario = async (id, body) => {
         try {
@@ -366,16 +255,24 @@ class UsuarioConexion {
             console.log(body.id_rol);
             await models.RolAsignado.update({ id_rol: body.id_rol }, { where: { id_usuario: id } });
             rolAsignado = await models.RolAsignado.findOne({ where: { id_usuario: id } });
-            console.log(rolAsignado); 
+            console.log(rolAsignado);
             this.desconectar();
 
-            return { usuario: resultado, rol: rolAsignado};
+            return { usuario: resultado, rol: rolAsignado };
         } catch (error) {
             this.desconectar();
             console.error('Error al modificar el usuario', error);
             throw error;
         }
     }
+
+    /************************************************************************************************************************************
+    * Nombre consulta: asignarRol                                                                                                       *
+    * Descripción: Esta consulta permite asignar un rol a un usuario en la base de datos                                                *
+    * Parametros: id_rol, id_usuario                                                                                                    *
+    * Pantalla: Gestion de Usuarios                                                                                                     *
+    * Rol: administrador                                                                                                                *
+    ************************************************************************************************************************************/
 
     asignarRol = async (id_rol, id_usuario) => {
         try {
@@ -405,39 +302,13 @@ class UsuarioConexion {
         }
     }
 
-    //ALTA USUARIO COMPLETO ASIGNANDO ROLES
-    altaUsuarioCompleto = async (usuario, id_rol) => {
-        let resultado = 0;
-        let rolAsignado = 0;
-        this.conectar();
-        try {
-            console.log(usuario.password)
-            usuario.password = await bcrypt.hash(usuario.password, 10);
-            const usuarioNuevo = await models.Usuario.create(usuario);
-            if (usuarioNuevo) {
-                rolAsignado = await models.RolAsignado.create({
-                    id_rol: id_rol,
-                    id_usuario: usuarioNuevo.id
-                });
-                if (!rolAsignado) {
-                    throw new Error('Error al asignar el rol');
-                }
-            }
-            resultado = { usuario: usuarioNuevo, rol: rolAsignado };
-        } catch (error) {
-            if (error instanceof Sequelize.UniqueConstraintError) {
-                console.log(`El email ${body.email} ya existe en la base de datos.`);
-            } else {
-                console.log('Ocurrió un error desconocido: ', error);
-            }
-            throw error;
-        } finally {
-            this.desconectar();
-        }
-        return resultado;
-    }
-
-    // VER USUARIO CON DIPLOMA
+    /************************************************************************************************************************************
+     * Nombre consulta: mostrarUsuarioConDiploma                                                                                        *
+     * Descripción: Esta consulta permite mostrar un usuario con diploma en la base de datos                                            *
+     * Parametros: email                                                                                                                *
+     * Pantalla: Gestion de Usuarios                                                                                                    *
+     * Rol: administrador                                                                                                               *
+     ***********************************************************************************************************************************/
 
     mostrarUsuarioConDiploma = async (email) => {
         try {
@@ -501,8 +372,13 @@ class UsuarioConexion {
         }
     }
 
-
-    //VER USUARIOS CON DIPLOMA
+    /************************************************************************************************************************************
+     * Nombre consulta: mostrarUsuariosConDiploma                                                                                       *
+     * Descripción: Esta consulta permite mostrar los usuarios con diplomas en la base de datos                                         *
+     * Parametros: email                                                                                                                *
+     * Pantalla: Gestion de Usuarios                                                                                                    *
+     * Rol: administrador                                                                                                               *
+     ***********************************************************************************************************************************/
 
     mostrarUsuariosConDiploma = async () => {
         try {
@@ -563,87 +439,44 @@ class UsuarioConexion {
         }
     }
 
-    // TODO: Ruta usuarios dentro de una act. secundaria
+    /************************************************************************************************************************************
+     * Nombre consulta: mostrarUsuarios                                                                                                 *
+     * Descripción: Esta consulta permite mostrar los usuarios en la base de datos                                                      *
+     * Parametros: ninguno                                                                                                              *
+     * Pantalla: Gestion de Usuarios                                                                                                    *
+     * Rol: administrador                                                                                                               *
+     * Nota: Se muestran los usuarios con su rol                                                                                        *
+     ************************************************************************************************************************************/
 
-    // CAMBIAR CONTRASEÑA
-    cambiarContrasenaRec = async (req) => {
+    mostrarUsuarios = async () => {
         try {
+            let resultados = [];
             this.conectar();
-
-            const contrasenaHasheada = await bcrypt.hash(req.body.password, 10);
-
-            const actualizados = await models.Usuario.update(
-                {password: contrasenaHasheada},
-                {where: { email: req.body.email }}
-            );
-
+            resultados = await models.Usuario.findAll({
+                attributes:  { exclude: ['created_at', 'updated_at', 'deleted_at'] },
+                where: {
+                    nombre: {
+                        [Op.ne]: ''
+                    }
+                },
+                include: [{
+                    model: models.Rol,
+                    through: {
+                        model: models.RolAsignado,
+                        attributes: [],
+                    },
+                    as: 'roles',
+                    attributes: ['nombre']
+                }]
+            });
             this.desconectar();
-
-            if (!actualizados) return false;
-
-            return actualizados.length > 0;
-        } catch (e) {
-            console.log(e.message)
-            return false;
-        }
-    }
-
-    /**
-     *
-     * @author JuanNavarrete
-     */
-    registrarUsuario = async (usuario) => {
-        try {
-            this.conectar();
-
-            usuario.password = await bcrypt.hash(usuario.password, 10);
-            console.log('registrar')
-
-            const user = await models.Usuario.create(usuario);
-
-            this.desconectar();
-
-            return user.id;
-        } catch (e) {
-            console.error(e)
-            return false;
-        }
-    }
-
-    /**
-     *
-     * @author JuanNavarrete
-     */
-    verRolNombre = async (nombre) => {
-        return await models.Rol.findOne({
-            where: {nombre: nombre}
-        });
-    }
-
-    /**
-     *
-     * @param {Request} req
-     * @returns {Promise<Model|null|number|boolean>} - Devuelve `Object` si hay coincidencias, `0` si no hay coincidencias, `false` si ha ocurrido un error.
-     * @author JuanNavarrete
-     */
-    mostrarRolNombre = async (nombre) => {
-        try {
-            this.conectar();
-
-            const resultados = await models.Rol.findOne({where: {nombre: req.params.nombre}});
-
-            this.desconectar();
-
-            if (!resultados) return COD_INCORRECTO;
-
             return resultados;
         } catch (error) {
-            console.log(error)
-
-            return false;
+            this.desconectar();
+            console.error('Error al mostrar los usuarios:', error);
+            throw error;
         }
     }
 }
-
 
 module.exports = UsuarioConexion;
