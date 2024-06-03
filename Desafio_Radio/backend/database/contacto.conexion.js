@@ -73,7 +73,7 @@ class ContactoConexion {
                 });
 
                 if (!registroPrincipalExistente) {
-                    await models.Usuario_principales.create({
+                    await models.usuario_principal.create({
                         id_usuario: body.id_usuario,
                         id_principal: body.id_principal
                     });

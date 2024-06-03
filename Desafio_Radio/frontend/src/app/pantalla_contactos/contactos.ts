@@ -81,6 +81,7 @@ export interface ContactosConDetallesRespuesta {
 
 export interface ContactosRegistrado {
     id_usuario: number;
+    id_primaria?: number;
     id_secundaria: number;
     premio: string | null;
 }
