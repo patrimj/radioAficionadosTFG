@@ -140,6 +140,20 @@ Esto abrirá automáticamente la aplicación en tu navegador.
       contraseña: Taylorswift22@
     ```
 
+---
+> [!NOTE]
+> El token del correo electronico (para mandar correos) tiene 24h de duración, por lo que si se quiere probar la funcionalidad de recuperar contraseña o mandar diplomas, se debe cambiar el token en el archivo `.env` en la carpeta `backend`, concretamente las credenciales `MAIL_REFRESH_TOKEN` y `MAIL_ACCESS_TOKEN`, que se obtienen de la siguiente manera:
+
+
+- [1] Ve a `Google OAuth 2.0 Playground` https://developers.google.com/oauthplayground
+- [2] En el lado derecho, haz clic en el `engranaje` para abrir la configuración.
+- [3] Marca la casilla `Use your own OAuth credentials`
+- [4] Ingresa tu `MAIL_CLIENT_ID` y `MAIL_CLIENT_SECRET`. Haz clic en "Close" para cerrar la configuración.
+- [5] En la lista de APIs a la izquierda, selecciona `Gmail API`, selecciona la primera opción y luego haz clic en "Authorize APIs".
+- [6] Serás redirigido a una página de Google para autenticarte y autorizar las APIs seleccionadas. Inicia sesión con la cuenta de Google `cbalarcosradioaficionados@gmail.com`y la contraseña que encontrarás en `.env` y autoriza las APIs.
+- [7] Serás redirigido de vuelta al Playground. Haz clic en "Exchange authorization code for tokens". Y encontrarás el `MAIL_ACCESS_TOKEN` y `MAIL_REFRESH_TOKEN` en la sección "Step 2".
+
+---
 
 ## RUTAS PERFIL
 
