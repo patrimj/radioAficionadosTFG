@@ -294,10 +294,20 @@ class ContactoConexion {
 
     getActividadesContacto = async () => {
         try {
-            let actividades = [];
+        
             this.conectar();
-            actividades = await models.ActividadSecundaria.findAll({
+
+            const actividadesEnPrincipalesSecundarias = await models.PrincipalesSecundarias.findAll({
+                attributes: ['id_secundaria']
+            });
+
+            const idsActividadesEnPrincipalesSecundarias = actividadesEnPrincipalesSecundarias.map(actividad => actividad.id_secundaria);
+
+            const actividades = await models.ActividadSecundaria.findAll({
                 where: {
+                    id: {
+                        [Op.notIn]: idsActividadesEnPrincipalesSecundarias
+                    },
                     completada: false,
                     deleted_at: null
                 },

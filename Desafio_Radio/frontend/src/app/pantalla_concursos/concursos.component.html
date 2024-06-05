@@ -268,7 +268,7 @@
             </div>
         </div>
     </div>
-
+    }
 
     <!-- Modal para Mostrar las actividades de un concurso -->
     <div class="modal fade" id="modalActividades" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
@@ -286,7 +286,8 @@
                             <div class="card mb-3">
                                 <div class="row g-0">
                                     <div class="col-md-4">
-                                        <img src="{{actividad.url_foto}}" alt="Foto de {{actividad.nombre}}" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <img src="{{actividad.url_foto}}" alt="Foto de {{actividad.nombre}}"
+                                            style="width: 50px; height: 50px; object-fit: cover;">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
@@ -320,7 +321,7 @@
         <i class="fa-regular fa-square-plus"></i>
     </button>
 
-    }
+
     <p-messages [(value)]="mensajeEliminado" class="messages-top-right" [enableService]="false"
         [closable]="true"></p-messages>
 
