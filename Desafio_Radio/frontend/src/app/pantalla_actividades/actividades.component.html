@@ -341,7 +341,7 @@
                                 style="height: 35px; background-color: #ffce9d;">
                                 <option value="" disabled selected>Selecciona la modalidad</option>
                                 @for(modalidad of modalidades; track modalidad.id){
-                                <option value="{{modalidad.id}}">{{modalidad.descripcion}}</option>
+                                    <option [value]="modalidad.id" [disabled]="modalidad.id == 2 || modalidad.id == 3">{{modalidad.descripcion}}</option>
                                 }
                             </select>
 

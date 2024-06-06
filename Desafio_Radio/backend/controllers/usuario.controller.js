@@ -54,29 +54,44 @@ const login = async (req = request, res = response) => {
  ***********************************************************************************************************************************/
 
 const registro = async (req = request, res = response) => {
-
     const conx = new ConexionUsuario();
 
-    const usuario = {
-        email: req.body.email,
-        password: req.body.password,
-        nombre: req.body.nombre,
-        apellido_uno: req.body.apellido_uno,
-        apellido_dos: req.body.apellido_dos,
-        url_foto: req.body.url_foto,
-        id_examen: req.body.id_examen,
-        id_rol: 3
-    };
+    if (!req.files || !req.files.archivo) {
+        return res.status(400).json({ msg: 'No se subió ninguna imagen' });
+    }
 
-    conx.registro(usuario)
-        .then(msg => {
-            console.log('Registro exitoso');
-            res.status(200).json({ message: 'Registro exitoso', data: msg });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ msg: 'Error al registrar usuario ' });
-        });
+    try {
+        const resultadoSubida = await subirArchivo(req.files.archivo, undefined, 'usuario');
+        if (resultadoSubida && resultadoSubida.secure_url) {
+            req.body.url_foto = resultadoSubida.secure_url;
+        } else {
+            throw new Error('Error al subir el archivo');
+        }
+
+        const usuario = {
+            email: req.body.email,
+            password: req.body.password,
+            nombre: req.body.nombre,
+            apellido_uno: req.body.apellido_uno,
+            apellido_dos: req.body.apellido_dos,
+            url_foto: req.body.url_foto,
+            id_examen: req.body.id_examen,
+            id_rol: 3
+        };
+
+        conx.registro(usuario)
+            .then(msg => {
+                console.log('Registro exitoso');
+                res.status(200).json({ message: 'Registro exitoso', data: msg });
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ msg: 'Error al registrar usuario ' });
+            });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Error al subir la imagen' });
+    }
 }
 
 /************************************************************************************************************************************
