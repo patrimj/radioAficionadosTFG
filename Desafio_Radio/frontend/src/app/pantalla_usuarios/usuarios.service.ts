@@ -276,9 +276,10 @@ export class UsuariosService {
     return JSON.parse(localStorage.getItem('usuarioDatos') || '{}');
   }
 
-  logout(): void { // elimina el usuario del localstorage
+  logout(): void { // elimina el usuario del localstorage y su token
     this.token = '';
     localStorage.removeItem('usuarioDatos');
+    localStorage.removeItem('token');
   }
 
 

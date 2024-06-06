@@ -57,6 +57,7 @@ export class InicioComponent implements OnInit {
     this.mostrarNoticias();
     this.administradores();
     this.mostrarOperadores();
+
   }
 
   hayRegistros() {
