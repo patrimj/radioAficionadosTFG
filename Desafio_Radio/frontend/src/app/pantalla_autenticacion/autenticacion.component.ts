@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
+
 //---Helpers---
 import { validarUsuario } from '../helpers/validaciones';
 
@@ -114,7 +115,9 @@ export class AutenticacionComponent implements OnInit {
       (respuesta) => {
         if (respuesta && respuesta.token) {
           this.mensajeLogin = [{ severity: 'success', summary: 'Bienvenido', detail: `Usuario  ${this.usuario.email} logueado` }];
-          this.router.navigate(['/inicio']); 
+          this.router.navigate(['/inicio']).then(() => {
+            window.location.reload();
+          }); 
         } else {
           this.mensajeLogin = [{ severity: 'error', summary: 'Error', detail: 'Login fallido' }];
         }
