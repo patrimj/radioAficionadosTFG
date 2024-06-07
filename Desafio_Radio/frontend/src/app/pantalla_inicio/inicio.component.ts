@@ -40,12 +40,15 @@ export class InicioComponent implements OnInit {
   noticias: Noticia[] = [];
   noticia: Noticia = { id: 0, nombre: '', fecha: new Date(), descripcion: '' };
 
-  //---Usuario---
-  adminOper: Usuario = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', password: '', url_foto: '', id_examen: '' };
-  adminOpers: Usuario[] = [];
+  //---Administradores---
+  admin: Usuario = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', password: '', url_foto: '', id_examen: '' };
+  admins: Usuario[] = [];
+  //---Operadores---
+  oper: Usuario = { id: 0, nombre: '', email: '', apellido_uno: '', apellido_dos: '', password: '', url_foto: '', id_examen: '' };
+  opers: Usuario[] = [];
 
   //---Recursos---
-  usuario: Usuario | null = null;
+
   noticiaSeleccionada: boolean = false;
 
   datosLogin = JSON.parse(localStorage.getItem('usuarioDatos')!) || null;
@@ -67,18 +70,18 @@ export class InicioComponent implements OnInit {
   // COMPROBAR SI EL USUARIO ES ADMIN
 
   esAdmin(): boolean {
-    let esAdmin = false; 
+    let esAdmin = false;
 
     if (this.datosLogin && this.datosLogin.roles) {
-        for (let i = 0; i < this.datosLogin.roles.length; i++) {
-            if (this.datosLogin.roles[i].RolAsignado && this.datosLogin.roles[i].RolAsignado.id_rol === 1) {
-                esAdmin = true;
-                break; 
-            }
+      for (let i = 0; i < this.datosLogin.roles.length; i++) {
+        if (this.datosLogin.roles[i].RolAsignado && this.datosLogin.roles[i].RolAsignado.id_rol === 1) {
+          esAdmin = true;
+          break;
         }
+      }
     }
-    return esAdmin; 
-}
+    return esAdmin;
+  }
 
 
 
@@ -200,15 +203,15 @@ export class InicioComponent implements OnInit {
 
   administradores() {
     this.inicioService.mostrarAdministradores().subscribe((admin) => {
-      this.adminOpers = admin.data;
+      this.admins = admin.data;
     })
   }
 
   // MOSTRAR OPERADORES
 
   mostrarOperadores() {
-    this.inicioService.mostrarAdministradores().subscribe((oper) => {
-      this.adminOpers = oper.data;
+    this.inicioService.mostrarOperadores().subscribe((oper) => {
+      this.opers = oper.data;
     })
   }
 
