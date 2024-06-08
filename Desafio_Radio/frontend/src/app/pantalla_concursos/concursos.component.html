@@ -1,4 +1,4 @@
-<div class="container" style="width: 90%;">
+<div class="container" style="padding: 80px;">
 
     <select name="tipoConcurso" id="tipoConsulta" [(ngModel)]="tipoConcurso" (change)="cargarConcursos()"
         class="form-select form-select-lg mb-3 rounded-pill" style="height: 35px;  background-color: #ffce9d;">
@@ -12,18 +12,18 @@
 
     <!--BUSCADOR POR NOMBRE DEL CONCURSO -->
 
-    <div class="input-group d-flex justify-content-center mt-4">
+    <div class="input-group d-flex justify-content-end mt-4">
         <div class="form-outline" data-mdb-input-init>
             <input type="text" placeholder="Buscar por nombre" [(ngModel)]="nombreConcurso" class="form-control" />
         </div>
-        <button (click)="mostrarConcursoNombre(nombreConcurso)" class="btn btn-primary mb-3">Buscar
-            <i class="fas fa-search"></i>
+        <button (click)="mostrarConcursoNombre(nombreConcurso)" class="btn btn-primary mb-3"> <i
+                class="fas fa-search"></i>
         </button>
     </div>
 
     <!--TODOS LOS CONCURSOS (TERMINADOS Y PENDIENTES) -->
 
-    <div class="card shadow mr-3" style="background-color: #dd5b4dbc;">
+    <div class="card shadow" style="background-color: #dd5b4dbc;">
         @if (tipoConcurso === 'todas') {
         <div class="card-header text-center" style="background-color: #ffb062;">
             <h2 class="mt-3" style="color: #fff5e6;">CONCURSOS</h2>
@@ -40,26 +40,30 @@
                                     class="img-fluid shadow border-radius-xl">
                             </a>
                         </div>
-                        <div class="card-body px-1 pb-0 w-100">
+                        <div class="card-body justify-content-center align-items-center w-100"
+                            style="padding: 20px 20px;">
                             <a href="javascript:;" class="text-center">
                                 <h5 style="font-size: 30px; color: #dd5b4d;">
                                     {{concurso.nombre | titlecase}}
                                 </h5>
-                                <h6>
+                                <h6 class="mb-4">
                                     {{concurso.descripcion | titlecase}}
                                 </h6>
                             </a>
 
-                            <p class="mb-4 text-sm text-center">
+                            <p class="mb-4 mt-4 text-sm text-center"
+                                style=" border: 2px solid #dd5b4d; border-radius: 10px">
                                 Solución: {{concurso.solucion | titlecase}}
                             </p>
-                            <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
-                                Completada: {{concurso.completada ? 'Terminada' : 'Activa'}}
+                            <p class="text-sm text-center"
+                                [ngStyle]="{'background-color': concurso.completada ? '#dd5b4d' : '#ffb062'}"
+                                style="border-radius: 10px">
+                                {{concurso.completada ? 'Terminada' : 'Activa'}}
                             </p>
 
-                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
-                                data-bs-target="#modalActividades" (click)=" getActividadesPorConcurso(concurso.id)"><i
-                                    class="fas fa-edit"></i>Ver
+                            <button class="btn justify-content-end mt-4" btn-lg data-bs-toggle="modal"
+                                data-bs-target="#modalActividades" (click)=" verActividadesConcurso(concurso.id)"><i
+                                    class="fa-solid fa-eye mr-2 "></i>Ver
                                 actividades</button>
 
                             @if (esAdmin()) {
@@ -104,28 +108,30 @@
                                     class="img-fluid shadow border-radius-xl">
                             </a>
                         </div>
-                        <div class="card-body px-1 pb-0 w-100">
+                        <div class="card-body justify-content-center align-items-center w-100"
+                            style="padding: 20px 20px;">
                             <a href="javascript:;" class="text-center">
                                 <h5 style="font-size: 30px; color: #dd5b4d;">
                                     {{concurso.nombre | titlecase}}
                                 </h5>
-                                <h6>
+                                <h6 class="mb-4">
                                     {{concurso.descripcion | titlecase}}
                                 </h6>
                             </a>
 
-                            <p class="mb-4 text-sm text-center">
+                            <p class="mb-4 mt-4 text-sm text-center"
+                                style=" border: 2px solid #dd5b4d; border-radius: 10px">
                                 Solución: {{concurso.solucion | titlecase}}
                             </p>
-
-                            <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
-                                Completada: {{concurso.completada ? 'Terminada' : 'Activa'}}
+                            <p class="text-sm text-center"
+                                [ngStyle]="{'background-color': concurso.completada ? '#dd5b4d' : '#ffb062'}"
+                                style="border-radius: 10px">
+                                {{concurso.completada ? 'Terminada' : 'Activa'}}
                             </p>
 
-
-                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
-                                data-bs-target="#modalActividades" (click)=" getActividadesPorConcurso(concurso.id)"><i
-                                    class="fas fa-edit"></i>Ver
+                            <button class="btn justify-content-end mt-4" btn-lg data-bs-toggle="modal"
+                                data-bs-target="#modalActividades" (click)=" verActividadesConcurso(concurso.id)"><i
+                                    class="fa-solid fa-eye mr-2 "></i>Ver
                                 actividades</button>
 
                             @if (esAdmin()) {
@@ -170,28 +176,30 @@
                                     class="img-fluid shadow border-radius-xl">
                             </a>
                         </div>
-                        <div class="card-body px-1 pb-0 w-100">
+                        <div class="card-body justify-content-center align-items-center w-100"
+                            style="padding: 20px 20px;">
                             <a href="javascript:;" class="text-center">
                                 <h5 style="font-size: 30px; color: #dd5b4d;">
                                     {{concurso.nombre | titlecase}}
                                 </h5>
-                                <h6>
+                                <h6 class="mb-4">
                                     {{concurso.descripcion | titlecase}}
                                 </h6>
                             </a>
 
-                            <p class="mb-4 text-sm text-center">
+                            <p class="mb-4 mt-4 text-sm text-center"
+                                style=" border: 2px solid #dd5b4d; border-radius: 10px">
                                 Solución: {{concurso.solucion | titlecase}}
                             </p>
-
-                            <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
-                                Completada: {{concurso.completada ? 'Terminada' : 'Activa'}}
+                            <p class="text-sm text-center"
+                                [ngStyle]="{'background-color': concurso.completada ? '#dd5b4d' : '#ffb062'}"
+                                style="border-radius: 10px">
+                                {{concurso.completada ? 'Terminada' : 'Activa'}}
                             </p>
 
-
-                            <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
-                                data-bs-target="#modalActividades" (click)=" getActividadesPorConcurso(concurso.id)"><i
-                                    class="fas fa-edit"></i>Ver
+                            <button class="btn justify-content-end mt-4" btn-lg data-bs-toggle="modal"
+                                data-bs-target="#modalActividades" (click)=" verActividadesConcurso(concurso.id)"><i
+                                    class="fa-solid fa-eye mr-2 "></i>Ver
                                 actividades</button>
 
                             @if (esAdmin()) {
@@ -227,11 +235,12 @@
     <div class="modal fade" id="modalNueva" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Crea y modifica los concursos</h5>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
-                            class="fa-solid fa-xmark"></i></button>
-                </div>
+                <div class="modal-header text-center align-items-center "
+                style="background-color: #dd5b4d; padding: 10px 30px;">
+                <h2 style="color: #fff5e6;">Crea y modifica los concursos</h2>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
                 <div class="modal-body">
                     <div class="d-flex justify-content-end">
                         <button class="btn btn-info" (click)="deseleccionarPrincipal()"><i
@@ -278,31 +287,40 @@
     <div class="modal fade" id="modalActividades" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Actividades del Concurso</h5>
+                <div class="modal-header text-center align-items-center "
+                    style="background-color: #dd5b4d; padding: 10px 30px;">
+                    <h2 style="color: #fff5e6;">Sus actividades</h2>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
                             class="fa-solid fa-xmark"></i></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="background-color: #ffb062; padding: 10px 30px;">
                     <div class="row">
                         <div class="col-12">
                             @for(actividad of actividades; track actividad.id){
                             <div class="card mb-3">
                                 <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="{{actividad.url_foto}}" alt="Foto de {{actividad.nombre}}"
-                                            style="width: 50px; height: 50px; object-fit: cover;">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{actividad.nombre | titlecase}}</h5>
-                                            <p class="card-text">Localización: {{actividad.localizacion | titlecase}}</p>
+                                    <div class="col-md-12">
+                                        <div class="card-header"
+                                            style="background-color: #fff5e6; padding: 30px 30px; ">
+                                            <h5 class="card-title" style="margin: 0px !important;">{{actividad.nombre |
+                                                titlecase}}</h5>
+                                        </div>
+                                        <div class="card-body" style="background-color: #fff5e6; padding: 30px 30px;">
+
+                                            <p class="card-text">Localización: {{actividad.localizacion | titlecase}}
+                                            </p>
                                             <p class="card-text">Fecha: {{actividad.fecha | date:'shortDate'}}</p>
                                             <p class="card-text">Frecuencia: {{actividad.frecuencia | titlecase}}</p>
                                             <p class="card-text">Banda: {{actividad.banda | titlecase}}</p>
-                                            <p class="card-text">Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
-                                            <p class="card-text">Modalidad: {{actividad.modalidad.descripcion | titlecase}}</p>
+
+                                            <p class="card-text">Modalidad: {{actividad.modalidad.descripcion |
+                                                titlecase}}</p>
                                             <p class="card-text">Modo: {{actividad.modo.nombre | titlecase}}</p>
+                                            <p class="text-sm text-center"
+                                                [ngStyle]="{'background-color': actividad.completada ? '#dd5b4d' : '#ffb062'}"
+                                                style="border-radius: 10px">
+                                                {{actividad.completada ? 'Terminada' : 'Activa'}}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -311,9 +329,6 @@
                         </div>
 
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

@@ -23,10 +23,6 @@ import {
 
 import { Actividad } from "../pantalla_perfil/perfiles";
 
-import {
-  Usuario
-} from "../pantalla_inicio/inicio";
-
 //---Helpers---
 import { validarConcurso } from '../helpers/validaciones';
 
@@ -272,15 +268,21 @@ export class ConcursosComponent implements OnInit {
   // MOSTRAR CONCURSO NOMBRE
 
   mostrarConcursoNombre(nombre: string) {
-    this.concursoService.mostrarConcursoNombre(nombre).subscribe((respuesta) => {
-      this.concursos = respuesta.data;
-    })
-  }
+    if (nombre.trim() === '') {
+        this.concursoService.mostrarConcursos().subscribe((respuesta) => {
+            this.concursos = respuesta.data;
+        });
+    } else {
+        this.concursoService.mostrarConcursoNombre(nombre).subscribe((respuesta) => {
+            this.concursos = respuesta.data;
+        });
+    }
+}
 
   // VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla Perfil (actividadRoutes) ***
 
-  getActividadesPorConcurso(idPrincipal: number) {
-    this.perfilService.getActividadesPorConcurso(idPrincipal).subscribe((actividad) => {
+  verActividadesConcurso(idPrincipal: number) {
+    this.concursoService.verActividadesConcurso(idPrincipal).subscribe((actividad) => {
       this.actividades = actividad.data;
     })
   }

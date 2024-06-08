@@ -13,6 +13,7 @@ import {
     ParticipantesConcursoRespuesta  
 } from "./concursos";
 
+import {  RespuestaActividadesVarios } from "../pantalla_perfil/perfiles";
 
 @Injectable({
     providedIn: 'root'
@@ -190,8 +191,8 @@ export class ConcursosService {
 
     // VER ACTIVIDADES DE UN CONCURSO (MODAL) (AFICIONADO) *** Pantalla Perfil (actividadRoutes) ***
 
-    verActividadesConcurso(id_principal: number): Observable<ConcursoRespuesta> {
-        return this.http.get<ConcursoRespuesta>(`${this.baseUrl}/concurso/actividades/${id_principal}`, { params: { auth: 'true' } }).pipe(
+    verActividadesConcurso(id_principal: number): Observable<RespuestaActividadesVarios> {
+        return this.http.get<RespuestaActividadesVarios>(`${this.baseUrl}/concurso/actividades/${id_principal}`).pipe(
             tap(response => {
                 if (response) {
                     console.log('Actividades:', response)
