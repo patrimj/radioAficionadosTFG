@@ -43,31 +43,31 @@
                         <div class="card-body px-1 pb-0 w-100">
                             <a href="javascript:;" class="text-center">
                                 <h5 style="font-size: 30px; color: #dd5b4d;">
-                                    {{actividad.nombre}}
+                                    {{actividad.nombre | titlecase}}
                                 </h5>
                                 <h6>
-                                    {{actividad.fecha}}
+                                    {{actividad.fecha | date:'shortDate' }} 
                                 </h6>
                             </a>
 
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
-                                Localización: {{actividad.localizacion}}
+                                Localización: {{actividad.localizacion | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
-                                Frecuencia: {{actividad.frecuencia}}
+                                Frecuencia: {{actividad.frecuencia | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
-                                Banda: {{actividad.banda}}
+                                Banda: {{actividad.banda | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
-                                Modalidad: {{actividad.modalidad?.descripcion}}
+                                Modalidad: {{actividad.modalidad?.descripcion | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
-                                Modo: {{actividad.modo?.nombre}}
+                                Modo: {{actividad.modo?.nombre| titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
@@ -77,7 +77,7 @@
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
                                 @if (actividad.act_primarias && actividad.act_primarias.length > 0 &&
                                 actividad.act_primarias[0].nombre){
-                                Concurso: {{actividad.act_primarias[0].nombre}}
+                                Concurso: {{actividad.act_primarias[0].nombre | titlecase}}
                                 }
                             </p>
 
@@ -131,31 +131,31 @@
                         <div class="card-body px-1 pb-0 w-100">
                             <a href="javascript:;" class="text-center">
                                 <h5 style="font-size: 30px; color: #dd5b4d;">
-                                    {{actividad.nombre}}
+                                    {{actividad.nombre | titlecase}}
                                 </h5>
                                 <h6>
-                                    {{actividad.fecha}}
+                                    {{actividad.fecha | date:'shortDate'}}
                                 </h6>
                             </a>
 
                             <p class="mb-4 text-sm text-center">
-                                Localización: {{actividad.localizacion}}
+                                Localización: {{actividad.localizacion | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Frecuencia: {{actividad.frecuencia}}
+                                Frecuencia: {{actividad.frecuencia | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Banda: {{actividad.banda}}
+                                Banda: {{actividad.banda | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Modalidad: {{actividad.modalidad?.descripcion}}
+                                Modalidad: {{actividad.modalidad?.descripcion | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Modo: {{actividad.modo?.nombre}}
+                                Modo: {{actividad.modo?.nombre | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
@@ -165,7 +165,7 @@
                             <p class="mb-4 text-sm text-center">
                                 @if (actividad.act_primarias && actividad.act_primarias.length > 0 &&
                                 actividad.act_primarias[0].nombre){
-                                Concurso: {{actividad.act_primarias[0].nombre}}
+                                Concurso: {{actividad.act_primarias[0].nombre | titlecase}}
                                 }
                             </p>
 
@@ -221,31 +221,31 @@
                         <div class="card-body px-1 pb-0 w-100">
                             <a href="javascript:;" class="text-center">
                                 <h5 style="font-size: 30px; color: #dd5b4d;">
-                                    {{actividad.nombre}}
+                                    {{actividad.nombre | titlecase}}
                                 </h5>
                                 <h6>
-                                    {{actividad.fecha}}
+                                    {{actividad.fecha | date:'shortDate'}}
                                 </h6>
                             </a>
 
                             <p class="mb-4 text-sm text-center">
-                                Localización: {{actividad.localizacion}}
+                                Localización: {{actividad.localizacion | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Frecuencia: {{actividad.frecuencia}}
+                                Frecuencia: {{actividad.frecuencia | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Banda: {{actividad.banda}}
+                                Banda: {{actividad.banda | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Modalidad: {{actividad.modalidad?.descripcion}}
+                                Modalidad: {{actividad.modalidad?.descripcion | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center">
-                                Modo: {{actividad.modo?.nombre}}
+                                Modo: {{actividad.modo?.nombre | titlecase}}
                             </p>
 
 
@@ -256,7 +256,7 @@
                             <p class="mb-4 text-sm text-center">
                                 @if (actividad.act_primarias && actividad.act_primarias.length > 0 &&
                                 actividad.act_primarias[0].nombre){
-                                Concurso: {{actividad.act_primarias[0].nombre}}
+                                Concurso: {{actividad.act_primarias[0].nombre | titlecase}}
                                 }
                             </p>
 
@@ -496,7 +496,7 @@
                                         alt="Foto de {{participante.usuario_secundarias_secundarias.nombre}}"
                                         style="border-radius: 50%; width: 50px; height: 50px;">
                                 </td>
-                                <td>{{participante.usuario_secundarias_secundarias.nombre}}</td>
+                                <td>{{participante.usuario_secundarias_secundarias.nombre | titlecase}}</td>
                                 <td>{{participante.usuario_secundarias_secundarias.id_examen}}</td>
                             </tr>
                             }

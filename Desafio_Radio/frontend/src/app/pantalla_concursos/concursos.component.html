@@ -43,15 +43,15 @@
                         <div class="card-body px-1 pb-0 w-100">
                             <a href="javascript:;" class="text-center">
                                 <h5 style="font-size: 30px; color: #dd5b4d;">
-                                    {{concurso.nombre}}
+                                    {{concurso.nombre | titlecase}}
                                 </h5>
                                 <h6>
-                                    {{concurso.descripcion}}
+                                    {{concurso.descripcion | titlecase}}
                                 </h6>
                             </a>
 
                             <p class="mb-4 text-sm text-center">
-                                Solución: {{concurso.solucion}}
+                                Solución: {{concurso.solucion | titlecase}}
                             </p>
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
                                 Completada: {{concurso.completada ? 'Terminada' : 'Activa'}}
@@ -100,22 +100,22 @@
                         style="background-color: #ffd4aa;">
                         <div class="position-relative w-100">
                             <a class="d-inline shadow-xl border-radius-xl">
-                                <img src="{{concurso.url_foto}}" alt="Fotografía de {{concurso.nombre}}"
+                                <img src="{{concurso.url_foto}}" alt="Fotografía de {{concurso.nombre }}"
                                     class="img-fluid shadow border-radius-xl">
                             </a>
                         </div>
                         <div class="card-body px-1 pb-0 w-100">
                             <a href="javascript:;" class="text-center">
                                 <h5 style="font-size: 30px; color: #dd5b4d;">
-                                    {{concurso.nombre}}
+                                    {{concurso.nombre | titlecase}}
                                 </h5>
                                 <h6>
-                                    {{concurso.descripcion}}
+                                    {{concurso.descripcion | titlecase}}
                                 </h6>
                             </a>
 
                             <p class="mb-4 text-sm text-center">
-                                Solución: {{concurso.solucion}}
+                                Solución: {{concurso.solucion | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
@@ -173,15 +173,15 @@
                         <div class="card-body px-1 pb-0 w-100">
                             <a href="javascript:;" class="text-center">
                                 <h5 style="font-size: 30px; color: #dd5b4d;">
-                                    {{concurso.nombre}}
+                                    {{concurso.nombre | titlecase}}
                                 </h5>
                                 <h6>
-                                    {{concurso.descripcion}}
+                                    {{concurso.descripcion | titlecase}}
                                 </h6>
                             </a>
 
                             <p class="mb-4 text-sm text-center">
-                                Solución: {{concurso.solucion}}
+                                Solución: {{concurso.solucion | titlecase}}
                             </p>
 
                             <p class="mb-4 text-sm text-center" style="background-color:#dd5b4d; border-radius: 10px">
@@ -295,14 +295,14 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <h5 class="card-title">{{actividad.nombre}}</h5>
-                                            <p class="card-text">Localización: {{actividad.localizacion}}</p>
-                                            <p class="card-text">Fecha: {{actividad.fecha}}</p>
-                                            <p class="card-text">Frecuencia: {{actividad.frecuencia}}</p>
-                                            <p class="card-text">Banda: {{actividad.banda}}</p>
+                                            <h5 class="card-title">{{actividad.nombre | titlecase}}</h5>
+                                            <p class="card-text">Localización: {{actividad.localizacion | titlecase}}</p>
+                                            <p class="card-text">Fecha: {{actividad.fecha | date:'shortDate'}}</p>
+                                            <p class="card-text">Frecuencia: {{actividad.frecuencia | titlecase}}</p>
+                                            <p class="card-text">Banda: {{actividad.banda | titlecase}}</p>
                                             <p class="card-text">Completada: {{actividad.completada ? 'Sí' : 'No'}}</p>
-                                            <p class="card-text">Modalidad: {{actividad.modalidad.descripcion}}</p>
-                                            <p class="card-text">Modo: {{actividad.modo.nombre}}</p>
+                                            <p class="card-text">Modalidad: {{actividad.modalidad.descripcion | titlecase}}</p>
+                                            <p class="card-text">Modo: {{actividad.modo.nombre | titlecase}}</p>
                                         </div>
                                     </div>
                                 </div>

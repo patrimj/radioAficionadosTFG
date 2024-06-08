@@ -26,14 +26,14 @@ export class HeaderComponent implements OnInit {
   rol: Rol | null = null;
 
   rutas: MenuItem[] = [
-    { label: 'Inicio', command: () => this.router.navigate(['inicio']) },
-    { label: 'Concursos', command: () => this.router.navigate(['concursos']) },
-    { label: 'Actividades', command: () => this.router.navigate(['actividades']) },
-    { label: 'Gestion Usuarios', command: () => this.router.navigate(['usuarios']) },
-    { label: 'Insertar contacto', command: () => this.router.navigate(['contactos']) },
-    { label: 'Mi perfil', command: () => this.router.navigate(['perfil']) },
-    { label: 'Iniciar sesión', command: () => this.router.navigate(['autenticacion']) },
-    { label: 'Cerrar Sesión', command: () => this.cerrarSesion() }
+    { label: 'Inicio', icon: 'pi pi-home', command: () => this.router.navigate(['inicio']) },
+    { label: 'Concursos', icon: 'pi pi-globe', command: () => this.router.navigate(['concursos']) },
+    { label: 'Actividades', icon: 'pi pi-calendar', command: () => this.router.navigate(['actividades']) },
+    { label: 'Gestion Usuarios', icon: 'pi pi-users', command: () => this.router.navigate(['usuarios']) },
+    { label: 'Insertar contacto', icon: 'pi pi-user-plus', command: () => this.router.navigate(['contactos']) },
+    { label: 'Mi perfil', icon: 'pi pi-user', command: () => this.router.navigate(['perfil']) },
+    { label: 'Iniciar sesión', icon: 'pi pi-sign-in', command: () => this.router.navigate(['autenticacion']) },
+    { label: 'Cerrar Sesión', icon: 'pi pi-sign-out', command: () => this.cerrarSesion() }
   ];
   rutasRol: MenuItem[] = [];
 

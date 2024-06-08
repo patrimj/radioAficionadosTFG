@@ -1,6 +1,6 @@
 <div class="container">
     <div class="d-flex justify-content-center align-items-center mt-4">
-        <img class="mt-4 mb-4" src="../../../assets/Logo.png" alt="Imagen de logo" style="width: 50%;">
+        <img class="mt-4 mb-4" src="../../../assets/Logo.png" alt="Imagen de logo" style="width: 40%;">
     </div>
 
     <!--INTRODUCCIÓN-->
@@ -9,14 +9,16 @@
 
         <div class="card-body flex-column d-flex align-items-center mb-4 mt-4 ">
 
-            <h2 class="card-title text-center" style="color: #ffd87e;  font-size: 40px;">Bienvenidos a Radioaficionados
-                CB ALARCOS</h2>
-            <p class="card-text" style="text-align: justify; font-size: 20px; color: #fff5e6 ;">Esta asociación nace en
+            <h2 class="card-title" style="color:#F5D9AF; text-align: center;">Bienvenidos a nuestra Asociación de
+                Radioaficionados <br><span style="color:#c22741;">CB ALARCOS</span></h2>
+            <p class="card-text" style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 30px 30px;">
+                Esta asociación nace en
                 Ciudad Real de la
                 mano de una
                 serie de amigos para apoyar y promocionar todo lo referente con el mundo de la radioaficción y en
-                especial a la banda de CB.</p>
-
+                especial a la banda de CB. En nuestra asociación podrás participar en concursos y actividades
+                relacionadas con la radioafición, no lo dudes y únete.</p>
+            <button class="btn" onclick="location.href='autenticacion'">Unirme</button>
         </div>
     </div>
 
@@ -27,8 +29,14 @@
         <img class="card-img-top" src="../../../assets/noticias.png" alt="Imagen de noticia" style="width: 20%; ">
     </div>
     <div class="card shadow mb-4" style=" background-color: #181a1d68;">
-        <div class="card-header text-center" style=" background-color: #ffb062;">
-            <h2 style="color: #fff2d4;">RADIO NOTICIAS</h2>
+        <div class="card-header text-center" style=" background-color: #ffb062;  padding: 30px 30px;">
+            <h2 style="color: #c22741;">RADIO NOTICIAS</h2>
+            <p class="card-text" style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 15px 32px;">
+                Bienvenidos a la sección de noticias de la Asociación de Radioaficionados CB ALARCOS. Aquí podrás
+                encontrar información sobre concursos, actividades
+                talleres, charlas, reuniones y otros eventos que organizamos para fomentar el intercambio de
+                conocimientos y
+                experiencias entre nuestros socios. </p>
         </div>
         <ul class="list-group list-group-flush">
             @for(noticia of noticias; track noticia.id) {
@@ -102,8 +110,13 @@
 
     <!-- ADMINISTRADORES -->
     <div class="card shadow mr-3" style="background-color: #dd5b4dbc;">
-        
-        <div class="card-header text-center" style="background-color: #ffb062;">
+
+        <div class="card-header text-center" style="background-color: #ffb062;  padding: 30px 30px;">
+            <p class="card-text" style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 15px 32px;">
+                Nuestros administradores son el corazón de la asociación. Con una dedicación incansable y una pasión
+                contagiosa por la radioafición, ellos se encargan de coordinar todas las actividades y eventos. Su
+                experiencia y conocimientos son fundamentales para el funcionamiento exitoso de nuestra comunidad.
+            </p>
             <h2 class="mt-3" style="color: #fff5e6;">Nuestros Administradores</h2>
         </div>
         <div class="card-body mt-4">
@@ -136,12 +149,12 @@
         <div class="card-footer text-muted" style=" background-color: #ffb062;">
             <h6 style="color: aliceblue; text-align: center;">Asociación de Radioaficionados CB ALARCOS</h6>
         </div>
-        
+
     </div>
 
     <!-- OPERADORES -->
     <div class="card shadow mr-3" style="background-color: #dd5b4dbc;">
-  
+
         <div class="card-header text-center" style="background-color: #ffb062;">
             <h2 class="mt-3" style="color: #fff5e6;">Nuestros Operadores</h2>
         </div>
@@ -175,7 +188,7 @@
         <div class="card-footer text-muted" style=" background-color: #ffb062;">
             <h6 style="color: aliceblue; text-align: center;">Asociación de Radioaficionados CB ALARCOS</h6>
         </div>
-  
+
     </div>
 
 </div>

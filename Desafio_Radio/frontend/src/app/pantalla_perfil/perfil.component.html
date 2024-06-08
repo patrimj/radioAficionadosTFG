@@ -50,16 +50,16 @@
                     <div class="card-body px-1 pb-0 w-100">
                         <a href="javascript:;" class="text-center">
                             <h5 style="font-size: 30px; color: #dd5b4d;">
-                                {{concurso.nombre}}
+                                {{concurso.nombre | titlecase}}
                             </h5>
                             <h6>
-                                {{concurso.descripcion}}
+                                {{concurso.descripcion | titlecase}}
                             </h6>
 
                         </a>
 
                         <p class="mb-4 text-sm text-center">
-                            Solución: {{concurso.solucion}}
+                            Solución: {{concurso.solucion | titlecase}}
                         </p>
 
 
@@ -92,16 +92,16 @@
                         <h5 style="font-size: 30px; color: #dd5b4d;">
                             {{actividadUnico?.nombre}}
                         </h5>
-                        <p>Localización: {{actividadUnico.localizacion}}</p>
-                        <p>Fecha: {{actividadUnico.fecha}}</p>
-                        <p>Frecuencia: {{actividadUnico.frecuencia}}</p>
-                        <p>Banda: {{actividadUnico.banda}}</p>
+                        <p>Localización: {{actividadUnico.localizacion | titlecase}}</p>
+                        <p>Fecha: {{actividadUnico.fecha | date:'shortDate'}}</p>
+                        <p>Frecuencia: {{actividadUnico.frecuencia | titlecase}}</p>
+                        <p>Banda: {{actividadUnico.banda | titlecase}}</p>
                         <p>Completada: {{actividadUnico.completada ? 'Sí' : 'No'}}</p>
-                        <p>Modalidad: {{actividadUnico.modalidad.descripcion}}</p>
-                        <p>Modo: {{actividadUnico.modo.nombre}}</p>
+                        <p>Modalidad: {{actividadUnico.modalidad.descripcion | titlecase}}</p>
+                        <p>Modo: {{actividadUnico.modo.nombre | titlecase}}</p>
 
                         @for(act_primaria of actividadUnico.act_primarias; track act_primaria.id) {
-                        <h6>Concurso: {{act_primaria.nombre}}</h6>
+                        <h6>Concurso: {{act_primaria.nombre | titlecase}}</h6>
                         }
                         <button class="btn btn-danger mr-2"
                             (click)="pedirDiploma(actividadUnico.nombre, actividadUnico.url_foto)">Pedir
@@ -133,16 +133,16 @@
                         <h5 style="font-size: 30px; color: #dd5b4d;">
                             {{actividadVarios?.nombre}}
                         </h5>
-                        <p>Localización: {{actividadVarios.localizacion}}</p>
-                        <p>Fecha: {{actividadVarios.fecha}}</p>
+                        <p>Localización: {{actividadVarios.localizacion | titlecase}}</p>
+                        <p>Fecha: {{actividadVarios.fecha | date:'shortDate'}}</p>
                         <p>Frecuencia: {{actividadVarios.frecuencia}}</p>
-                        <p>Banda: {{actividadVarios.banda}}</p>
+                        <p>Banda: {{actividadVarios.banda | titlecase}}</p>
                         <p>Completada: {{actividadVarios.completada ? 'Sí' : 'No'}}</p>
-                        <p>Modalidad: {{actividadVarios.modalidad.descripcion}}</p>
-                        <p>Modo: {{actividadVarios.modo.nombre}}</p>
+                        <p>Modalidad: {{actividadVarios.modalidad.descripcion | titlecase}}</p>
+                        <p>Modo: {{actividadVarios.modo.nombre | titlecase}}</p>
 
                         @for(act_primaria of actividadVarios.act_primarias; track act_primaria.id) {
-                        <h6>Concurso: {{act_primaria.nombre}}</h6>
+                        <h6>Concurso: {{act_primaria.nombre | titlecase}}</h6>
                         }
                         <button class="btn btn-danger mr-2"
                             (click)="pedirDiploma(actividadVarios.nombre, actividadVarios.url_foto)">Pedir
@@ -262,16 +262,16 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <h5 class="card-title">{{actividadVarios.nombre}}</h5>
-                                            <p class="card-text">Localización: {{actividadVarios.localizacion}}</p>
-                                            <p class="card-text"> Fecha: {{actividadVarios.fecha}}</p>
-                                            <p class="card-text">Frecuencia: {{actividadVarios.frecuencia}}</p>
-                                            <p class="card-text">Banda: {{actividadVarios.banda}}</p>
+                                            <h5 class="card-title">{{actividadVarios.nombre | titlecase}}</h5>
+                                            <p class="card-text">Localización: {{actividadVarios.localizacion | titlecase}}</p>
+                                            <p class="card-text"> Fecha: {{actividadVarios.fecha | date:'shortDate'}}</p>
+                                            <p class="card-text">Frecuencia: {{actividadVarios.frecuencia | titlecase}}</p>
+                                            <p class="card-text">Banda: {{actividadVarios.banda | titlecase}}</p>
                                             <p class="card-text">Completada: {{actividadVarios.completada ? 'Sí' :
                                                 'No'}}</p>
-                                            <p class="card-text">Modalidad: {{actividadVarios.modalidad.descripcion}}
+                                            <p class="card-text">Modalidad: {{actividadVarios.modalidad.descripcion | titlecase}}
                                             </p>
-                                            <p class="card-text">Modo: {{actividadVarios.modo.nombre}}</p>
+                                            <p class="card-text">Modo: {{actividadVarios.modo.nombre | titlecase}}</p>
                                         </div>
                                     </div>
                                 </div>
