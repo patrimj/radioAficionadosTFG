@@ -25,3 +25,18 @@
     background-color: #C22741;
     color: #F5D9AF;
 }
+
+.btndif {
+    background-color: #C22741; 
+    border: none;
+    color: #F5D9AF;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btndif:hover {
+    background-color: #F5D9AF;
+    color: #C22741;
+}

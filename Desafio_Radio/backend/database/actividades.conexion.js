@@ -79,6 +79,10 @@ class ActividadConexion {
                 },
                 include: [
                     {
+                        model: models.ActividadPrincipal,
+                        as: 'act_primarias'
+                    },
+                    {
                         model: models.Modalidad,
                         as: 'modalidad',
                         attributes: ['descripcion']
@@ -118,6 +122,10 @@ class ActividadConexion {
                     deleted_at: null
                 },
                 include: [
+                    {
+                        model: models.ActividadPrincipal,
+                        as: 'act_primarias'
+                    },
                     {
                         model: models.Modalidad,
                         as: 'modalidad',

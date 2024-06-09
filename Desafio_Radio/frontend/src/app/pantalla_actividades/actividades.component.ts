@@ -11,6 +11,7 @@ import { ToastModule } from "primeng/toast";
 
 //---Servicio---
 import { ActividadesService } from './actividades.service';
+import { ContactosService } from '../pantalla_contactos/contactos.service';
 
 //---Interfaces---
 
@@ -21,12 +22,13 @@ import {
 } from "./actividades";
 
 import {
+  SolucionConcurso,
+} from "../pantalla_contactos/contactos";
+
+import {
   Concurso,
 } from "../pantalla_concursos/concursos";
 
-import {
-  Usuario
-} from "../pantalla_inicio/inicio";
 
 //---Helpers---
 import { validarActividad } from '../helpers/validaciones';
@@ -48,6 +50,8 @@ export class ActividadesComponent implements OnInit {
   //---Concursos---
   concursos: Concurso[] = [];
   concurso: Concurso = { id: 0, nombre: '', descripcion: '', url_foto: new File([], ''), completada: false, solucion: '' };
+  soluciones: SolucionConcurso[] = [];
+  solucion: SolucionConcurso = { solucion: '' };
 
   //---Actividades---
   actividades: Actividad[] = [];
@@ -106,7 +110,7 @@ export class ActividadesComponent implements OnInit {
   nombreActividad = '';
   datosLogin = JSON.parse(localStorage.getItem('usuarioDatos')!) || null;
 
-  constructor(private actividadesService: ActividadesService, private router: Router) { }
+  constructor(private actividadesService: ActividadesService,private contactosService: ContactosService, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -130,6 +134,7 @@ export class ActividadesComponent implements OnInit {
   hayRegistros() {
     return this.actividades.length > 0;
   }
+  
 
   // COMPROBAR SI EL USUARIO ES OPERADOR
 
@@ -215,15 +220,20 @@ export class ActividadesComponent implements OnInit {
   // BUSCAR ACTIVIDAD POR NOMBRE (AFICIONADO)
 
   mostrarActividadNombre(nombre: string) {
-    this.actividadesService.mostrarActividadNombre(nombre).subscribe((respuesta) => {
-      if (Array.isArray(respuesta.data)) {
-        this.actividades = respuesta.data;
-      } else {
-        this.actividades = [respuesta.data];
-      }
-    })
-  }
-
+    if (nombre.trim() === '') {
+        this.actividadesService.mostrarActividades().subscribe((respuesta) => {
+            this.actividades = respuesta.data;
+        });
+    } else {
+        this.actividadesService.mostrarActividadNombre(nombre).subscribe((respuesta) => {
+            if (Array.isArray(respuesta.data)) {
+                this.actividades = respuesta.data;
+            } else {
+                this.actividades = [respuesta.data];
+            }
+        });
+    }
+}
   // VER PARTICIPANTES ACTIVIDAD (MODAL) (AFICIONADO)
 
   verParticipantesActividad(id: number) {
@@ -252,6 +262,14 @@ export class ActividadesComponent implements OnInit {
       }
     );
   }
+
+    // MOSTRAR SOLUCIÓN CONCURSO
+
+    solucionConcurso(id_principal: number) {
+      this.contactosService.solucionConcurso(id_principal).subscribe((solucion) => {
+        this.solucion = solucion.data;
+      });
+    }
 
   // MODIFICAR ACTIVIDAD (OPERADOR)
 
@@ -526,10 +544,22 @@ export class ActividadesComponent implements OnInit {
       id_modalidad: 0,
       id_modo: 0,
       completada: false,
-      act_primarias: [],
+      act_primarias: [{ 
+        id: 0,
+        nombre: '',
+        descripcion: '',
+        url_foto: '',
+        completada: false,
+        solucion: '',
+        PrincipalesSecundarias: { 
+          id_principal: 0,
+          id_secundaria: 0,
+          premio: ''
+        }
+      }],
       modalidad: { id: 0, descripcion: '' },
       modo: { id: 0, nombre: '' }
-    }
+    };
     this.actividadSeleccionada = false;
   }
 }

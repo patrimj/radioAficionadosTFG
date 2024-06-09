@@ -2,7 +2,7 @@
     background-color: #F5D9AF; 
     border: none;
     color: #C22741;
-    padding: 15px 32px;
+    padding: 5px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -19,6 +19,25 @@
 
 h2, span, h3 {
     font-family:'Oswald', sans-serif;
+}
+
+.btndif {
+    background-color: #C22741; 
+    border: none;
+    color: #F5D9AF;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.btndif:hover {
+    background-color: #F5D9AF;
+    color: #C22741;
 }
 
 

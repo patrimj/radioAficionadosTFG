@@ -16,7 +16,7 @@
         <div class="form-outline" data-mdb-input-init>
             <input type="text" placeholder="Buscar por nombre" [(ngModel)]="nombreConcurso" class="form-control" />
         </div>
-        <button (click)="mostrarConcursoNombre(nombreConcurso)" class="btn btn-primary mb-3"> <i
+        <button (click)="mostrarConcursoNombre(nombreConcurso)" class=" btndif btn btn-primary mb-3"> <i
                 class="fas fa-search"></i>
         </button>
     </div>
@@ -63,18 +63,18 @@
 
                             <button class="btn justify-content-end mt-4" btn-lg data-bs-toggle="modal"
                                 data-bs-target="#modalActividades" (click)=" verActividadesConcurso(concurso.id)"><i
-                                    class="fa-solid fa-eye mr-2 "></i>Ver
-                                actividades</button>
+                                    class="fa-solid fa-eye mr-2 "></i>Sus actividades</button>
 
                             @if (esAdmin()) {
                             <div class="d-flex justify-content-center mt-2 mb-2">
                                 <button class="btn btn-danger btn-lg mr-3 " (click)="bajaConcurso(concurso.id)"><i
                                         class="fas fa-trash"></i></button>
-                                <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                <button class="btn btn-warning btn-lg mr-3" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
                                         class="fas fa-edit"></i></button>
-                                <button class="btn btn-warning"
-                                    (click)="terminarConcurso(concurso.id)">Finalizar</button>
+                                      
+                                <button class="btn btn-warning btn-lg"
+                                    (click)="terminarConcurso(concurso.id)"> <i class="fa-solid fa-calendar-xmark"></i></button>
                             </div>
                             }
                         </div>
@@ -131,7 +131,7 @@
 
                             <button class="btn justify-content-end mt-4" btn-lg data-bs-toggle="modal"
                                 data-bs-target="#modalActividades" (click)=" verActividadesConcurso(concurso.id)"><i
-                                    class="fa-solid fa-eye mr-2 "></i>Ver
+                                    class="fa-solid fa-eye mr-2 "></i>Sus
                                 actividades</button>
 
                             @if (esAdmin()) {
@@ -199,7 +199,7 @@
 
                             <button class="btn justify-content-end mt-4" btn-lg data-bs-toggle="modal"
                                 data-bs-target="#modalActividades" (click)=" verActividadesConcurso(concurso.id)"><i
-                                    class="fa-solid fa-eye mr-2 "></i>Ver
+                                    class="fa-solid fa-eye mr-2 "></i>Sus
                                 actividades</button>
 
                             @if (esAdmin()) {
@@ -236,12 +236,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-center align-items-center "
-                style="background-color: #dd5b4d; padding: 10px 30px;">
-                <h2 style="color: #fff5e6;">Crea y modifica los concursos</h2>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
-                        class="fa-solid fa-xmark"></i></button>
-            </div>
-                <div class="modal-body">
+                    style="background-color: #dd5b4d; padding: 10px 30px;">
+                    <h2 style="color: #fff5e6;">Crea y modifica los concursos</h2>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body" style="background-color: #ffb062; padding: 10px 30px;">
                     <div class="d-flex justify-content-end">
                         <button class="btn btn-info" (click)="deseleccionarPrincipal()"><i
                                 class="fas fa-times-circle"></i></button>
@@ -261,7 +261,7 @@
                     </p>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer"  style="background-color: #dd5b4d;">
 
                     <button class="btn btn-success mr-2" [disabled]="concursoSeleccionado" (click)="altaConcurso()"><i
                             class="fa-solid fa-circle-check"></i></button>

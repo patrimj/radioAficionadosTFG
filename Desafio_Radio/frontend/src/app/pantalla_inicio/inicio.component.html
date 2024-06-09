@@ -99,10 +99,14 @@
                 <h2 style="font-size: 30px; color: #ffd87e;">{{noticia.nombre | titlecase}}</h2>
                 <p style="font-size: 20px; color: #fff5e6; ">{{noticia.descripcion | titlecase}}</p>
                 @if (esAdmin()) {
-                <button class="btn btn-outline-danger mr-2" (click)="eliminarNoticia(noticia.id)"><i
-                        class="fas fa-trash"></i></button>
-                <button class="btn btn-outline-primary mr-2" (click)="seleccionarNoticia(noticia)"><i
-                        class="fa-solid fa-hand-pointer"></i></button>
+                <div class="text-right">
+                    <button class="btndif btn btn-outline-danger mr-2" (click)="eliminarNoticia(noticia.id)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button class="btndif btn-outline-primary mr-2" (click)="seleccionarNoticia(noticia)">
+                        <i class="fa-solid fa-hand-pointer"></i>
+                    </button>
+                </div>
                 }
             </li>
             }
