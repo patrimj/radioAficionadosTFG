@@ -93,7 +93,7 @@ export class ContactosComponent implements OnInit {
       },
       error => {
         if (error) {
-          this.mensaje = [{ severity: 'error', summary: 'Error, asegúrate de haber completado todos los campos', detail: '' }];
+          this.mensaje = [{ severity: 'error', summary: 'Error, el usuario ya está registrado en esta actividad', detail: '' }];
         }
       }
     );

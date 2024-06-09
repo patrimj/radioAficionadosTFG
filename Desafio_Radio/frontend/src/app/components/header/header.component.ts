@@ -101,6 +101,6 @@ export class HeaderComponent implements OnInit {
 
   cerrarSesion() {
     this.usuariosService.logout();
-    window.location.reload()
+    this.router.navigate(['/inicio']);
   }
 }

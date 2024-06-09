@@ -18,7 +18,7 @@
 
     <div class="input-group d-flex justify-content-end mt-4">
         <div class="form-outline" data-mdb-input-init>
-            <input type="text" placeholder="Buscar por nombre" [(ngModel)]="nombreActividad" class="form-control" />
+            <input type="text" placeholder="Buscar por nombre" [(ngModel)]="nombreActividad" class="form-control" style="background-color: #dd5b4d57;" />
         </div>
         <button (click)="mostrarActividadNombre(nombreActividad)" class=" btndif btn btn-primary mb-3">
             <i class="fas fa-search"></i>
@@ -383,32 +383,31 @@
                     </div>
 
                     <p>
-                        Nombre *:<input type="text" [(ngModel)]="actividad.nombre" class="form-control" />
+                        Nombre *:<input type="text" [(ngModel)]="actividad.nombre" class="form-control input-dif"  />
                     </p>
                     <p>
-                        Localización *:<input type="text" [(ngModel)]="actividad.localizacion" class="form-control" />
-                    </p>
-
-                    <p>
-                        Fecha *:<input type="date" [(ngModel)]="actividad.fecha" class="form-control" />
+                        Localización *:<input type="text" [(ngModel)]="actividad.localizacion" class="form-control input-dif" />
                     </p>
 
                     <p>
-                        Frecuencia *:<input type="text" [(ngModel)]="actividad.frecuencia" class="form-control" />
+                        Fecha *:<input type="date" [(ngModel)]="actividad.fecha" class="form-control input-dif" />
                     </p>
 
                     <p>
-                        Banda *:<input type="text" [(ngModel)]="actividad.banda" class="form-control" />
+                        Frecuencia *:<input type="text" [(ngModel)]="actividad.frecuencia" class="form-control input-dif" />
                     </p>
 
                     <p>
-                        Foto *: <input type="file" (change)="imagen($event)" />
+                        Banda *:<input type="text" [(ngModel)]="actividad.banda" class="form-control input-dif" />
                     </p>
 
                     <p>
-                        Modalidad *:<select name="modalidad" [(ngModel)]="actividad.id_modalidad">
-                            class="form-select form-select-lg mb-3 rounded-pill"
-                            style="height: 35px; background-color: #ffce9d;">
+                        Foto *: <input type="file" (change)="imagen($event)"  class="input-dif"/>
+                    </p>
+
+                    <p>
+                        Modalidad *:<select name="modalidad" [(ngModel)]="actividad.id_modalidad" class="form-select form-select-lg mb-3 rounded-pill"
+                        style="height: 35px;  background-color: #ffce9d;">
                             <option value="" disabled selected>Selecciona la modalidad</option>
                             @for(modalidad of modalidades; track modalidad.id){
                             <option [value]="modalidad.id" [disabled]="modalidad.id == 2 || modalidad.id == 3">
@@ -487,29 +486,29 @@
                     <p>Su solución es: {{solucion.solucion}}</p>
 
                     <p>
-                        Nombre *:<input type="text" [(ngModel)]="actividad.nombre" class="form-control" />
+                        Nombre *:<input type="text" [(ngModel)]="actividad.nombre" class="form-control input-dif" />
                     </p>
                     <p>
-                        Localización *:<input type="text" [(ngModel)]="actividad.localizacion" class="form-control" />
-                    </p>
-
-                    <p>
-                        Fecha *:<input type="date" [(ngModel)]="actividad.fecha" class="form-control" />
+                        Localización *:<input type="text" [(ngModel)]="actividad.localizacion" class="form-control input-dif" />
                     </p>
 
                     <p>
-                        Frecuencia *:<input type="text" [(ngModel)]="actividad.frecuencia" class="form-control" />
+                        Fecha *:<input type="date" [(ngModel)]="actividad.fecha" class="form-control input-dif" />
                     </p>
 
                     <p>
-                        Banda *:<input type="text" [(ngModel)]="actividad.banda" class="form-control" />
+                        Frecuencia *:<input type="text" [(ngModel)]="actividad.frecuencia" class="form-control input-dif" />
                     </p>
 
                     <p>
-                        Foto *: <input type="file" (change)="imagen($event)" />
+                        Banda *:<input type="text" [(ngModel)]="actividad.banda" class="form-control input-dif" />
+                    </p>
+
+                    <p>
+                        Foto *: <input type="file" (change)="imagen($event)" class="input-dif"/>
                     </p>
                     <p>
-                        Modalidad *:<select name="modalidad" [(ngModel)]="actividad.id_modalidad">
+                        Modalidad *:<select name="modalidad" [(ngModel)]="actividad.id_modalidad"
                             class="form-select form-select-lg mb-3 rounded-pill"
                             style="height: 35px; background-color: #ffce9d;">
                             <option value="" disabled selected>Selecciona la modalidad</option>
@@ -534,7 +533,7 @@
                     <p>
                         Premio *:<input type="text" [ngModel]="actividad.act_primarias[0].PrincipalesSecundarias.premio"
                             (ngModelChange)="actividad.act_primarias[0].PrincipalesSecundarias.premio = $event"
-                            class="form-control" />
+                            class="form-control input-dif" />
 
                     </p>
                 </div>

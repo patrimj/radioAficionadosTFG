@@ -1,18 +1,18 @@
-<div class="container">
-    <div class="row">
+<div class="container" >
+    <div class="row vh-100 d-flex align-items-center justify-content-center" style="padding: 100px 0;">
 
         <!-- FORMULARIO DE INICIO DE SESIÓN -->
 
         <div class="col-6">
 
             <div class="card shadow mb-3 mb-md-0 mr-md-3 flex-grow-1 flex-md-grow-0"
-                style="width: 100%; max-width: 65%; background-color: #dd5b4dbc;">
+                style="width: 100%; max-width: 100%; background-color: #dd5b4dbc;">
 
                 <div class="card-header text-center" style="background-color: #ffb062a4;">
                     <h2 style="color: #fff5e6;">INICIO DE SESIÓN</h2>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body" style="padding: 30px 30px;">
 
                     <!-- FORMULARIO -->
 
@@ -25,15 +25,15 @@
                         Contraseña *<input type="password" [(ngModel)]="usuario.password" class="form-control"
                             placeholder="Contraseña" required />
                     </p>
+                    <div class="d-flex justify-content-center mt-2 mb-2"  data-bs-toggle="modal" data-bs-target="#modalNueva"> <p style="font-size: 14px; color: #fff5e6;">He olvidado mi contraseña</p></div>
 
                     <!-- BOTÓN DE INICIAR SESIÓN Y DE RECUPERAR CONTRASEÑA -->
 
                     <div class="d-flex justify-content-center mt-2 mb-2">
 
-                        <button class="btn btn-danger btn-lg mr-3 " (click)="login()">Iniciar
-                            sesión</button>
+                        <button class="btn btn-danger btn-lg mr-3 " (click)="login()">Iniciar Sesión <i class="fa-solid fa-right-to-bracket ml-2"></i></button>
 
-                        <button class="btn btn-warning" btn-lg data-bs-toggle="modal" data-bs-target="#modalNueva">Recuperar contraseña</button>
+
                     </div>
 
                     <!-- MENSAJE -->
@@ -49,13 +49,13 @@
         <div class="col-6">
 
             <div class="card shadow mb-3 mb-md-0 mr-md-3 flex-grow-1 flex-md-grow-0"
-            style="width: 100%; max-width: 80%; background-color: #dd5b4dbc;">
+            style="width: 100%; max-width: 100%; background-color: #dd5b4dbc;">
 
                 <div class="card-header text-center" style="background-color: #ffb062a4;">
                     <h2 style="color: #fff5e6;">REGISTRARSE</h2>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body" style="padding: 30px 30px;">
 
                     <!-- MENSAJE -->
 
@@ -100,7 +100,7 @@
                     <!-- BOTÓN DE REGISTRO -->
 
                     <div class="d-flex justify-content-center mt-2 mb-2">
-                        <button class="btn btn-danger btn-lg mr-3 " (click)="registro()">Registrarse</button>
+                        <button class="btn btn-danger btn-lg mr-3 " (click)="registro()">Registrarse <i class="fa-solid fa-share-from-square ml-2"></i></button>
                     </div>
                 </div>
             </div>

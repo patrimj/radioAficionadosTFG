@@ -12,8 +12,10 @@
                     <p>{{usuario.id_examen}}</p>
                 </div>
                 <div class="d-flex justify-content-around mt-2 mb-2 w-100">
-                    <button class="btn btn-warning" btn-lg (click)="getPerfil()"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-warning" btn-lg> <i class="fa-solid fa-key"></i></button>
+                    <button class="btn btn-warning" btn-lg data-bs-toggle="modal" data-bs-target="#modalPerfil"
+                        (click)="getPerfil()"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-warning" btn-lg data-bs-toggle="modal" data-bs-target="#modalNueva"> <i
+                            class="fa-solid fa-key"></i></button>
                 </div>
                 <!--<p>Total concursos participado: {{ getTotalConcursosParticipado() }}</p>
                         <p>Total actividades participado: {{ getTotalActividadesParticipado() }}</p>-->
@@ -195,12 +197,13 @@
     <div class="modal fade" id="modalNueva" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header text-center align-items-center "
+                    style="background-color: #dd5b4d; padding: 10px 30px;">
                     <h5 class="modal-title" id="modalLabel">Cambiar contraseña</h5>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
                             class="fa-solid fa-xmark"></i></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="background-color: #ffb062; padding: 10px 30px;">
 
                     <p>
                         Introduce tu correo electrónico para cambiar tu contraseña * : <input type="email"
@@ -218,10 +221,11 @@
                     </p>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="background-color: #dd5b4d;">
 
                     <button class="btn btn-success mr-2"
-                        (click)="cambiarPassword(email, passwordAntigua, passwordNueva)">
+                        (click)="cambiarPassword(email, passwordAntigua, passwordNueva)"><i
+                            class="fa-solid fa-circle-check"></i>
                     </button>
 
                     <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
@@ -237,12 +241,13 @@
     <div class="modal fade" id="modalPerfil" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header text-center align-items-center "
+                    style="background-color: #dd5b4d; padding: 10px 30px;">
                     <h5 class="modal-title" id="modalLabel">Crea y modifica los concursos</h5>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
                             class="fa-solid fa-xmark"></i></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="background-color: #ffb062; padding: 10px 30px;">
                     <p>
                         Nombre *:<input type="text" [(ngModel)]="usuario.nombre" class="form-control" />
                     </p>
@@ -261,7 +266,7 @@
                     </p>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="background-color: #dd5b4d;">
 
                     <button class="btn btn-warning mr-3" (click)="modificarPerfil()"><i
                             class="fas fa-edit"></i></button>
@@ -279,24 +284,27 @@
     <div class="modal fade" id="modalActividades" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header text-center align-items-center "
+                    style="background-color: #dd5b4d; padding: 10px 30px;">
                     <h5 class="modal-title" id="modalLabel">Actividades del Concurso</h5>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
                             class="fa-solid fa-xmark"></i></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="background-color: #ffb062; padding: 10px 30px;">
                     <div class="row">
                         <div class="col-12">
                             @for(actividadVarios of actividadesVarios; track actividadVarios.id){
                             <div class="card mb-3">
                                 <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="{{actividadVarios.url_foto}}" alt="Foto de {{actividadVarios.nombre}}"
-                                            style="width: 50px; height: 50px; object-fit: cover;">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{actividadVarios.nombre | titlecase}}</h5>
+                                    <div class="col-md-12">
+                                        <div class="card-header"
+                                            style="background-color: #fff5e6; padding: 30px 30px; ">
+                                            <h5 class="card-title" style="margin: 0px !important;">
+                                                {{actividadVarios.nombre |
+                                                titlecase}}</h5>
+                                        </div>
+                                        <div class="card-body" style="background-color: #fff5e6; padding: 30px 30px;">
+
                                             <p class="card-text">Localización: {{actividadVarios.localizacion |
                                                 titlecase}}</p>
                                             <p class="card-text"> Fecha: {{actividadVarios.fecha | date:'shortDate'}}
@@ -304,24 +312,25 @@
                                             <p class="card-text">Frecuencia: {{actividadVarios.frecuencia | titlecase}}
                                             </p>
                                             <p class="card-text">Banda: {{actividadVarios.banda | titlecase}}</p>
-                                            <p class="card-text">Completada: {{actividadVarios.completada ? 'Sí' :
-                                                'No'}}</p>
+                                    
                                             <p class="card-text">Modalidad: {{actividadVarios.modalidad.descripcion |
                                                 titlecase}}
                                             </p>
                                             <p class="card-text">Modo: {{actividadVarios.modo.nombre | titlecase}}</p>
+                                            <p class="text-sm text-center"
+                                            [ngStyle]="{'background-color': actividadVarios.completada ? '#dd5b4d' : '#ffb062'}"
+                                            style="border-radius: 10px">
+                                            {{actividadVarios.completada ? 'Terminada' : 'Activa'}}
+                                        </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             }
                         </div>
-
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
+</div>

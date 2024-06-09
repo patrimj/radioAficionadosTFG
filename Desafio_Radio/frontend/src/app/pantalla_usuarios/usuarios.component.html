@@ -15,7 +15,7 @@
                 <div class="input-group d-flex justify-content-start mt-4">
                     <div class="form-outline" data-mdb-input-init>
                         <input type="text" placeholder="Buscar por nombre" [(ngModel)]="nombreUsuario"
-                            class="form-control" />
+                            class="form-control" style="background-color: #fff5e6;" />
                     </div>
                     <button (click)="buscarUsuarioNombre(nombreUsuario)" class="btndif btn btn-primary mb-3">
                         <i class="fas fa-search"></i>
@@ -27,7 +27,7 @@
                 <div class="input-group d-flex justify-content-end mt-4">
                     <div class="form-outline" data-mdb-input-init>
                         <input type="text" placeholder="Buscar por identificador" [(ngModel)]="indicativoUsuario"
-                            class="form-control" />
+                            class="form-control" style="background-color: #fff5e6;" />
                     </div>
                     <button (click)="buscarUsuarioIndicativo(indicativoUsuario)" class="btndif btn btn-primary mb-3">
                         <i class="fas fa-search"></i>
@@ -48,6 +48,7 @@
                             <th>Usuario</th>
                             <th>Indicativo</th>
                             <th>Roles</th>
+                            <th></th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -87,8 +88,12 @@
                                         class="fas fa-trash"></i></button>
                             </td>
                             <td>
-                                <button class="btn btn-outline-primary mr-2 " (click)="seleccionarUsuario(usuario)"><i
-                                        class="fa-solid fa-hand-pointer"></i></button>
+                                <button class="btn btn-outline-primary " btn-lg data-bs-toggle="modal"
+                                data-bs-target="#modalcrearmodificar" (click)="seleccionarUsuario(usuario)"><i class="fa-solid fa-user-pen"></i></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                data-bs-target="#modalroles" (click)="seleccionarUsuario(usuario)"><i class="fa-solid fa-user-shield"></i></button>
                             </td>
                         </tr>
                         }
@@ -128,35 +133,35 @@
                                     class="fas fa-times-circle"></i></button>
                         </div>
                         <p style="font-size: 20px; color: #fff5e6;">
-                            Email aficionado *:<input type="text" [(ngModel)]="usuario.email" class="form-control"
+                            Email aficionado *:<input type="text" [(ngModel)]="usuario.email" class="form-control input-dif"
                                 placeholder="Email aficionado" />
                         </p>
                         <p style="font-size: 20px; color: #fff5e6;">
-                            Nombre aficionado *:<input type="text" [(ngModel)]="usuario.nombre" class="form-control"
+                            Nombre aficionado *:<input type="text" [(ngModel)]="usuario.nombre" class="form-control input-dif"
                                 placeholder="Nombre aficionado" />
                         </p>
 
                         <p style="font-size: 20px; color: #fff5e6;">
                             Primer apellido aficionado *:<input type="text" [(ngModel)]="usuario.apellido_uno"
-                                class="form-control" placeholder="Primer apellido aficionado" />
+                                class="form-control input-dif" placeholder="Primer apellido aficionado" />
                         </p>
                         <p style="font-size: 20px; color: #fff5e6;">
                             Segundo apellido aficionado *:<input type="text" [(ngModel)]="usuario.apellido_dos"
-                                class="form-control" placeholder="Segundo apellido aficionado" />
+                                class="form-control input-dif" placeholder="Segundo apellido aficionado" />
                         </p>
                         <p style="font-size: 20px; color: #fff5e6;">
                             Contraseña aficionado *:
-                            <input type="password" [(ngModel)]="usuario.password" class="form-control" disabled
+                            <input type="password" [(ngModel)]="usuario.password" class="form-control input-dif" disabled
                                 placeholder="La contraseña se enviará por correo electrónico." />
                         </p>
 
                         <p style="font-size: 20px; color: #fff5e6;">
-                            Foto perfil aficionado *: <input type="file" (change)="imagen($event)" />
+                            Foto perfil aficionado *: <input type="file" (change)="imagen($event)" class="input-dif"/>
 
                         </p>
                         <p style="font-size: 20px; color: #fff5e6;">
                             Identificador aficionado *:<input type="text" [(ngModel)]="usuario.id_examen"
-                                class="form-control" placeholder="Identificador aficionado" />
+                                class="form-control input-dif" placeholder="Identificador aficionado" />
                         </p>
                         <p style="font-size: 20px; color: #fff5e6;"> Seleccione un rol:</p>
                         <div>
@@ -207,7 +212,7 @@
                     </div>
                     <div class="modal-body" style="background-color: #ffb062; padding: 10px 30px;">
                         <p style="font-size: 20px; color: #fff5e6;">
-                            Email aficionado:<input type="text" [(ngModel)]="usuario.email" class="form-control"
+                            Email aficionado:<input type="text" [(ngModel)]="usuario.email" class="form-control input-dif"
                                 placeholder="Email aficionado" />
                         </p>
 
