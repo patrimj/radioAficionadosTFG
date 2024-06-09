@@ -29,15 +29,16 @@ app-root > footer {
     position: absolute;
     bottom: 0;
     width: 100%;
+    margin-top:70px;
 
     * {
-        background-color: #181a1dc2;
-        border-color: #212529;
+        background-color: #dd5b4d;
+        border-color: #dd5b4d;
         color: #fff2d4;
     }
 
     a {
-        color: #c62d42;
+        color: #fff2d4;
 
         &:hover {
             text-decoration: none;
