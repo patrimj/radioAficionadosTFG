@@ -120,7 +120,16 @@ class UsuarioConexion {
                         [models.Sequelize.Op.like]: `%${nombre}%` 
                     },
                     deleted_at: null
-                }
+                },
+                include: [{
+                    model: models.Rol,
+                    through: {
+                        model: models.RolAsignado,
+                        attributes: [],
+                    },
+                    as: 'roles',
+                    attributes: ['nombre']
+                }]
             });
             this.desconectar();
             return usuarios;
@@ -149,7 +158,16 @@ class UsuarioConexion {
                         [models.Sequelize.Op.like]: `%${id_examen}%` 
                     },
                     deleted_at: null
-                }
+                },
+                include: [{
+                    model: models.Rol,
+                    through: {
+                        model: models.RolAsignado,
+                        attributes: [],
+                    },
+                    as: 'roles',
+                    attributes: ['nombre']
+                }]
             });
             this.desconectar();
             return usuario;

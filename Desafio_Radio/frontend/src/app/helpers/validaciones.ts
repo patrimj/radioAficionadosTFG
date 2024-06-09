@@ -69,7 +69,7 @@ export function validarUsuarioAdmin(usuario: Usuario): string {
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
-  if (!usuario.nombre || !usuario.email || !usuario.apellido_uno || !usuario.apellido_dos || !usuario.url_foto || !usuario.id_examen) {
+  if (!usuario.nombre || !usuario.email || !usuario.apellido_uno || !usuario.apellido_dos || !usuario.id_examen) {
     return 'Por favor, complete todos los campos';
   }
 
@@ -202,7 +202,7 @@ export function validarNoticias(noticia:Noticia): string {
 }
 
 export function validarConcurso(concurso: Concurso): string {
-  if (!concurso.nombre || !concurso.descripcion || !concurso.url_foto || !concurso.solucion) {
+  if (!concurso.nombre || !concurso.descripcion || !concurso.solucion) {
     return 'Por favor, complete todos los campos';
   }
 

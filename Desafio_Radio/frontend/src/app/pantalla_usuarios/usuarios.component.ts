@@ -236,17 +236,29 @@ export class UsuariosComponent implements OnInit {
   // BUSCAR USUARIO POR INDICATIVO
 
   buscarUsuarioIndicativo(indicativo: string) {
-    this.usuariosService.mostrarUsuariosIndicativo(indicativo).subscribe((respuesta) => {
-      this.usuarios = respuesta.data;
-    })
+    if (indicativo.trim() === '') {
+      this.usuariosService.mostrarUsuarios().subscribe((usuario) => {
+        this.usuarios = usuario.data;
+      });
+    } else {
+      this.usuariosService.mostrarUsuariosIndicativo(indicativo).subscribe((respuesta) => {
+        this.usuarios = respuesta.data;
+      })
+    }
   }
 
   // BUSCAR USUARIO POR NOMBRE
 
   buscarUsuarioNombre(nombre: string) {
-    this.usuariosService.mostrarUsuariosNombre(nombre).subscribe((respuesta) => {
-      this.usuarios = respuesta.data;
-    })
+    if (nombre.trim() === '') {
+      this.usuariosService.mostrarUsuarios().subscribe((usuario) => {
+        this.usuarios = usuario.data;
+      });
+    } else {
+      this.usuariosService.mostrarUsuariosNombre(nombre).subscribe((respuesta) => {
+        this.usuarios = respuesta.data;
+      })
+    }
   }
 
   //RECURSOS VARIOS
