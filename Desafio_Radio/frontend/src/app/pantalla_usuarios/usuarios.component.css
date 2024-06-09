@@ -29,7 +29,9 @@
     background-color: #F5D9AF;
     color: #C22741;
 }
-
+h2, span, h3 {
+    font-family:'Oswald', sans-serif;
+}
 .btn-flotante {
     position: fixed;
     right: 40px;

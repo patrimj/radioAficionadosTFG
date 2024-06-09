@@ -44,7 +44,7 @@ class PerfilConexion {
                     completada: true,
                     deleted_at: null
                 },
-                attributes: ['id', 'nombre', 'url_foto', 'fecha'],
+                attributes: ['id', 'nombre', 'url_foto', 'fecha', 'frecuencia', 'banda', 'completada'],
                 include: [
                     {
                         model: models.Usuario_secundarias,
@@ -96,7 +96,7 @@ class PerfilConexion {
                     completada: true,
                     deleted_at: null
                 },
-                attributes: ['id', 'nombre', 'url_foto', 'fecha'],
+                attributes: ['id', 'nombre', 'url_foto', 'fecha', 'frecuencia', 'banda', 'completada'],
                 include: [
                     {
                         model: models.Usuario_secundarias,

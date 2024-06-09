@@ -24,6 +24,9 @@
     display: inline-block;
     cursor: pointer;
 }
+h2, span, h3 {
+    font-family:'Oswald', sans-serif;
+}
 
 .btndif:hover {
     background-color: #F5D9AF;
