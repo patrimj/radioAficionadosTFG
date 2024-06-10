@@ -21,7 +21,7 @@ router-outlet {
 app-root> :not(:is(header, footer)) {
     overflow: auto;
     flex-grow: 1;
-    margin-bottom: 12rem;
+    margin-bottom: 25rem;
 }
 
 
@@ -32,8 +32,8 @@ app-root > footer {
     margin-top:70px;
 
     * {
-        background-color: #dd5b4d;
-        border-color: #dd5b4d;
+        background-color: #c62d42;
+        border-color: #c62d42;
         color: #fff2d4;
     }
 
@@ -42,7 +42,7 @@ app-root > footer {
 
         &:hover {
             text-decoration: none;
-            color: #ffb062;
+            color: #000000;
         }
     }
 
@@ -51,21 +51,22 @@ app-root > footer {
 
 .p-tabmenu-nav {
     border-bottom: none;
-    background-color: #181a1dc2;
+    background-color: #c62d42;
     overflow: hidden;
     justify-content: center;
 
     li {
-        margin-top: 2rem;
+        margin-top: 4rem;
         margin-right: 1rem;
-        background-color: #181a1dc2;
+        background-color: #c62d42;
 
         &:hover {
-            background-color: #c62d42;
+            background-color: #fff2d44c;
+
 
             a {
                 text-decoration: none;
-
+ 
             }
         }
     }

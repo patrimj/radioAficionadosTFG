@@ -39,14 +39,3 @@ h2, span, h3 {
     text-align: center;
   }
 
-  select {
-    width: 100%;
-    padding: 16px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 3px solid #ff860d;
-    border-radius: 4px;
-    box-sizing: border-box;
-    background-color: #ffd0a5;
-  }
-  

@@ -5,7 +5,7 @@
 
     <!--INTRODUCCIÓN ASOCIACIÓN-->
 
-    <div class="card  shadow mt-4 mb-4" style=" background-color: #181a1dbe;">
+    <div class="card  shadow mt-4 mb-4" style=" background-color: #dd5b4dbc;">
 
         <div class="card-body flex-column d-flex align-items-center mb-4 mt-4 ">
 
@@ -25,14 +25,12 @@
     <!--INTRODUCCIÓN CONCURSOS-->
     <div class="row">
         <div class="col-md-6">
-            <div class="card  shadow mt-4 mb-4" style=" background-color: #181a1dbe;">
+            <div class="card  shadow mt-4 mb-4" style=" background-color: #dd5b4dbc;">
 
                 <div class="card-body flex-column d-flex align-items-center mb-4 mt-4 ">
-                    <i class="fa-brands fa-fort-awesome-alt" style="color:#E17E4C; font-size: 80px;"></i><br>
-                    <h3 class="card-title text-center" style="color: #c22741; font-size: 35px;">Concursos</h3>
-                    <p class="card-text" style=" color: #E17E4C; text-align: justify; font-size: 20px; ">Participa en
-                        Nuestros
-                        Concursos de Radioafición</p>
+                    <i class="fa-brands fa-fort-awesome-alt" style="color:#c22741; font-size: 80px;"></i><br>
+                    <h3 class="card-title text-center" style="color: #ffd4aa; font-size: 35px;">Concursos</h3>
+              
                     <p class="card-text"
                         style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 30px ;">En CB
                         ALARCOS, organizamos concursos emocionantes que desafían tus habilidades y conocimientos en la
@@ -49,14 +47,11 @@
 
         <!--INTRODUCCIÓN ACTIVIDADES-->
         <div class="col-md-6">
-            <div class="card  shadow mt-4 mb-4" style=" background-color: #181a1dbe;">
+            <div class="card  shadow mt-4 mb-4" style=" background-color: #dd5b4dbc;">
 
                 <div class="card-body flex-column d-flex align-items-center mb-4 mt-4 ">
-                    <i class="fa-solid fa-signs-post" style="color:#E17E4C; font-size: 80px;"></i><br>
-                    <h3 class="card-title text-center" style="color: #c22741; font-size: 35px;">Actividades</h3>
-                    <p class="card-text" style=" color: #E17E4C; text-align: justify; font-size: 20px; ">Descubre
-                        Nuestras
-                        Actividades de Radioafición</p>
+                    <i class="fa-solid fa-signs-post" style="color:#c22741; font-size: 80px;"></i><br>
+                    <h3 class="card-title text-center" style="color: #ffd4aa; font-size: 35px;">Actividades</h3>
                     <p class="card-text"
                         style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 30px ;">
                         En CB
@@ -81,7 +76,7 @@
     <div class="d-flex justify-content-center mb-4 mt-4 ">
         <img class="card-img-top" src="../../../assets/noticias.png" alt="Imagen de noticia" style="width: 20%; ">
     </div>
-    <div class="card shadow mb-4" style=" background-color: #181a1d68;">
+    <div class="card shadow mb-4" style=" background-color: #dd5b4dbc;">
         <div class="card-header text-center" style=" background-color: #ffb062;  padding: 30px 30px;">
             <h2 style="color: #c22741;">RADIO NOTICIAS</h2>
             <p class="card-text" style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 15px 32px;">
@@ -94,7 +89,7 @@
         </div>
         <ul class="list-group list-group-flush">
             @for(noticia of noticias; track noticia.id) {
-            <li class="list-group-item" style=" background-color: #181a1d68; padding: 20px 60px; ">
+            <li class="list-group-item" style=" background-color: #dd5b4d00; padding: 20px 60px; ">
                 <p style="font-size: 25px; color: #40a0ff; text-align: right;">{{noticia.fecha | date:'shortDate'}}</p>
                 <h2 style="font-size: 30px; color: #ffd87e;">{{noticia.nombre | titlecase}}</h2>
                 <p style="font-size: 20px; color: #fff5e6; ">{{noticia.descripcion | titlecase}}</p>
@@ -154,12 +149,6 @@
 
                 </p>
             </div>
-
-            <div class="card-footer text-muted" style="background-color: #ffb062;">
-                <h6 style="color: aliceblue; text-align: center;">Asociación de Radioaficionados</h6>
-
-            </div>
-
         </div>
     </div>
     }
@@ -263,7 +252,7 @@
 
     <!-- TARJETA DE CONTACTO -->
 
-    <div class="card  shadow mt-4 mb-4 mt-5" style=" background-color: #181a1dbe; max-width: 600px; margin: auto;">
+    <div class="card  shadow mt-4 mb-4 mt-5" style=" background-color: #dd5b4dbc; max-width: 600px; margin: auto;">
         <div class="card-body flex-column d-flex align-items-center mb-4 mt-4" style="padding: 30px 30px;">
             <h2 class="card-title" style="color:#F5D9AF; text-align: center;">Para más información, contáctanos</h2>
             <p class="card-text" style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 30px 30px;">
