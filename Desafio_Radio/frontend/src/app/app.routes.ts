@@ -16,6 +16,8 @@ import { PerfilComponent } from './pantalla_perfil/perfil.component';
 import { AutenticacionComponent } from './pantalla_autenticacion/autenticacion.component';
 // Pantalla de Gestión de Contactos
 import { ContactosComponent } from './pantalla_contactos/contactos.component';
+// Pantalla de Contactar
+import { ContactarComponent } from './components/contactar/contactar.component';
 
 //-----Guards-----\\ (No los utilizo, problemas con la cabecera)
 
@@ -34,5 +36,6 @@ export const routes: Routes = [
   {path: 'perfil', component: PerfilComponent},
   {path: 'autenticacion', component: AutenticacionComponent},
   {path: 'contactos', component: ContactosComponent},
+  {path: 'contactar', component: ContactarComponent},
 
 ];

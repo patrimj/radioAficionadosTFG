@@ -52,16 +52,19 @@ app-root > footer {
 .p-tabmenu-nav {
     border-bottom: none;
     background-color: #c62d42;
-    overflow: hidden;
-    justify-content: center;
+    overflow:auto;
+    justify-content: right;
+    padding-bottom: 2em;
+    padding-right: 4em;
 
     li {
-        margin-top: 4rem;
+        margin-top: 2rem;
         margin-right: 1rem;
         background-color: #c62d42;
 
         &:hover {
             background-color: #fff2d44c;
+            border-radius: 20px;
 
 
             a {
@@ -73,7 +76,7 @@ app-root > footer {
 
     * {
         color: #fff2d4;
-        border-bottom: none;
+        border:#c62d42;
     }
 }
 

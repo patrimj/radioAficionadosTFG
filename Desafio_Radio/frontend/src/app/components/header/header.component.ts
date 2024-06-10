@@ -27,13 +27,15 @@ export class HeaderComponent implements OnInit {
 
   rutas: MenuItem[] = [
     { label: 'Inicio', icon: 'pi pi-home', command: () => this.router.navigate(['inicio']) },
-    { label: 'Concursos', icon: 'pi pi-globe', command: () => this.router.navigate(['concursos']) },
-    { label: 'Actividades', icon: 'pi pi-calendar', command: () => this.router.navigate(['actividades']) },
     { label: 'Gestion Usuarios', icon: 'pi pi-users', command: () => this.router.navigate(['usuarios']) },
     { label: 'Insertar contacto', icon: 'pi pi-user-plus', command: () => this.router.navigate(['contactos']) },
-    { label: 'Mi perfil', icon: 'pi pi-user', command: () => this.router.navigate(['perfil']) },
+    { label: 'Concursos', icon: 'pi pi-globe', command: () => this.router.navigate(['concursos']) },
+    { label: 'Actividades', icon: 'pi pi-calendar', command: () => this.router.navigate(['actividades']) },
     { label: 'Iniciar sesión', icon: 'pi pi-sign-in', command: () => this.router.navigate(['autenticacion']) },
-    { label: 'Cerrar Sesión', icon: 'pi pi-sign-out', command: () => this.cerrarSesion() }
+    { label: 'Cerrar Sesión', icon: 'pi pi-sign-out', command: () => this.cerrarSesion() },
+    { label: 'Mi perfil', icon: 'pi pi-user', command: () => this.router.navigate(['perfil']) },
+
+  
   ];
   rutasRol: MenuItem[] = [];
 
