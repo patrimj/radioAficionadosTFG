@@ -1,0 +1,141 @@
+<div class="container" >
+    <div class="row vh-100 d-flex align-items-center justify-content-center" style="padding: 100px 0;">
+
+        <!-- FORMULARIO DE INICIO DE SESIÓN -->
+
+        <div class="col-6">
+
+            <div class="card shadow mb-3 mb-md-0 mr-md-3 flex-grow-1 flex-md-grow-0"
+                style="width: 100%; max-width: 100%; background-color: #dd5b4dbc;">
+
+                <div class="card-header text-center" style="background-color: #ffb062a4;">
+                    <h2 style="color: #fff5e6;">INICIO DE SESIÓN</h2>
+                </div>
+
+                <div class="card-body" style="padding: 30px 30px;">
+
+                    <!-- FORMULARIO -->
+
+                    <p style="font-size: 20px; color: #fff5e6;">
+                        Correo electrónico *<input type="text" [(ngModel)]="usuario.email" class="form-control"
+                            placeholder="Correo electrónico" required />
+                    </p>
+
+                    <p style="font-size: 20px; color: #fff5e6;">
+                        Contraseña *<input type="password" [(ngModel)]="usuario.password" class="form-control"
+                            placeholder="Contraseña" required />
+                    </p>
+                    <div class="d-flex justify-content-center mt-2 mb-2"  data-bs-toggle="modal" data-bs-target="#modalNueva"> <p style="font-size: 14px; color: #fff5e6;">He olvidado mi contraseña</p></div>
+
+                    <!-- BOTÓN DE INICIAR SESIÓN Y DE RECUPERAR CONTRASEÑA -->
+
+                    <div class="d-flex justify-content-center mt-2 mb-2">
+
+                        <button class="btn btn-danger btn-lg mr-3 " (click)="login()">Iniciar Sesión <i class="fa-solid fa-right-to-bracket ml-2"></i></button>
+
+
+                    </div>
+
+                    <!-- MENSAJE -->
+                    <p-messages [(value)]="mensajeLogin" [enableService]="false" [closable]="true"></p-messages>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FORMULARIO DE REGISTRO -->
+
+        <div class="col-6">
+
+            <div class="card shadow mb-3 mb-md-0 mr-md-3 flex-grow-1 flex-md-grow-0"
+            style="width: 100%; max-width: 100%; background-color: #dd5b4dbc;">
+
+                <div class="card-header text-center" style="background-color: #ffb062a4;">
+                    <h2 style="color: #fff5e6;">REGISTRARSE</h2>
+                </div>
+
+                <div class="card-body" style="padding: 30px 30px;">
+
+                    <!-- MENSAJE -->
+
+                    <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
+
+                    <!-- FORMULARIO -->
+
+                    <p style="font-size: 20px; color: #fff5e6;">
+                        Nombre *<input type="text" [(ngModel)]="usuario.nombre" class="form-control"
+                            placeholder="Nombre" required />
+                    </p>
+
+                    <p style="font-size: 20px; color: #fff5e6;">
+                        Primer apellido *<input type="text" [(ngModel)]="usuario.apellido_uno" class="form-control"
+                            placeholder="Primer apellido" required />
+                    </p>
+
+                    <p style="font-size: 20px; color: #fff5e6;">
+                        Segundo apellido *<input type="text" [(ngModel)]="usuario.apellido_dos" class="form-control"
+                            placeholder="Segundo apellido" required />
+                    </p>
+
+                    <p style="font-size: 20px; color: #fff5e6;">
+                        Correo electrónico *<input type="email" [(ngModel)]="usuario.email" class="form-control"
+                            placeholder="Correo electrónico" required />
+                    </p>
+
+                    <p style="font-size: 20px; color: #fff5e6;">
+                        Contraseña *<input type="password" [(ngModel)]="usuario.password" class="form-control"
+                            placeholder="Ejempl0@" required />
+                    </p>
+
+                    <p style="font-size: 20px; color: #fff5e6;">
+                        Indicativo *<input type="text" [(ngModel)]="usuario.id_examen" class="form-control"
+                            placeholder="Indicativo" required />
+                    </p>
+
+                    <p>
+                        Foto de perfil * <input type="file" (change)="imagen($event)" />
+                    </p>
+
+                    <!-- BOTÓN DE REGISTRO -->
+
+                    <div class="d-flex justify-content-center mt-2 mb-2">
+                        <button class="btn btn-danger btn-lg mr-3 " (click)="registro()">Registrarse <i class="fa-solid fa-share-from-square ml-2"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Modal para recuperar contraseña -->
+
+        <div class="modal fade" id="modalNueva" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Recuperar contraseña</h5>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                                class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <p>
+                            Introduce tu correo electrónico para recuperar tu contraseña: <input type="email"
+                                [(ngModel)]="emailRecuperacion" class="form-control" />
+                        </p>
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <button class="btn btn-success mr-2" (click)="recuperarPassword(emailRecuperacion)"><i
+                                class="fa-solid fa-circle-check"></i></button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <p></p>
+                        <p-messages [(value)]="mensajePassword" [enableService]="false" [closable]="true"></p-messages>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

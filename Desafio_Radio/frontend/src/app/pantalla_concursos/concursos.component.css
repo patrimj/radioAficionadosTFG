@@ -1,0 +1,50 @@
+.btn-flotante {
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    border-radius: 100%;
+    width: 5rem;
+    aspect-ratio: 1;
+    font-size: 2rem;
+    z-index: 1000;
+}
+
+.btn {
+    background-color: #F5D9AF; 
+    border: none;
+    color: #C22741;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+
+}
+
+.btn:hover {
+    background-color: #C22741;
+    color: #F5D9AF;
+}
+
+.btndif {
+    background-color: #C22741; 
+    border: none;
+    color: #F5D9AF;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btndif:hover {
+    background-color: #F5D9AF;
+    color: #C22741;
+}
+
+
+.input-dif {
+    border-radius: 12px;
+    padding: 5px;
+    margin: 5px;
+    background-color: #F5D9AF;
+}

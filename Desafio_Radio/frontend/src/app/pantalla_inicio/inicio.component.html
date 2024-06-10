@@ -1,0 +1,266 @@
+<div class="container">
+    <div class="d-flex justify-content-center align-items-center mt-4">
+        <img class="mt-4 mb-4" src="../../../assets/Logo.png" alt="Imagen de logo" style="width: 40%;">
+    </div>
+
+    <!--INTRODUCCIÓN ASOCIACIÓN-->
+
+    <div class="card  shadow mt-4 mb-4" style=" background-color: #dd5b4dbc;">
+
+        <div class="card-body flex-column d-flex align-items-center mb-4 mt-4 ">
+
+            <h2 class="card-title" style="color:#F5D9AF; text-align: center;">Bienvenidos a nuestra Asociación de
+                Radioaficionados <br><span style="color:#c22741;">CB ALARCOS</span></h2>
+            <p class="card-text" style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 30px 30px;">
+                Esta asociación nace en
+                Ciudad Real de la
+                mano de una
+                serie de amigos para apoyar y promocionar todo lo referente con el mundo de la radioaficción y en
+                especial a la banda de CB. En nuestra asociación podrás participar en concursos y actividades
+                relacionadas con la radioafición, no lo dudes y únete.</p>
+            <button class="btn" onclick="location.href='autenticacion'">Unirme</button>
+        </div>
+    </div>
+
+    <!--INTRODUCCIÓN CONCURSOS-->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card  shadow mt-4 mb-4" style=" background-color: #dd5b4dbc;">
+
+                <div class="card-body flex-column d-flex align-items-center mb-4 mt-4 ">
+                    <i class="fa-brands fa-fort-awesome-alt" style="color:#c22741; font-size: 80px;"></i><br>
+                    <h3 class="card-title text-center" style="color: #ffd4aa; font-size: 35px;">Concursos</h3>
+              
+                    <p class="card-text"
+                        style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 30px ;">En CB
+                        ALARCOS, organizamos concursos emocionantes que desafían tus habilidades y conocimientos en la
+                        radioafición. Nuestros concursos están diseñados para todos los niveles de experiencia, desde
+                        principiantes hasta expertos. Únete a nosotros y pon a prueba tus capacidades mientras disfrutas
+                        de la
+                        camaradería y el espíritu competitivo de nuestra comunidad.</p>
+                    <div class="text-center">
+                        <button class="btn" onclick="location.href='concursos'">Saber Más</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--INTRODUCCIÓN ACTIVIDADES-->
+        <div class="col-md-6">
+            <div class="card  shadow mt-4 mb-4" style=" background-color: #dd5b4dbc;">
+
+                <div class="card-body flex-column d-flex align-items-center mb-4 mt-4 ">
+                    <i class="fa-solid fa-signs-post" style="color:#c22741; font-size: 80px;"></i><br>
+                    <h3 class="card-title text-center" style="color: #ffd4aa; font-size: 35px;">Actividades</h3>
+                    <p class="card-text"
+                        style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 30px ;">
+                        En CB
+                        ALARCOS, ofrecemos una amplia variedad de actividades emocionantes para que los entusiastas de
+                        la
+                        radioafición participen y disfruten. Nuestras actividades están diseñadas para brindarte
+                        experiencias enriquecedoras
+                        y divertidas en el mundo de la radioafición. Ya seas un principiante curioso o un operador
+                        experimentado.</p>
+                    <div class="text-center">
+
+                        <button class="btn" onclick="location.href='actividades'">Saber Más</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--NOTICIAS-->
+
+    @if (hayRegistros()) {
+    <div class="d-flex justify-content-center mb-4 mt-4 ">
+        <img class="card-img-top" src="../../../assets/noticias.png" alt="Imagen de noticia" style="width: 20%; ">
+    </div>
+    <div class="card shadow mb-4" style=" background-color: #dd5b4dbc;">
+        <div class="card-header text-center" style=" background-color: #ffb062;  padding: 30px 30px;">
+            <h2 style="color: #c22741;">RADIO NOTICIAS</h2>
+            <p class="card-text" style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 15px 32px;">
+                Bienvenidos a la sección de noticias de la Asociación de Radioaficionados CB ALARCOS. Aquí
+                podrás
+                encontrar información sobre concursos, actividades
+                talleres, charlas, reuniones y otros eventos que organizamos para fomentar el intercambio de
+                conocimientos y
+                experiencias entre nuestros socios. </p>
+        </div>
+        <ul class="list-group list-group-flush">
+            @for(noticia of noticias; track noticia.id) {
+            <li class="list-group-item" style=" background-color: #dd5b4d00; padding: 20px 60px; ">
+                <p style="font-size: 25px; color: #40a0ff; text-align: right;">{{noticia.fecha | date:'shortDate'}}</p>
+                <h2 style="font-size: 30px; color: #ffd87e;">{{noticia.nombre | titlecase}}</h2>
+                <p style="font-size: 20px; color: #fff5e6; ">{{noticia.descripcion | titlecase}}</p>
+                @if (esAdmin()) {
+                <div class="text-right">
+                    <button class="btndif btn btn-outline-danger mr-2" (click)="eliminarNoticia(noticia.id)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button class="btndif btn-outline-primary mr-2" (click)="seleccionarNoticia(noticia)">
+                        <i class="fa-solid fa-hand-pointer"></i>
+                    </button>
+                </div>
+                }
+            </li>
+            }
+        </ul>
+        <p-messages [(value)]="mensajeEliminado" [enableService]="false" [closable]="true"></p-messages>
+        <p-messages [(value)]="mensajeModificado" [enableService]="false" [closable]="true"></p-messages>
+        <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
+
+        <div class="card-footer text-muted" style=" background-color: #ffb062;">
+            <h6 style="color: aliceblue; text-align: center;">Asociación de Radioaficionados CB ALARCOS</h6>
+        </div>
+
+    </div>
+    } @else {
+    <p class="alert alert-warning">No hay noticias que mostrar.</p>
+    }
+
+    <!--PANEL DEL ADMINISTRADOR PARA CREAR O MODIFICAR NOTICIAS-->
+
+    @if (esAdmin()){
+    <div class="container mb-3 mt-3">
+        <div class="card shadow" style=" background-color: #dd5b4dbc;">
+            <div class="card-header text-center" style="background-color: #ffb062;">
+                <h2 style="color: #fff7e6;">CREA Y MODIFICA NOTICIAS</h2>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-info " (click)="deseleccionarNoticia()"><i
+                            class="fas fa-times-circle"></i></button>
+                </div>
+                <p style="font-size: 20px; color: #fff5e6;">
+                    Título *:<input type="text" [(ngModel)]="noticia.nombre" class="form-control" />
+                </p>
+                <p style="font-size: 20px; color: #fff5e6;">
+                    Fecha :<input type="date" [(ngModel)]="noticia.fecha" class="form-control" />
+                </p>
+                <p style="font-size: 20px; color: #fff5e6;">
+                    Descripción *:<input type="text" [(ngModel)]="noticia.descripcion" class="form-control" />
+                </p>
+                <p>
+                    <button class="btn btn-success mr-2" [disabled]="noticiaSeleccionada" (click)="crearNoticia()"><i
+                            class="fa-solid fa-circle-check"></i></button>
+                    <button class="btn btn-warning  mr-3" (click)="modificarNoticia()"><i
+                            class="fas fa-edit"></i></button>
+
+                </p>
+            </div>
+        </div>
+    </div>
+    }
+
+    <div class="row">
+
+        <!-- ADMINISTRADORES -->
+        <div class="col-md-6">
+            <div class="card shadow mr-3" style="background-color: #dd5b4dbc;">
+
+                <div class="card-header text-center" style="background-color: #ffb062;  padding: 30px 30px;">
+                    <i class="fa-solid fa-user-gear" style="color:#c22741; font-size: 80px;"></i><br>
+                    <h2 class="mt-3" style="color: #c22741;">Nuestros Administradores</h2>
+
+                    <p class="card-text"
+                        style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 15px 32px;">
+                        Nuestros administradores son el corazón de la asociación. Con una dedicación incansable y una
+                        pasión
+                        contagiosa por la radioafición, ellos se encargan de coordinar todas las actividades y eventos.
+                        Su
+                        experiencia y conocimientos son fundamentales para el funcionamiento exitoso de nuestra
+                        comunidad.
+                    </p>
+                </div>
+                <div class="card-body mt-4">
+                    <div class="row d-flex justify-content-center">
+                        @for(admin of admins; track admin.id) {
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                            <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
+                                style="background-color: #ffd4aa;">
+                                <div class="position-relative w-100">
+                                    <a class="d-inline shadow-xl border-radius-xl" style="width: 100%; height: auto; ">
+                                        <img src="{{admin.url_foto}}" alt="Fotografía de {{admin.nombre}}"
+                                            class="img-fluid shadow border-radius-xl">
+                                    </a>
+                                </div>
+                                <div class="card-body w-100" style="padding: 20px 20px !important;">
+                                    <a href="javascript:;" class="text-center">
+                                        <h5 style="font-size: 20px; color: #dd5b4d;">
+                                            {{admin.nombre | titlecase}}
+                                        </h5>
+                                        <h6>
+                                            {{admin.email}}
+                                        </h6>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OPERADORES -->
+        <div class="col-md-6">
+            <div class="card shadow mr-3" style="background-color: #dd5b4dbc;">
+
+                <div class="card-header text-center" style="background-color: #ffb062; padding: 30px 30px;">
+                    <i class="fa-solid fa-user-check" style="color:#c22741; font-size: 80px;"></i><br>
+                    <h2 class="mt-3" style="color: #c22741;">Nuestros Operadores</h2>
+                    <p class="card-text"
+                        style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 15px 32px;">
+                        Nuestros operadores son el alma de la asociación. Son ellos quienes, con su experiencia y
+                        conocimientos técnicos, facilitan las comunicaciones y garantizan que todos nuestros proyectos
+                        se realicen con éxito. Los operadores de CB ALARCOS son expertos en sus campos y siempre están
+                        dispuestos a compartir sus conocimientos con los demás.
+
+                    </p>
+                </div>
+                <div class="card-body mt-4">
+                    <div class="row d-flex justify-content-center">
+                        @for(oper of opers; track oper.id) {
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                            <div class="card card-blog card-plain d-flex align-items-center justify-content-center"
+                                style="background-color: #ffd4aa;">
+                                <div class="position-relative w-100">
+                                    <a class="d-inline shadow-xl border-radius-xl" style="width: 100%; height: auto; ">
+                                        <img src="{{oper.url_foto}}" alt="Fotografía de {{oper.nombre}}"
+                                            class="img-fluid shadow border-radius-xl">
+                                    </a>
+                                </div>
+                                <div class="card-body w-100" style="padding: 20px 20px !important;">
+                                    <a href="javascript:;" class="text-center">
+                                        <h5 style="font-size: 20px; color: #dd5b4d;">
+                                            {{oper.nombre | titlecase}}
+                                        </h5>
+                                        <h6>
+                                            {{oper.email}}
+                                        </h6>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TARJETA DE CONTACTO -->
+
+    <div class="card  shadow mt-4 mb-4 mt-5" style=" background-color: #dd5b4dbc; max-width: 600px; margin: auto;">
+        <div class="card-body flex-column d-flex align-items-center mb-4 mt-4" style="padding: 30px 30px;">
+            <h2 class="card-title" style="color:#F5D9AF; text-align: center;">Para más información, contáctanos</h2>
+            <p class="card-text" style="text-align: justify; font-size: 20px; color: #fff5e6;     padding: 30px 30px;">
+                Estamos aquí para responder tus preguntas y ayudarte en lo que necesites. No dudes en ponerte en
+                contacto con nosotros.</p>
+            <button class="btn" onclick="location.href='contacto.html'">Contacto</button>
+        </div>
+    </div>
+
+
+    <p-toast position="top-right" key="mensaje"></p-toast>

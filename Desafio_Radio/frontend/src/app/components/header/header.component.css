@@ -1,0 +1,39 @@
+.hamburguesa {
+ display: none;
+ cursor: pointer;
+ z-index: 1000;
+}
+
+.icono {
+    width: 100px;
+    position: absolute;
+    top: 1rem;
+
+    &.logo {
+        
+        left: 3rem;
+    }
+
+    &.foto {
+        right: 1rem;
+        border-radius: 50%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        object-position: center;
+    }
+}
+
+@media (max-width: 768px) {
+ .hamburguesa {
+    display: block;
+ }
+
+ .menu, .icono {
+    display: none;
+ }
+
+ .menu.visible {
+    display: block;
+ }
+}
+

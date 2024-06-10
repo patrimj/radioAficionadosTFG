@@ -1,0 +1,246 @@
+<div class="container" style="padding: 40px;">
+    <div class="d-flex justify-content-center mt-4 mb-4 ">
+        <img class="card-img-top" src="../../../assets/usuarios.png" alt="Imagen de usuarios" style="width: 30%;">
+    </div>
+
+    @if (hayRegistros()) {
+
+    <div class="card shadow mb-4" style="background-color: #dd5b4dbc;">
+
+        <div class="card-header text-center" style="background-color: #dd5b4d78 !important;">
+            <h2 class="mt-3" style="color: #fff5e6;">GESTIONAR USUARIOS</h2>
+            <div class="d-flex justify-content-between">
+                <!--BUSCADOR POR NOMBRE DE USUARIO-->
+
+                <div class="input-group d-flex justify-content-start mt-4">
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" placeholder="Buscar por nombre" [(ngModel)]="nombreUsuario"
+                            class="form-control" style="background-color: #fff5e6;" />
+                    </div>
+                    <button (click)="buscarUsuarioNombre(nombreUsuario)" class="btndif btn btn-primary mb-3">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <!--BUSCADOR POR IDENTIFICADOR DE USUARIO-->
+
+                <div class="input-group d-flex justify-content-end mt-4">
+                    <div class="form-outline" data-mdb-input-init>
+                        <input type="text" placeholder="Buscar por identificador" [(ngModel)]="indicativoUsuario"
+                            class="form-control" style="background-color: #fff5e6;" />
+                    </div>
+                    <button (click)="buscarUsuarioIndicativo(indicativoUsuario)" class="btndif btn btn-primary mb-3">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!--TABLA DE TODOS LOS USUARIOS-->
+
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 bg-white table-striped table-hover ">
+
+                    <!--CABECERA-->
+
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Usuario</th>
+                            <th>Indicativo</th>
+                            <th>Roles</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <!--CUERPO-->
+
+                    <tbody style="text-align: center; background-color: #ffecda; vertical-align: middle;">
+                        @for(usuario of usuarios; track usuario.id) {
+                        <tr>
+                            <td><img src="{{usuario.url_foto}}" class="rounded-circle"
+                                    style="width: 100px; height: 100px">
+                            </td>
+                            <td>
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">{{usuario.nombre | titlecase }} {{usuario.apellido_uno |
+                                        titlecase
+                                        }}
+                                        {{usuario.apellido_dos | titlecase }}</p>
+                                    <p class="text-muted mb-0">{{usuario.email}}</p>
+                                </div>
+                            </td>
+                            <td>{{usuario.id_examen}}</td>
+                            <td>
+                                @for (rol of usuario.roles; track rol.id) {
+                                <span [ngStyle]="{
+                                          'background-color': rol.nombre === 'admin' ? '#ffb062' : 
+                                                             rol.nombre === 'operador' ? '#ffce9d' : 
+                                                             rol.nombre === 'aficionado' ? '#f88497' : 'default'
+                                        }" class="badge rounded-pill mr-3" style="font-size: 15px;">
+                                    {{rol.nombre | titlecase }}
+                                </span>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-danger " (click)="eliminarUsuario(usuario.id)"><i
+                                        class="fas fa-trash"></i></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-primary " btn-lg data-bs-toggle="modal"
+                                    data-bs-target="#modalcrearmodificar" (click)="seleccionarUsuario(usuario)"><i
+                                        class="fa-solid fa-user-pen"></i></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
+                                    data-bs-target="#modalroles" (click)="seleccionarUsuario(usuario)"><i
+                                        class="fa-solid fa-user-shield"></i></button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--MENSAJES DE ADVERTENCIA-->
+
+    <p-messages [(value)]="mensajeEliminado" [enableService]="false" [closable]="true"></p-messages>
+    } @else {
+    <p class="alert alert-warning">No hay usuarios que mostrar.</p>
+    }
+
+
+    <div class="container mb-3 mt-3 d-flex flex-column flex-md-row justify-content-between ">
+
+        <!--PANEL PARA CREAR O MODIFICAR USUARIOS-->
+
+        <button data-bs-toggle="modal" data-bs-target="#modalcrearmodificar"
+            class="btn btn-success btn-flotante d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-user-plus"></i>
+        </button>
+        <div class="modal fade" id="modalcrearmodificar" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-center align-items-center "
+                        style="background-color: #dd5b4d; padding: 10px 30px;">
+                        <h2 style="color: #fff5e6;">REGISTRA Y MODIFICA AFICIONADOS</h2>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                                class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="modal-body" style="background-color: #ffb062; padding: 10px 30px;">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-info " (click)="deseleccionarUsuario()"><i
+                                    class="fas fa-times-circle"></i></button>
+                        </div>
+                        <p style="font-size: 20px; color: #fff5e6;">
+                            Email aficionado *:<input type="text" [(ngModel)]="usuario.email"
+                                class="form-control input-dif" placeholder="Email aficionado" />
+                        </p>
+                        <p style="font-size: 20px; color: #fff5e6;">
+                            Nombre aficionado *:<input type="text" [(ngModel)]="usuario.nombre"
+                                class="form-control input-dif" placeholder="Nombre aficionado" />
+                        </p>
+
+                        <p style="font-size: 20px; color: #fff5e6;">
+                            Primer apellido aficionado *:<input type="text" [(ngModel)]="usuario.apellido_uno"
+                                class="form-control input-dif" placeholder="Primer apellido aficionado" />
+                        </p>
+                        <p style="font-size: 20px; color: #fff5e6;">
+                            Segundo apellido aficionado *:<input type="text" [(ngModel)]="usuario.apellido_dos"
+                                class="form-control input-dif" placeholder="Segundo apellido aficionado" />
+                        </p>
+                        <p style="font-size: 20px; color: #fff5e6;">
+                            Contraseña aficionado *:
+                            <input type="password" [(ngModel)]="usuario.password" class="form-control input-dif"
+                                disabled placeholder="La contraseña se enviará por correo electrónico." />
+                        </p>
+
+                        <p style="font-size: 20px; color: #fff5e6;">
+                            Foto perfil aficionado *: <input type="file" (change)="imagen($event)" class="input-dif" />
+
+                        </p>
+                        <p style="font-size: 20px; color: #fff5e6;">
+                            Identificador aficionado *:<input type="text" [(ngModel)]="usuario.id_examen"
+                                class="form-control input-dif" placeholder="Identificador aficionado" />
+                        </p>
+                        <p style="font-size: 20px; color: #fff5e6;"> Seleccione un rol:</p>
+                        <div>
+                            <input type="radio" id="admin" name="rol" [(ngModel)]="usuario.id_rol" value="1"
+                                style="margin-right: 10px;">
+                            <label for="admin" style="font-size: 20px; color: #fff5e6;">Admin</label><br>
+
+                            <input type="radio" id="operador" name="rol" [(ngModel)]="usuario.id_rol" value="2"
+                                style="margin-right: 10px;">
+                            <label for="operador" style="font-size: 20px; color: #fff5e6;">Operador</label><br>
+                        </div>
+
+                        <!--MENSAJES DE ADVERTENCIA-->
+                        <p-messages [(value)]="mensajeModificado" [enableService]="false"
+                            [closable]="true"></p-messages>
+                        <p-messages [(value)]="mensaje" [enableService]="false" [closable]="true"></p-messages>
+                    </div>
+                    <div class="modal-footer" style="background-color: #dd5b4d;">
+                        <p>
+
+                            <button class="btn btn-success mr-2" [disabled]="usuarioSeleccionado"
+                                (click)="crearUsuario()">
+                                <i class="fa-solid fa-circle-check"></i></button>
+                            <button class="btn btn-warning mr-3" (click)="modificarUsuario()"><i
+                                    class="fas fa-edit"></i></button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--PANEL PARA ASIGNAR ROLES A LOS USUARIOS-->
+
+        <button data-bs-toggle="modal" data-bs-target="#modalroles"
+            class="btn btn-success btn-flotante2 d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-user-shield"></i>
+        </button>
+
+        <div class="modal fade" id="modalroles" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-center align-items-center "
+                        style="background-color: #dd5b4d; padding: 10px 30px;">
+                        <h2 style="color: #fff5e6;">ASIGNA ROLES A TUS AFICIONADOS</h2>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Cerrar"><i
+                                class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="modal-body" style="background-color: #ffb062; padding: 10px 30px;">
+                        <p style="font-size: 20px; color: #fff5e6;">
+                            Email aficionado:<input type="text" [(ngModel)]="usuario.email"
+                                class="form-control input-dif" placeholder="Email aficionado" />
+                        </p>
+
+                        <p style="font-size: 20px; color: #fff5e6;">Asignar un rol:</p>
+                        <div>
+                            <input type="radio" id="admin" name="rolAsignar" [(ngModel)]="usuario.id_rol" value="1"
+                                style="margin-right: 10px;">
+                            <label for="admin" style="font-size: 20px; color: #fff5e6;">Admin</label><br>
+
+                            <input type="radio" id="operador" name="rolAsignar" [(ngModel)]="usuario.id_rol" value="2"
+                                style="margin-right: 10px;">
+                            <label for="operador" style="font-size: 20px; color: #fff5e6;">Operador</label><br>
+                        </div>
+
+
+                        <p-messages [(value)]="mensajeRol" [enableService]="false" [closable]="true"></p-messages>
+
+
+                        <p style="text-align: right;">
+                            @if (hayRegistros()) {
+                            <button class="btn btn-warning align-items-end" (click)="asignarRol()">Asignar</button>
+                            }
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
