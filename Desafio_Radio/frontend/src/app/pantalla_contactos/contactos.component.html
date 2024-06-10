@@ -47,7 +47,7 @@
                 style=" border: 2px solid #ffb062; border-radius: 10px; text-align: left; padding: 0px 10px;">Su solución es: {{solucion.solucion}}</p>
                 <p style="text-align: left;">Selecciona una actividad</p>
                 <select name="actividad" [(ngModel)]="contactosRegistrado.id_secundaria"
-                    (change)="premioActividad(actividadVarios.id)"
+                    (change)="premioActividad(contactosRegistrado.id_secundaria)"
                     class="form-control form-select-lg mb-3 rounded-pill" style="background-color: #ffce9d;">
                     <option value="" disabled selected>Selecciona la actividad</option>
                     @for(actividadVarios of actividadesVarios; track actividadVarios.id){
@@ -55,7 +55,7 @@
                     }
                 </select>
                 <p class="mb-4 mt-4 text-sm"
-                style=" border: 2px solid #ffb062; border-radius: 10px; text-align: left; padding: 0px 10px;">Premio de la actividad: {{premio.premio}}</p>
+                style=" border: 2px solid #ffb062; border-radius: 10px; text-align: left; padding: 0px 10px; color: #fff4f6;">Premio de la actividad: {{premio.premio}}</p>
                 <p class="mb-4 mt-4 text-sm"
                 style=" border: 2px solid #ffd6ad; border-radius: 10px; text-align: left; padding: 0px 10px;">El aficionado lleva los siguientes premios: {{premiosTotales}}</p>
                 <button class="btn btn-primary" (click)="registrarContacto()">Registrar Contacto</button>

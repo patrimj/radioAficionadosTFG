@@ -154,6 +154,8 @@ export class ContactosComponent implements OnInit {
   premioActividad(id_secundaria: number) {
     this.contactosService.premioActividad(id_secundaria).subscribe((premio) => {
       this.premio = premio.data;
+      console.log('id_secundaria:', id_secundaria);
+      console.log('premi000000000o:', this.premio);
     });
   }
 

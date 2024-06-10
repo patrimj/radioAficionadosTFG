@@ -39,7 +39,7 @@ router.get('/perfil', [validarJWT], controladorPerfil.mostrarPerfil);
 
 // MODIFICAR PERFIL
 
-router.put('/usuario/perfil/:id', validarJWT, validarArchivoSubir, validarCampos, controladorPerfil.modificarPerfil);
+router.put('/usuario/perfil/:id', validarJWT, controladorPerfil.modificarPerfil);
 
 // CAMBIAR CONTRASEÑA
 

@@ -18,7 +18,8 @@
 
     <div class="inputdif input-group d-flex justify-content-end mt-4">
         <div class="form-outline" data-mdb-input-init>
-            <input type="text" placeholder="Buscar por nombre" [(ngModel)]="nombreConcurso" class="form-control " style="background-color: #dd5b4d57;" />
+            <input type="text" placeholder="Buscar por nombre" [(ngModel)]="nombreConcurso" class="form-control "
+                style="background-color: #dd5b4d57;" />
         </div>
         <button (click)="mostrarConcursoNombre(nombreConcurso)" class=" btndif btn btn-primary mb-3"> <i
                 class="fas fa-search"></i>
@@ -76,9 +77,12 @@
                                 <button class="btn btn-warning btn-lg mr-3" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
                                         class="fas fa-edit"></i></button>
-                                      
-                                <button class="btn btn-warning btn-lg"
-                                    (click)="terminarConcurso(concurso.id)"> <i class="fa-solid fa-calendar-xmark"></i></button>
+
+                                @if (!concurso.completada) {
+                                <button class="btn btn-warning btn-lg" (click)="terminarConcurso(concurso.id)"> <i
+                                        class="fa-solid fa-calendar-xmark"></i></button>
+                                }
+
                             </div>
                             }
                         </div>
@@ -145,8 +149,11 @@
                                 <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
                                         class="fas fa-edit"></i></button>
-                                <button class="btn btn-warning"
-                                    (click)="terminarConcurso(concurso.id)">Finalizar</button>
+                                @if (!concurso.completada) {
+                                <button class="btn btn-warning btn-lg" (click)="terminarConcurso(concurso.id)"> <i
+                                        class="fa-solid fa-calendar-xmark"></i></button>
+                                }
+
                             </div>
                             }
                         </div>
@@ -213,8 +220,11 @@
                                 <button class="btn btn-warning" btn-lg data-bs-toggle="modal"
                                     data-bs-target="#modalNueva" (click)="seleccionarPrincipal(concurso)"><i
                                         class="fas fa-edit"></i></button>
-                                <button class="btn btn-warning"
-                                    (click)="terminarConcurso(concurso.id)">Finalizar</button>
+                                @if (!concurso.completada) {
+                                <button class="btn btn-warning btn-lg" (click)="terminarConcurso(concurso.id)"> <i
+                                        class="fa-solid fa-calendar-xmark"></i></button>
+                                }
+
                             </div>
                             }
                         </div>
@@ -255,17 +265,18 @@
                         Nombre *:<input type="text" [(ngModel)]="concurso.nombre" class="form-control input-dif" />
                     </p>
                     <p>
-                        Descripcion *:<input type="text" [(ngModel)]="concurso.descripcion" class="form-control input-dif" />
+                        Descripcion *:<input type="text" [(ngModel)]="concurso.descripcion"
+                            class="form-control input-dif" />
                     </p>
                     <p>
                         Solucion *:<input type="text" [(ngModel)]="concurso.solucion" class="form-control input-dif" />
                     </p>
                     <p>
-                        Foto *: <input type="file" (change)="imagen($event)" class="input-dif"/>
+                        Foto *: <input type="file" (change)="imagen($event)" class="input-dif" />
                     </p>
 
                 </div>
-                <div class="modal-footer"  style="background-color: #dd5b4d;">
+                <div class="modal-footer" style="background-color: #dd5b4d;">
 
                     <button class="btn btn-success mr-2" [disabled]="concursoSeleccionado" (click)="altaConcurso()"><i
                             class="fa-solid fa-circle-check"></i></button>

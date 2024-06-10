@@ -101,9 +101,6 @@ export function validarUsuarioAdmin(usuario: Usuario): string {
   if (usuario.id_examen === '') {
     return 'El ID del examen no puede estar vacío';
   }
-  if (!usuario.url_foto) {
-    return 'Por favor, introduzca una imágen';
-  }
 
   if (usuario.nombre === '') {
     return 'Por favor, introduzca un nombre';
